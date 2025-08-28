@@ -1,0 +1,20 @@
+.sidebar{
+    width: 200px;
+    height: 100vh;
+    background-color: rgb(25,25,25);
+}
+.sidebarText{
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 10px;
+}
+.flex{
+    display: flex;
+    min-height: 100vh;
+    background-color: black; 
+}
+.main {
+    flex: 1;
+    padding: 16px;
+    color: white;
+}

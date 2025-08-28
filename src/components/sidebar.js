@@ -1,3 +1,8 @@
+import styles from "./sidebar.module.css";
 export default function Sidebar() {
-    return <p>Sidebar content</p>;
+  return (
+    <aside className={styles.sidebar}>
+      <p className={styles.sidebarText}>Working Sidebar!!!</p>
+    </aside>
+  );
 }
