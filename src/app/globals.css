@@ -30,3 +30,24 @@ body {
     color: royalblue;
     font-size: 100px;
 }
+
+.ShyGuyButton {
+  background-color: #04AA6D;
+  border-color: blueviolet;
+  border-width: 5px;
+  border-radius: 10px;
+
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+#buttonOnes{
+  display: block; /* Ensures the button takes up its own line */
+  margin: 0 auto; /* Centers the button horizontally by distributing left/right margins equally */
+}
