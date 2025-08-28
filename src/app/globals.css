@@ -48,6 +48,8 @@ body {
 }
 
 #buttonOnes{
-  display: block; /* Ensures the button takes up its own line */
-  margin: 0 auto; /* Centers the button horizontally by distributing left/right margins equally */
+  display: block; /*Ensures the button takes up its own line */
+  margin: 0 auto; /*Centers the button horizontally by distributing left/right margins equally */
+  /* left: 50vw; */
+  /* justify-content: center; */
 }
