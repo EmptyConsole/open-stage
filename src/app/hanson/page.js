@@ -6,7 +6,6 @@ export default function HomePage() {
     <div className = {styles.flex}>
       <main className = {styles.main}>
         <h1 className = {styles.hfang}>Welcome to .Fragmented_HF_ang.'s Page!!!</h1>
-        <SpecialButton />
         <Sidebar />
       </main>
     </div>
