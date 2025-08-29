@@ -1,11 +1,16 @@
 // import "./page.module.css";
-import Sidebar from "@/components/sidebar.js";
+import Header from "./components/header";
+import Sidebar from "./components/sidebar";
 export default function HomePage() {
   return (
     <main>
-      <h1>Welcome to Everetts page</h1>
-      <Sidebar />
-      
+      <Header />
+      <div style={{ display: "flex", alignItems: "center", height: "100vh" }}>
+        <Sidebar />
+        <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+          <h1>Welcome to Everetts page</h1>
+        </div>
+      </div>
     </main>
   );
 }
