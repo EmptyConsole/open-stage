@@ -1,12 +1,13 @@
 .hfang{
     font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 45px;
+    font-weight: bolder;
     padding-left: 350;
     color: rgb(255,255,255);
     position: absolute;
-    left: -350%;
+    left: -0%;
     top: 100%;
+    white-space: nowrap;
 }
 .flex{
     display: flex;
