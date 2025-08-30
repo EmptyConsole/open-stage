@@ -25,14 +25,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.ShyGuy{
-    text-align: center;
-    color: royalblue;
-    font-size: 100px;
+.ShyGuy {
+  text-align: center;
+  color: royalblue;
+  font-size: 100px;
 }
 
 .ShyGuyButton {
-  background-color: #04AA6D;
+  background-color: #04aa6d;
   border-color: blueviolet;
   border-width: 5px;
   border-radius: 10px;
@@ -47,7 +47,7 @@ body {
   cursor: pointer;
 }
 
-#buttonOnes{
+#buttonOnes {
   display: block; /*Ensures the button takes up its own line */
   margin: 0 auto; /*Centers the button horizontally by distributing left/right margins equally */
   /* left: 50vw; */

@@ -11,7 +11,6 @@ export default function HomePage() {
           <h1>SIDEBAR</h1>
           <h1>SIDEBAR</h1>
           <h1>SIDEBAR</h1>
-          <h1>SIDEBAR</h1>
         </div>
         {/* Body content to the right */}
         <div className={styles.elementsButBetter}>
