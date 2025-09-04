@@ -1,7 +1,7 @@
 "use client";
-import SpecialButton from "@/components/SpecialButton";
-import Sidebar from "@/components/sidebar.js";
-import Button from "@/components/button.js";
+import SpecialButton from "@/app/test/testcomponents/SpecialButton";
+import Sidebar from "@/app/test/testcomponents/sidebar.js";
+import Button from "@/app/test/testcomponents/button.js";
 import { useState } from "react";
 
 export default function HomePage() {

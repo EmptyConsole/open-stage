@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "@/components/sidebar.js";
-import SpecialButton from "@/components/SpecialButton.js";
+import Sidebar from "@/app/test/testcomponents/sidebar.js";
+import SpecialButton from "@/app/test/testcomponents/SpecialButton.js";
 import styles from "./components/stuff.module.css";
 import { useState } from "react";
 
