@@ -5,7 +5,9 @@ export default function HomePage() {
     
     <main className="main">
       <aside className="sidebar">
-        <div style={{padding: "65px 16px", color: "#222" }}>Sidebar content goes here</div>
+        <div className="sidebar-content">
+          <div style={{ color: "#222" }}>Sidebar content goes here</div>
+        </div>
       </aside>
       <div className="header_main">
         <header className="header-container"> 
