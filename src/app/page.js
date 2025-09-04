@@ -3,16 +3,19 @@ import "./globals.css";
 export default function HomePage() {
   return (
     
-    <body className="main">
+    <main className="main">
       <aside className="sidebar">
         <div style={{padding: "65px 16px", color: "#222" }}>Sidebar content goes here</div>
       </aside>
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+      <div className="header_main">
         <header className="header-container"> 
-          <div className="header-bar"></div>
+          <div className="header-bar">
+            <div>Header content goes here</div>
+          </div>
+            <div style={{padding: "65px 16px", color: "#ffff" }}>Main content goes here</div>
         </header>
-        {/* Main content goes here */}
+          
       </div>
-    </body>
+    </main>
   );
 }
