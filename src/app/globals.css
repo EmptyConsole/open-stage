@@ -54,3 +54,24 @@ body {
   /* left: 50vw; */
   /* justify-content: center; */
 }
+.header-container {
+  position: relative;
+  width: 60%;
+  height: 120px;
+}
+
+.header-bar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1000%;
+  height: 64px;
+  background-color: blue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+}
