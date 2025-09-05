@@ -14,7 +14,7 @@ export default function HomePage() {
           <div className="header-bar">
             <div>Header content goes here</div>
           </div>
-            <div style={{padding: "65px 16px", color: "#ffff" }}>Main content goes here</div>
+            <div className="main-content">Main content goes here</div>
         </header>
           
       </div>
