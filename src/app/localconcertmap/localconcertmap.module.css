@@ -1,0 +1,83 @@
+/* Layout */
+.main {
+	font-family: sans-serif;
+	background: #f7f7fa;
+	min-height: 100vh;
+	display: flex;
+}
+.sidebar {
+	width: 300px;
+	background: #f2e9e4;
+	padding: 2rem 1rem;
+	border-right: 1px solid #ddd;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+.sidebarContent {
+	color: #222;
+}
+.sidebarTitle {
+	font-size: 1.3rem;
+	margin-bottom: 1.5rem;
+	color: #22223b;
+}
+.concertList {
+	list-style: none;
+	padding: 0;
+}
+.concertItem {
+	margin-bottom: 1rem;
+	padding: 0.7rem 1rem;
+	border-radius: 8px;
+	background: #fff;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+.concertItemSelected {
+	composes: concertItem;
+	background: #c9ada7;
+}
+.concertName {
+	font-weight: bold;
+	color: #4a4e69;
+}
+.concertCoords {
+	font-size: 0.9rem;
+	color: #22223b;
+}
+.header_main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+.headerContainer {
+	background: #22223b;
+	color: #fff;
+	padding: 1.5rem 2rem 0.5rem 2rem;
+	font-size: 2rem;
+	font-weight: bold;
+	letter-spacing: 2px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.headerBar {
+	margin-bottom: 1rem;
+}
+.mainContent {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #fff;
+	padding: 2rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+	margin: 2rem;
+}
+.map {
+	border-radius: 12px;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+}
+.mapSelected {
+	composes: map;
+	border: 4px solid #c9ada7;
+}
