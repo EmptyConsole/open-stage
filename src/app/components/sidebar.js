@@ -11,6 +11,7 @@ export default function Sidebar({ content }) {
         <div style={{textAlign: "center",
             fontSize: "20px",
             textJustify: "center",
+            color: "black"
         }}>{content}</div>
       </div>
     </aside>
