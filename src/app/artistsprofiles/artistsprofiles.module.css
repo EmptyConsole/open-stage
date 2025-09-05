@@ -1,8 +1,110 @@
-.sidebar {
+.mysidebar {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 0;
+  background-color: #f8f9fa;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-bottom: auto;
+  width: 100%;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 180px;
+  background-color: #f0f0f0;
+  border: 2px dashed #ccc;
+  border-radius: 0;
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 15px;
+}
+
+.imagePlaceholder::before {
+  content: "Image Placeholder";
+  color: #999;
+  font-size: 14px;
+}
+
+.followButton {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.followButton:hover {
+  background-color: #0056b3;
+}
+
+.followButton.following {
+  background-color: #6c757d;
+}
+
+.followButton.following:hover {
+  background-color: #545b62;
+}
+
+.descriptionText {
+  color: #000 !important;
+  font-size: 14px;
+  text-align: center;
+}
+
+.bottomContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  padding: 20px;
+}
+
+.quoteText {
+  color: #000 !important;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.supportButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.supportButton:hover {
+  background-color: #0056b3;
 }
 
 .elements {

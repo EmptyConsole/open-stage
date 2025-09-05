@@ -81,7 +81,6 @@ body {
 }
 
 .header-bar {
-  position: absolute;
   top: 0;
   left: 45%;
   transform: translateX(-50%);
