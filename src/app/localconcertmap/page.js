@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./localconcertmap.module.css";
+import Sidebar from "../components/sidebar";
 // import styles from "./src/app/globals.css"
 
 // Dummy concert data
@@ -31,8 +32,8 @@ export default function LocalConcertMapPage() {
 
     return (
         <main className={styles.main}>
-            <aside className={styles.sidebar}>
-                <div className={styles.sidebarContent}>
+            <Sidebar content={
+                <div>
                     <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
                     <ul className={styles.concertList}>
                         {concerts.map((concert) => (
@@ -54,7 +55,7 @@ export default function LocalConcertMapPage() {
                         ))}
                     </ul>
                 </div>
-            </aside>
+            }/>
             <div className={styles.header_main}>
                 <header className={styles.headerContainer}>
                     <div className={styles.headerBar}>
