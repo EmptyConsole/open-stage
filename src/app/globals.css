@@ -85,18 +85,18 @@ body {
   left: 45%;
   transform: translateX(-50%);
   width: 1000%;
-  height: 64px;
+  height: 72px;
   background-color: blue;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 2rem;
+  font-size: 34px;
   font-weight: bold;
 }
 
 .sidebar{
-  width: 240px;
+  width: 400px;
   height: 100vh;
   background-color: #e0e0e0;
   box-shadow: 2px 0 5px rgba(0,0,0,0.05);
