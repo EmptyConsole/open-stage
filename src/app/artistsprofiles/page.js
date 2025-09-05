@@ -4,6 +4,7 @@
 import styles from "./artistsprofiles.module.css";
 import "../globals.css";
 import { useState } from "react";
+import Sidebar from "../components/sidebar";
 
 export default function HomePage() {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -15,11 +16,11 @@ export default function HomePage() {
   return (
     
     <main className="main">
-      <aside className={styles.mysidebar}>
-        <div className={styles.sidebarContent}>
-          {/* Image placeholder with follow button */}
-          <div className={styles.imageContainer}>
+      <Sidebar content={<div>
+        {/* Image placeholder with follow button */}
+        <div className={styles.imageContainer}>
             <div className={styles.imagePlaceholder}>
+              <div className={styles.nameText}>Tooffu</div>
               <button 
                 className={`${styles.followButton} ${isFollowing ? styles.following : ''}`}
                 onClick={toggleFollow}
@@ -39,8 +40,7 @@ export default function HomePage() {
               Help Support!
             </button>
           </div>
-        </div>
-      </aside>
+      </div>}/>
       <div className="header_main">
         <header className="header-container"> 
           <div className="header-bar">

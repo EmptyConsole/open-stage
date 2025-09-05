@@ -1,7 +1,7 @@
 export default function Sidebar({ content }) {
   return (
     <aside style={{
-      width: '240px',
+      width: '330px',
       height: '100vh',
       backgroundColor: '#e0e0e0',
       boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
