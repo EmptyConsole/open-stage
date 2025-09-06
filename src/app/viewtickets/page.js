@@ -103,11 +103,11 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
       marginBottom: '16px',
       fontSize: '34px',       // Slightly bigger font
       fontWeight: 'bold',
-      width: '120%',          // Full width of the main area
+      width: '120%',        
       boxSizing: 'border-box',
       display: 'flex',
-      alignItems: 'center',   // Vertically center content
-      height: '72px',         // Fixed height to make it taller
+      alignItems: 'center',  
+      height: '72px',      
     }}
   >
     {clickedTicket ? `${clickedTicket.title}'s Epic Concert!!!` : "No ticket selected"}
