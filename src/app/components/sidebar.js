@@ -11,7 +11,7 @@ export default function Sidebar({ children }) {
         overflowX: "hidden",
       }}
     >
-      <div style={{ padding: "65px 0px" }}>
+      <div style={{ padding: "65px 16px" }}>
         <div
           style={{
             textAlign: "center",
