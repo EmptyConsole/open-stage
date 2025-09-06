@@ -3,13 +3,15 @@ export default function Header() {
     <h1
       className="header-bar"
       style={{
-        color: "#1976d2",
-        marginLeft: "30px",
-        fontSize: "32px",
+        padding: "16px 32px",
+        color: "white",
+        backgroundColor: "rgba(31, 70, 117, 1)",
+        marginLeft: "100px",
+        fontSize: "30px",
         fontWeight: "bold",
       }}
     >
-      O
+      OpenStage
     </h1>
   );
 }
