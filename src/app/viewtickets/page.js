@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
+import Sidebar from "../components/sidebar";
+import Header from "../components/Header";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
 ];
@@ -22,29 +24,9 @@ export default function ViewTickets() {
 const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : null;
     return (
         <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#f5f5f5',overflow: 'hidden'}}>
-            <h1
-                className="header-bar"
-                style={{
-                    color: '#1976d2',
-                    marginLeft: '30px',
-                    fontSize: '32px',
-                    fontWeight: 'bold'
-                }}
-            >
-                O
-            </h1>
+            <Header />
             <div style={{ display: 'flex', flex: 1 }}>
-                <aside style={{
-                    height: '100vh',
-                    width: '400px',
-                    background: '#fff',
-                    padding: '24px',
-                    boxShadow: '2px 0 8px rgba(0,0,0,0.05)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-start',
-                    overflowY: 'auto'
-                }}>
+                <Sidebar>
                    <h2 style={{ color: '#1976d2', fontWeight: "bold", fontSize: "25px" }}>
     Bought Tickets
 </h2>
@@ -92,7 +74,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     })}
 </div>
 
-                </aside>
+                </Sidebar>
  <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
   <div
     style={{

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styles from "./localconcertmap.module.css";
 import Sidebar from "../components/sidebar";
+import Header from "../components/Header";
 // import styles from "./src/app/globals.css"
 
 // Dummy concert data
@@ -31,45 +32,57 @@ export default function LocalConcertMapPage() {
   const [selectedConcert, setSelectedConcert] = useState(null);
 
   return (
-    <main className={styles.main}>
-      <Sidebar>
-        <div>
-          <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
-          <ul className={styles.concertList}>
-            {concerts.map((concert) => (
-              <li
-                key={concert.id}
-                className={
-                  selectedConcert === concert.id
-                    ? styles.concertItemSelected
-                    : styles.concertItem
-                }
-                onClick={() => setSelectedConcert(concert.id)}
-              >
-                <span className={styles.concertName}>{concert.name}</span>
-                <br />
-                <span className={styles.concertCoords}>
-                  Lat: {concert.lat}, Lng: {concert.lng}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </Sidebar>
-      <div className={styles.header_main}>
-        <header className={styles.headerContainer}>
-          <div className={styles.headerBar}>
-            <div>Header content goes here</div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        background: "#f5f5f5",
+        overflow: "hidden",
+      }}
+    >
+      <Header />
+      <div style={{ display: "flex", flex: 1 }}>
+        <Sidebar>
+          <div>
+            <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
+            <ul className={styles.concertList}>
+              {concerts.map((concert) => (
+                <li
+                  key={concert.id}
+                  className={
+                    selectedConcert === concert.id
+                      ? styles.concertItemSelected
+                      : styles.concertItem
+                  }
+                  onClick={() => setSelectedConcert(concert.id)}
+                >
+                  <span className={styles.concertName}>{concert.name}</span>
+                  <br />
+                  <span className={styles.concertCoords}>
+                    Lat: {concert.lat}, Lng: {concert.lng}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className={styles.mainContent}>
-            <img
-              src={getMapUrl()}
-              alt="Concert Map"
-              className={selectedConcert ? styles.mapSelected : styles.map}
-            />
-          </div>
-        </header>
+        </Sidebar>
+        <main
+          style={{
+            flex: 1,
+            padding: "32px",
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 0,
+          }}
+        >
+          <img
+            src={getMapUrl()}
+            alt="Concert Map"
+            className={selectedConcert ? styles.mapSelected : styles.map}
+          />
+        </main>
       </div>
-    </main>
+    </div>
   );
 }
