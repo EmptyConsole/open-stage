@@ -7,9 +7,11 @@ export default function Sidebar({ children }) {
         backgroundColor: "#e0e0e0",
         boxShadow: "2px 0 5px rgba(0,0,0,0.05)",
         position: "relative",
+        overflowY: "auto",
+        overflowX: "hidden",
       }}
     >
-      <div style={{ padding: "65px 0px" }}>
+      <div style={{ padding: "65px 16px" }}>
         <div
           style={{
             textAlign: "center",

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
+import Header from "../components/Header";
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
@@ -35,32 +36,9 @@ export default function HomePage() {
         overflow: "hidden",
       }}
     >
-      <h1
-        className="header-bar"
-        style={{
-          color: "#1976d2",
-          marginLeft: "30px",
-          fontSize: "32px",
-          fontWeight: "bold",
-        }}
-      >
-        O
-      </h1>
+      <Header />
       <div style={{ display: "flex", flex: 1 }}>
-        <aside
-          style={{
-            height: "100vh",
-            width: "400px",
-            background: "#fff",
-            padding: "24px",
-            boxShadow: "2px 0 8px rgba(0,0,0,0.05)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            overflowY: "auto",
-            flexShrink: 0,
-          }}
-        >
+        <Sidebar>
           {/* Image placeholder with follow button */}
           <div
             style={{
@@ -154,7 +132,7 @@ export default function HomePage() {
               Help Support!
             </button>
           </div>
-        </aside>
+        </Sidebar>
         <main
           style={{
             flex: 1,
@@ -505,7 +483,7 @@ export default function HomePage() {
           style={{
             position: "fixed",
             bottom: 0,
-            left: "400px", // sidebar width
+            left: "330px", // sidebar width
             right: 0,
             background: "#fff",
             borderTop: "3px solid #1976d2",
