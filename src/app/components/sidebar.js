@@ -1,4 +1,4 @@
-export default function Sidebar({ children }) {
+export default function Sidebar({ items = [], onSelect, selectedId }) {
   return (
     <aside
       style={{
@@ -16,11 +16,30 @@ export default function Sidebar({ children }) {
           style={{
             textAlign: "center",
             fontSize: "20px",
-            textJustify: "center",
             color: "black",
-          }}
-        >
-          {children}
+          }}>
+          <h2 style={{ fontWeight: 'bold', marginBottom: 24 }}>Concerts</h2>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {items.map(item => (
+              <li key={item.id} style={{ marginBottom: 12 }}>
+                <button
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    backgroundColor: item.id === selectedId ? '#36a2eb' : '#fff',
+                    color: item.id === selectedId ? '#fff' : '#333',
+                    border: '1px solid #ccc',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    fontWeight: item.id === selectedId ? 'bold' : 'normal',
+                  }}
+                  onClick={() => onSelect && onSelect(item.id)}
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </aside>
