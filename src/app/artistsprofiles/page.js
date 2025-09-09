@@ -38,9 +38,22 @@ export default function HomePage() {
       }}
     >
       <Header />
-      <div style={{ display: "flex", flex: 1, height: "calc(100vh - 60px)", overflow: "hidden" }}>
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          height: "calc(100vh - 60px)",
+          overflow: "hidden",
+        }}
+      >
         <Sidebar>
-          <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "100%", // changed from "100vh"
+            }}
+          >
             {/* Image placeholder with follow button */}
             <div
               style={{
@@ -50,6 +63,7 @@ export default function HomePage() {
                 width: "100%",
               }}
             >
+              {/* ...existing code for image and follow button... */}
               <div
                 style={{
                   width: "100%",
@@ -94,15 +108,14 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Bottom content */}
+            {/* Slogan and Support Button - now sticky at the top */}
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                marginTop: "auto",
-                padding: "20px",
-                marginBottom: "20px",
+                position: "absolute",
+                top: "550px", // changed from 0 to 100px
+                zIndex: 2,
+                padding: "20px 0 0 0",
+                marginBottom: "0",
               }}
             >
               <p
@@ -113,13 +126,14 @@ export default function HomePage() {
                   textAlign: "center",
                   marginBottom: "20px",
                   lineHeight: "1.4",
+                  background: "none",
                 }}
               >
                 One small step for you, one giant leap for Tooffu.
               </p>
               <button
                 style={{
-                  backgroundColor: "#007bff",
+                  background: "#007bff",
                   color: "white",
                   border: "none",
                   borderRadius: "6px",
@@ -477,8 +491,7 @@ export default function HomePage() {
               ))}
             </div>
           </>
-          
-          
+
           {/* <Footer /> */}
         </main>
       </div>
