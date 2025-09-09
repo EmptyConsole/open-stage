@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styles from "./localconcertmap.module.css";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
+// import Footer from "../components/footer";
 // import styles from "./src/app/globals.css"
 
 // Dummy concert data
@@ -36,9 +37,9 @@ export default function LocalConcertMapPage() {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        minHeight: "100vh",
         background: "#f5f5f5",
-        overflow: "hidden",
+        overflow: "auto",
       }}
     >
       <Header />
@@ -81,6 +82,7 @@ export default function LocalConcertMapPage() {
             alt="Concert Map"
             className={selectedConcert ? styles.mapSelected : styles.map}
           />
+          {/* <Footer /> */}
         </main>
       </div>
     </div>

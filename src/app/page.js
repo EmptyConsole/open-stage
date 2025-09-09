@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import "./globals.css";
 import Sidebar from "./components/sidebar";
 import Header from "./components/Header";
-import Footer from "./components/footer";
+// import Footer from "./components/footer";
 import SidebarArtistSquare from "./components/SidebarArtistSquare";
 export default function HomePage() {
   return (
@@ -45,11 +45,6 @@ export default function HomePage() {
             </div>
           </div>
         </Sidebar>
-        <Footer>
-            <div style={{ marginTop: '10px', fontSize: '14px', color: '#ccc' }}>
-              Built with Next.js and React. 
-            </div>
-          </Footer>
         <main
           style={{
             flex: 1,
@@ -60,7 +55,11 @@ export default function HomePage() {
           }}>
             <h1>hi</h1>
           <div className="main-content">Main content goes here</div>
-          
+          {/* <Footer>
+            <div style={{ marginTop: '10px', fontSize: '14px', color: '#ccc' }}>
+              Built with Next.js and React. 
+            </div>
+          </Footer> */}
         </main>
         
       </div>

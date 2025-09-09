@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
 import Header from "../components/Header";
+// import Footer from "../components/footer";
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
@@ -31,106 +32,107 @@ export default function HomePage() {
       style={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        minHeight: "100vh",
         background: "#f5f5f5",
-        overflow: "hidden",
+        overflow: "auto",
       }}
     >
       <Header />
-      <div style={{ display: "flex", flex: 1 }}>
+      <div style={{ display: "flex", flex: 1, height: "calc(100vh - 60px)", overflow: "hidden" }}>
         <Sidebar>
-          {/* Image placeholder with follow button */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "stretch",
-              marginBottom: "auto",
-              width: "100%",
-            }}
-          >
+          <div style={{ display: "flex", flexDirection: "column", height: "100vh", overflow: "hidden" }}>
+            {/* Image placeholder with follow button */}
             <div
               style={{
-                width: "100%",
-                height: "220px",
-                background: "#f0f0f0",
-                border: "2px dashed #ccc",
-                borderRadius: "0",
-                position: "relative",
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginBottom: "15px",
+                flexDirection: "column",
+                alignItems: "stretch",
+                width: "100%",
               }}
             >
               <div
                 style={{
-                  position: "absolute",
-                  bottom: "8px",
-                  left: "8px",
-                  color: "#000",
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
+                  width: "100%",
+                  height: "220px",
+                  background: "#f0f0f0",
+                  border: "2px dashed #ccc",
+                  borderRadius: "0",
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "15px",
                 }}
               >
-                Tooffu
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "8px",
+                    left: "8px",
+                    color: "#000",
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
+                  }}
+                >
+                  Tooffu
+                </div>
+                <FollowButton
+                  isFollowing={isFollowing}
+                  toggleFollow={toggleFollow}
+                />
               </div>
-              <FollowButton
-                isFollowing={isFollowing}
-                toggleFollow={toggleFollow}
-              />
+              <p
+                style={{
+                  margin: 0,
+                  color: "#333",
+                  fontSize: "14px",
+                  textAlign: "left",
+                }}
+              >
+                description...
+              </p>
             </div>
-            <p
-              style={{
-                margin: 0,
-                color: "#333",
-                fontSize: "14px",
-                textAlign: "left",
-              }}
-            >
-              description...
-            </p>
-          </div>
 
-          {/* Bottom content */}
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              marginTop: "auto",
-              padding: "20px",
-              marginBottom: "20px",
-            }}
-          >
-            <p
+            {/* Bottom content */}
+            <div
               style={{
-                margin: 0,
-                color: "#333",
-                fontSize: "14px",
-                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginTop: "auto",
+                padding: "20px",
                 marginBottom: "20px",
-                lineHeight: "1.4",
               }}
             >
-              One small step for you, one giant leap for Tooffu.
-            </p>
-            <button
-              style={{
-                backgroundColor: "#007bff",
-                color: "white",
-                border: "none",
-                borderRadius: "6px",
-                padding: "12px 24px",
-                fontSize: "16px",
-                fontWeight: "500",
-                cursor: "pointer",
-                transition: "background-color 0.2s",
-              }}
-            >
-              Help Support!
-            </button>
+              <p
+                style={{
+                  margin: 0,
+                  color: "#333",
+                  fontSize: "14px",
+                  textAlign: "center",
+                  marginBottom: "20px",
+                  lineHeight: "1.4",
+                }}
+              >
+                One small step for you, one giant leap for Tooffu.
+              </p>
+              <button
+                style={{
+                  backgroundColor: "#007bff",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "12px 24px",
+                  fontSize: "16px",
+                  fontWeight: "500",
+                  cursor: "pointer",
+                  transition: "background-color 0.2s",
+                }}
+              >
+                Help Support!
+              </button>
+            </div>
           </div>
         </Sidebar>
         <main
@@ -140,6 +142,7 @@ export default function HomePage() {
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
+            overflow: "auto",
           }}
         >
           {/* <div
@@ -474,6 +477,9 @@ export default function HomePage() {
               ))}
             </div>
           </>
+          
+          
+          {/* <Footer /> */}
         </main>
       </div>
 

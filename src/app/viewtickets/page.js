@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
+// import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
 ];
@@ -23,7 +24,7 @@ export default function ViewTickets() {
 );
 const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : null;
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#f5f5f5',overflow: 'hidden'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
             <Header />
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
@@ -96,6 +97,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
   </div>
 
   {/* Add more content below as needed */}
+  {/* <Footer /> */}
 </main>
 
             </div>
