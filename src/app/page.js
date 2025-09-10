@@ -5,6 +5,8 @@ import Sidebar from "./components/sidebar";
 import Header from "./components/Header";
 // import Footer from "./components/footer";
 import SidebarArtistSquare from "./components/SidebarArtistSquare";
+import ConcertSquare from "./components/ConcertSquare";
+import MainContentHeader from "./components/MainContentHeader";
 import React, { useState } from "react";
 
 export default function HomePage() {
@@ -123,6 +125,134 @@ export default function HomePage() {
               color: "#000", // <-- Added to make text black
             }}
           />
+          
+          {/* Your Tickets Section */}
+          <MainContentHeader>Your Tickets</MainContentHeader>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              marginBottom: "24px",
+              overflowX: "auto",
+              paddingBottom: "8px",
+            }}
+          >
+            {[
+              {
+                number: 1,
+                title: "Summer Festival",
+                date: "July 15",
+                venue: "Central Park",
+                price: "$45",
+                time: "7:00 PM",
+              },
+              {
+                number: 2,
+                title: "Acoustic Night",
+                date: "July 22",
+                venue: "Blue Note",
+                price: "$35",
+                time: "8:30 PM",
+              },
+              {
+                number: 3,
+                title: "Rock Concert",
+                date: "Aug 5",
+                venue: "Madison Square",
+                price: "$75",
+                time: "8:00 PM",
+              },
+            ].map((ticket) => (
+              <ConcertSquare
+                key={ticket.number}
+                concertNumber={ticket.number}
+                title={ticket.title}
+                date={ticket.date}
+                venue={ticket.venue}
+                onClick={() => console.log(`Clicked on ${ticket.title}`)}
+              />
+            ))}
+          </div>
+
+          {/* Concerts Near You Section */}
+          <MainContentHeader>Concerts Near You</MainContentHeader>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              marginBottom: "24px",
+              overflowX: "auto",
+              paddingBottom: "8px",
+            }}
+          >
+            {[
+              {
+                number: 1,
+                title: "Jazz Session",
+                date: "Aug 12",
+                venue: "Birdland",
+                price: "$40",
+                time: "9:00 PM",
+              },
+              {
+                number: 2,
+                title: "Indie Show",
+                date: "Aug 20",
+                venue: "Bowery Ballroom",
+                price: "$30",
+                time: "7:30 PM",
+              },
+              {
+                number: 3,
+                title: "Festival Finale",
+                date: "Aug 28",
+                venue: "Governors Island",
+                price: "$60",
+                time: "6:00 PM",
+              },
+              {
+                number: 4,
+                title: "Intimate Set",
+                date: "Sep 3",
+                venue: "Joe's Pub",
+                price: "$25",
+                time: "8:00 PM",
+              },
+              {
+                number: 5,
+                title: "Outdoor Concert",
+                date: "Sep 10",
+                venue: "Prospect Park",
+                price: "$50",
+                time: "7:00 PM",
+              },
+            ].map((concert) => (
+              <ConcertSquare
+                key={concert.number}
+                concertNumber={concert.number}
+                title={concert.title}
+                date={concert.date}
+                venue={concert.venue}
+                onClick={() => console.log(`Clicked on ${concert.title}`)}
+              />
+            ))}
+          </div>
+
+          {/* Support Section */}
+          <p
+            style={{
+              margin: "0 0 8px 0",
+              color: "#333",
+              fontSize: "14px",
+              textAlign: "left",
+            }}
+          >
+            Loved your latest concert?
+          </p>
+          <MainContentHeader>Help Support!</MainContentHeader>
+
           <h1>hi</h1>
           <div className="main-content"></div>
           {/* <Footer>
