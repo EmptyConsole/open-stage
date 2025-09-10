@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
+import MainContentHeader from "../components/MainContentHeader";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
@@ -81,9 +82,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
                     <div style={{ marginTop: '-40px' }}>
-                        <h2 style={{ color: '#1976d2', fontWeight: "bold", fontSize: "28px", marginTop: '0px', marginBottom: '16px' }}>
-                            Bought Tickets
-                        </h2>
+                        <MainContentHeader>Bought Tickets</MainContentHeader>
 
                         <input
                             type="text"
@@ -133,8 +132,32 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                                             handleItemLeave();
                                         }}
                                     >
-                                        <h3 style={{ margin: '0 0 8px 0', color: '#1976d2', fontWeight: 'bold', fontSize: '20px', textAlign: 'center' }}>{ticket.title}</h3>
-                                        <p style={{ margin: 0, color: '#333', fontSize: '16px', textAlign: 'left' }}>{ticket.description}</p>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            {/* Image placeholder */}
+                                            <div
+                                                style={{
+                                                    width: '80px',
+                                                    height: '80px',
+                                                    background: '#f8f8f8',
+                                                    borderRadius: '8px',
+                                                    border: '2px dashed #ccc',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    color: '#999',
+                                                    fontSize: '10px',
+                                                    flexShrink: 0,
+                                                }}
+                                            >
+                                                Image
+                                            </div>
+                                            
+                                            {/* Text content */}
+                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                <h3 style={{ margin: '0 0 4px 0', color: '#1976d2', fontWeight: 'bold', fontSize: '14px', textAlign: 'left' }}>{ticket.title}</h3>
+                                                <p style={{ margin: 0, color: '#333', fontSize: '12px', textAlign: 'left', lineHeight: '1.3' }}>{ticket.description}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 );
                             })}
@@ -142,13 +165,14 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                     </div>
                 </Sidebar>
  <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
+  <MainContentHeader>Selected Concert</MainContentHeader>
   <div
     style={{
       background: '#1976d2',
       color: 'white',
       padding: '24px 32px',   // More vertical padding for taller bar
       borderRadius: '8px',
-      marginBottom: '16px',
+      marginBottom: '24px',
       fontSize: '34px',       // Slightly bigger font
       fontWeight: 'bold',
       width: '120%',        
@@ -159,6 +183,24 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     }}
   >
     {clickedTicket ? `${clickedTicket.title}'s Epic Concert!!!` : "No ticket selected"}
+  </div>
+
+  <MainContentHeader>Concert Details</MainContentHeader>
+  <div
+    style={{
+      background: '#fff',
+      padding: '24px',
+      borderRadius: '8px',
+      marginBottom: '24px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    }}
+  >
+    <p style={{ color: '#333', fontSize: '16px', lineHeight: '1.5', margin: 0 }}>
+      {clickedTicket 
+        ? `Welcome to ${clickedTicket.title}'s concert! This is where you'll find all the details about the event, including venue information, set times, and special announcements.`
+        : "Select a ticket from the sidebar to view concert details and information."
+      }
+    </p>
   </div>
 
   {/* Add more content below as needed */}
