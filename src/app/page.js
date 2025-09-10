@@ -98,6 +98,7 @@ export default function HomePage() {
             </div>
           </div>
         </Sidebar>
+        
         <main
           style={{
             flex: 1,
