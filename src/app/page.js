@@ -7,6 +7,7 @@ import Header from "./components/Header";
 import SidebarArtistSquare from "./components/SidebarArtistSquare";
 import ConcertSquare from "./components/ConcertSquare";
 import MainContentHeader from "./components/MainContentHeader";
+import MainButton from "./components/MainButton";
 import React, { useState } from "react";
 
 export default function HomePage() {
@@ -251,9 +252,32 @@ export default function HomePage() {
           >
             Loved your latest concert?
           </p>
-          <MainContentHeader>Help Support!</MainContentHeader>
+            <MainContentHeader>Help Support!</MainContentHeader>
 
-          <h1>hi</h1>
+            {/* Recent Artists Buttons */}
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+                marginBottom: "24px",
+                flexWrap: "wrap",
+              }}
+            >
+              {[
+                "Luna Moon",
+                "Echo Valley", 
+                "Midnight Sun"
+              ].map((artistName) => (
+                <MainButton
+                  key={artistName}
+                  onClick={() => console.log(`Clicked on ${artistName}`)}
+                >
+                  {artistName}
+                </MainButton>
+              ))}
+            </div>
+
+            <h1>hi</h1>
           <div className="main-content"></div>
           {/* <Footer>
             <div style={{ marginTop: '10px', fontSize: '14px', color: '#ccc' }}>
