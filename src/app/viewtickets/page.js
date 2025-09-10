@@ -82,9 +82,10 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
             <Header />
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
-                    <div style={{ marginTop: '-40px' }}>
+                    <div style={{ marginTop: '-40px'}}>
+                    <div style={{ marginLeft: '-100px'}}>
                         <MainContentHeader>Bought Tickets</MainContentHeader>
-
+                    </div>
                         <input
                             type="text"
                             placeholder="Search tickets..."
@@ -92,7 +93,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                             onChange={(e) => setSearchTerm(e.target.value)}
                             style={{
                                 color: '#000000ff',
-                                padding: '12px',
+                                padding: '8px',
                                 border: '1px solid #5e5e5eff',
                                 borderRadius: '6px',
                                 margin: '0 0 24px 0',
@@ -202,6 +203,49 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
         : "Select a ticket from the sidebar to view concert details and information."
       }
     </p>
+  </div>
+
+  <MainContentHeader>Artist Overview</MainContentHeader>
+  <div
+    style={{
+      background: '#fff',
+      padding: '24px 28px',
+      borderRadius: '8px',
+      marginBottom: '24px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '20px',
+      minHeight: '140px',
+      width: '120%',
+      boxSizing: 'border-box',
+    }}
+  >
+    <div
+      style={{
+        width: '120px',
+        height: '120px',
+        background: '#f8f8f8',
+        borderRadius: '8px',
+        border: '2px dashed #ccc',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#999',
+        fontSize: '12px',
+        flexShrink: 0,
+      }}
+    >
+      Image
+    </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <h3 style={{ margin: '0 0 8px 0', color: '#1976d2', fontWeight: 'bold', fontSize: '22px' }}>
+        {clickedTicket ? clickedTicket.title : 'Select an Artist'}
+      </h3>
+      <p style={{ margin: 0, color: '#333', fontSize: '16px', lineHeight: '1.5' }}>
+        {clickedTicket ? clickedTicket.description : 'Choose a ticket on the left to view the artist\'s description and details.'}
+      </p>
+    </div>
   </div>
 
   {/* Add more content below as needed */}
