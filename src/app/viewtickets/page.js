@@ -4,6 +4,8 @@ import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
+import MainContentHeader from "../components/MainContentHeader";
+import MainButton from "../components/MainButton";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },

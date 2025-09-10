@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Header() {
   return (
     <h1
@@ -9,9 +11,12 @@ export default function Header() {
         marginLeft: "100px",
         fontSize: "30px",
         fontWeight: "bold",
+        cursor: "pointer",
       }}
     >
-      OpenStage
+      <Link href="/" style={{ color: "white", textDecoration: "none" }}>
+        OpenStage
+      </Link>
     </h1>
   );
 }
