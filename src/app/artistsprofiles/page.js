@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
+import MainContentHeader from "../components/MainContentHeader";
 
 export default function HomePage() {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -178,16 +179,7 @@ export default function HomePage() {
             {/* Tooffu's Artist Profile */}
           {/* </div> */}
 
-          <h2
-            style={{
-              color: "#1976d2",
-              fontWeight: "bold",
-              fontSize: "25px",
-              margin: "0 0 16px 0",
-            }}
-          >
-            Upcoming Concerts
-          </h2>
+          <MainContentHeader>Upcoming Concerts</MainContentHeader>
 
           <div
             style={{
@@ -336,16 +328,7 @@ export default function HomePage() {
           </div>
 
           <>
-            <h2
-              style={{
-                color: "#1976d2",
-                fontWeight: "bold",
-                fontSize: "25px",
-                margin: "0 0 16px 0",
-              }}
-            >
-              Similar Artists
-            </h2>
+            <MainContentHeader>Similar Artists</MainContentHeader>
 
             <div
               style={{

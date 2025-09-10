@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
+import MainContentHeader from "../components/MainContentHeader";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
@@ -81,9 +82,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
                     <div style={{ marginTop: '-40px' }}>
-                        <h2 style={{ color: '#1976d2', fontWeight: "bold", fontSize: "28px", marginTop: '0px', marginBottom: '16px' }}>
-                            Bought Tickets
-                        </h2>
+                        <MainContentHeader>Bought Tickets</MainContentHeader>
 
                         <input
                             type="text"
