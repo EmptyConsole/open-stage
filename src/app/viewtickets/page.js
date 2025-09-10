@@ -4,7 +4,6 @@ import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
-import MainContentHeader from "../components/MainContentHeader";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
@@ -325,20 +324,9 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                                 {(selectedConcert || hoveredItem).title.toLowerCase()} experience. This special event
                                 promises to deliver an amazing night of music and entertainment.
                             </p>
-                            <button
-                                style={{
-                                    background: "#1976d2",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "6px",
-                                    padding: "12px 24px",
-                                    fontSize: "16px",
-                                    fontWeight: "500",
-                                    cursor: "pointer",
-                                }}
-                            >
+                            <MainButton>
                                 Buy Tickets
-                            </button>
+                            </MainButton>
                         </div>
                     </div>
                 </div>

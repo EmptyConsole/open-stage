@@ -4,28 +4,28 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import Sidebar from '../components/sidebar';
 import DonorSidebar from '../components/DonorSidebar';
-import { Bar, Pie } from 'react-chartjs-2';
+// import { Bar, Pie } from 'react-chartjs-2';
 
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   ArcElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+// } from 'chart.js';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   BarElement,
+//   ArcElement,
+//   Title,
+//   Tooltip,
+//   Legend
+// );
 
 const concerts = [
     { id: 1, name: 'Spring Gala', attendees: 1257, donations: 2341 },
@@ -94,11 +94,17 @@ export default function ViewEventsPage() {
                     <div className="grid grid-cols-2 gap-8 mb-8">
                         <div>
                             <h2 className="text-lg font-semibold mb-2">Concert Stats</h2>
-                            <Bar data={barData} />
+                            {/* <Bar data={barData} /> */}
+                            <div className="h-64 bg-gray-200 flex items-center justify-center">
+                                Chart placeholder
+                            </div>
                         </div>
                         <div>
                             <h2 className="text-lg font-semibold mb-2">Attendees vs Donations</h2>
-                            <Pie data={pieData} />
+                            {/* <Pie data={pieData} /> */}
+                            <div className="h-64 bg-gray-200 flex items-center justify-center">
+                                Chart placeholder
+                            </div>
                         </div>
                     </div>
                     <div className="mb-4" style={{textAlign: 'center', display: 'flex', justifyContent: 'center'}}>

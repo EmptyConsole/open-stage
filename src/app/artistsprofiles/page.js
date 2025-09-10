@@ -7,6 +7,8 @@ import Header from "../components/Header";
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
+import MainContentHeader from "../components/MainContentHeader";
+import MainButton from "../components/MainButton";
 
 export default function HomePage() {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -131,21 +133,9 @@ export default function HomePage() {
               >
                 One small step for you, one giant leap for Tooffu.
               </p>
-              <button
-                style={{
-                  background: "#007bff",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  padding: "12px 24px",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  cursor: "pointer",
-                  transition: "background-color 0.2s",
-                }}
-              >
+              <MainButton>
                 Help Support!
-              </button>
+              </MainButton>
             </div>
           </div>
         </Sidebar>
@@ -178,16 +168,7 @@ export default function HomePage() {
             {/* Tooffu's Artist Profile */}
           {/* </div> */}
 
-          <h2
-            style={{
-              color: "#1976d2",
-              fontWeight: "bold",
-              fontSize: "25px",
-              margin: "0 0 16px 0",
-            }}
-          >
-            Upcoming Concerts
-          </h2>
+          <MainContentHeader>Upcoming Concerts</MainContentHeader>
 
           <div
             style={{
@@ -336,16 +317,7 @@ export default function HomePage() {
           </div>
 
           <>
-            <h2
-              style={{
-                color: "#1976d2",
-                fontWeight: "bold",
-                fontSize: "25px",
-                margin: "0 0 16px 0",
-              }}
-            >
-              Similar Artists
-            </h2>
+            <MainContentHeader>Similar Artists</MainContentHeader>
 
             <div
               style={{
@@ -587,20 +559,9 @@ export default function HomePage() {
                 {hoveredItem.title.toLowerCase()} experience. This special event
                 promises to deliver an amazing night of music and entertainment.
               </p>
-              <button
-                style={{
-                  background: "#1976d2",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  padding: "12px 24px",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  cursor: "pointer",
-                }}
-              >
+              <MainButton>
                 Buy Tickets
-              </button>
+              </MainButton>
             </div>
           </div>
         </div>
