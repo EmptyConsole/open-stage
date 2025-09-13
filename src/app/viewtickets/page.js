@@ -5,7 +5,6 @@ import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
 import MainContentHeader from "../components/MainContentHeader";
-import MainButton from "../components/MainButton";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
@@ -20,8 +19,6 @@ export default function ViewTickets() {
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');   
     const [clickedIndex, setClickedIndex] = useState(null);
-    const [hoveredItem, setHoveredItem] = useState(null);
-    const [hoveredType, setHoveredType] = useState(null);
     const [selectedConcert, setSelectedConcert] = useState(null);
     const filteredTickets = tickets.filter(ticket =>
     ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -68,15 +65,6 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
         },
     ];
 
-    const handleItemHover = (item, type) => {
-        setHoveredItem(item);
-        setHoveredType(type);
-    };
-
-    const handleItemLeave = () => {
-        setHoveredItem(null);
-        setHoveredType(null);
-    };
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
             <Header />
@@ -127,11 +115,9 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                                         }}
                                         onMouseEnter={() => {
                                             setHoveredIndex(idx);
-                                            handleItemHover(concertData, "concert");
                                         }}
                                         onMouseLeave={() => {
                                             setHoveredIndex(null);
-                                            handleItemLeave();
                                         }}
                                     >
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -254,129 +240,6 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
 
             </div>
 
-            {/* Detailed View Popup */}
-            {(hoveredItem || selectedConcert) && (
-                <div
-                    style={{
-                        position: "fixed",
-                        bottom: 0,
-                        left: "330px", // sidebar width
-                        right: 0,
-                        background: "#fff",
-                        borderTop: "3px solid #1976d2",
-                        padding: "24px",
-                        boxShadow: "0 -4px 12px rgba(0,0,0,0.1)",
-                        zIndex: 1000,
-                        maxHeight: "40vh",
-                        overflowY: "auto",
-                    }}
-                >
-                    <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-                        {/* Close button for selected concert */}
-                        {selectedConcert && (
-                            <button
-                                onClick={() => setSelectedConcert(null)}
-                                style={{
-                                    position: "absolute",
-                                    top: "12px",
-                                    right: "12px",
-                                    background: "#ff4444",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "50%",
-                                    width: "30px",
-                                    height: "30px",
-                                    cursor: "pointer",
-                                    fontSize: "16px",
-                                    fontWeight: "bold",
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                }}
-                            >
-                                ×
-                            </button>
-                        )}
-                        <div
-                            style={{
-                                width: "120px",
-                                height: "120px",
-                                background: "#ededed",
-                                borderRadius: "8px",
-                                border: "2px dashed #ccc",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                color: "#999",
-                                fontSize: "12px",
-                            }}
-                        >
-                            Concert Image
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <h3
-                                style={{
-                                    color: "#1976d2",
-                                    fontSize: "28px",
-                                    margin: "0 0 8px 0",
-                                    fontWeight: "bold",
-                                }}
-                            >
-                                {(selectedConcert || hoveredItem).title}
-                            </h3>
-                            <div
-                                style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "1fr 1fr",
-                                    gap: "16px",
-                                    marginBottom: "16px",
-                                    fontSize: "16px",
-                                    color: "#111", // darker, stronger text
-                                }}
-                            >
-                                <div>
-                                    <span style={{ fontWeight: 600, color: "#1976d2" }}>
-                                        Date:
-                                    </span>{" "}
-                                    {(selectedConcert || hoveredItem).date}
-                                </div>
-                                <div>
-                                    <span style={{ fontWeight: 600, color: "#1976d2" }}>
-                                        Time:
-                                    </span>{" "}
-                                    {(selectedConcert || hoveredItem).time}
-                                </div>
-                                <div>
-                                    <span style={{ fontWeight: 600, color: "#1976d2" }}>
-                                        Venue:
-                                    </span>{" "}
-                                    {(selectedConcert || hoveredItem).venue}
-                                </div>
-                                <div>
-                                    <span style={{ fontWeight: 600, color: "#1976d2" }}>
-                                        Price:
-                                    </span>{" "}
-                                    {(selectedConcert || hoveredItem).price}
-                                </div>
-                            </div>
-                            <p
-                                style={{
-                                    margin: "0 0 16px 0",
-                                    color: "#333",
-                                    lineHeight: "1.5",
-                                }}
-                            >
-                                Join {clickedTicket ? clickedTicket.title : "the artist"} for an unforgettable{" "}
-                                {(selectedConcert || hoveredItem).title.toLowerCase()} experience. This special event
-                                promises to deliver an amazing night of music and entertainment.
-                            </p>
-                            <MainButton>
-                                Buy Tickets
-                            </MainButton>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
