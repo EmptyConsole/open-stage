@@ -80,7 +80,7 @@ body {
   flex-direction: column;
 }
 
-.header-bar {
+/* .header-bar {
   top: 0;
   left: 45%;
   transform: translateX(-50%);
@@ -93,7 +93,7 @@ body {
   color: white;
   font-size: 34px;
   font-weight: bold;
-}
+} */
 
 .sidebar{
   width: 400px;

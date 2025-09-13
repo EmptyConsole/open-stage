@@ -2,21 +2,26 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <h1
-      className="header-bar"
+    <div
       style={{
         padding: "16px 32px",
         color: "white",
         backgroundColor: "rgba(31, 70, 117, 1)",
-        marginLeft: "100px",
         fontSize: "30px",
         fontWeight: "bold",
-        cursor: "pointer",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
-      <Link href="/" style={{ color: "white", textDecoration: "none" }}>
+      <Link href="/" style={{ color: "white", textDecoration: "none", fontSize: "30px", fontWeight: "bold" }}>
         OpenStage
       </Link>
-    </h1>
+      <Link href="/viewtickets" style={{ color: "white", textDecoration: "none", fontSize: "18px", fontWeight: "bold" }}>
+        View Tickets
+      </Link>
+    </div>
   );
 }
