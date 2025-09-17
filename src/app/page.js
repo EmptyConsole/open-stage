@@ -8,54 +8,33 @@ import SidebarArtistSquare from "./components/SidebarArtistSquare";
 import ConcertSquare from "./components/ConcertSquare";
 import MainContentHeader from "./components/MainContentHeader";
 import MainButton from "./components/MainButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getUsers, getArtists } from "./viewtickets/util/users";
 
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
+  const [followedArtists, setFollowedArtists] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Call getUsers and getArtists when component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await getUsers();
+        const artists = await getArtists();
+        setFollowedArtists(artists);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
+  }, []);
 
   // Data arrays
-  const followedArtists = [
-    {
-      name: "Luna Moon",
-      description:
-        "Indie rock band known for dreamy melodies and atmospheric soundscapes",
-    },
-    {
-      name: "Echo Valley",
-      description:
-        "Alternative rock group with haunting vocals and experimental instrumentation",
-    },
-    {
-      name: "Midnight Sun",
-      description:
-        "Electronic music producer creating ambient and downtempo tracks",
-    },
-    {
-      name: "River Stone",
-      description:
-        "Folk singer-songwriter with acoustic guitar and heartfelt storytelling",
-    },
-    {
-      name: "Urban Beat",
-      description:
-        "Hip hop artist blending street poetry with modern production",
-    },
-    {
-      name: "Crystal Clear",
-      description:
-        "Pop sensation with catchy hooks and vibrant energy",
-    },
-    {
-      name: "Deep Forest",
-      description:
-        "Ambient music creator specializing in nature-inspired soundscapes",
-    },
-    {
-      name: "City Lights",
-      description:
-        "Jazz ensemble bringing smooth melodies and improvisational flair",
-    },
-  ];
 
   const yourTickets = [
     {
@@ -180,14 +159,24 @@ export default function HomePage() {
                 marginTop: "20px",
               }}
             >
-              {followedArtists.map((artist, index) => (
-                <SidebarArtistSquare
-                  key={index}
-                  artistName={artist.name}
-                  description={artist.description}
-                  onClick={() => console.log(`Clicked on ${artist.name}`)}
-                />
-              ))}
+              {loading ? (
+                <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
+                  Loading artists...
+                </div>
+              ) : followedArtists.length > 0 ? (
+                followedArtists.map((artist, index) => (
+                  <SidebarArtistSquare
+                    key={artist.id || index}
+                    artistName={artist.name}
+                    description={artist.description}
+                    onClick={() => console.log(`Clicked on ${artist.name}`)}
+                  />
+                ))
+              ) : (
+                <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
+                  No artists found
+                </div>
+              )}
             </div>
           </div>
         </Sidebar>

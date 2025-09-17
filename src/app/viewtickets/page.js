@@ -5,6 +5,7 @@ import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
 import MainContentHeader from "../components/MainContentHeader";
+import { getUsers } from "./util/users";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
@@ -16,6 +17,9 @@ for (let i = 0; i <= 50; i++) {
 }
 
 export default function ViewTickets() {
+    useEffect(() => {
+        getUsers();
+    },[]);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');   
     const [clickedIndex, setClickedIndex] = useState(null);

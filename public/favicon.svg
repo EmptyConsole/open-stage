@@ -1,0 +1,20 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stage platform -->
+  <rect x="4" y="20" width="24" height="8" fill="#1976d2" rx="2"/>
+  
+  <!-- Stage curtains -->
+  <path d="M2 8 L8 8 L6 20 L4 20 Z" fill="#1f4671"/>
+  <path d="M30 8 L24 8 L26 20 L28 20 Z" fill="#1f4671"/>
+  
+  <!-- Microphone -->
+  <circle cx="16" cy="12" r="3" fill="#333"/>
+  <rect x="15" y="15" width="2" height="5" fill="#333"/>
+  <rect x="13" y="20" width="6" height="1" fill="#333"/>
+  
+  <!-- Musical notes -->
+  <circle cx="8" cy="6" r="1" fill="#1976d2"/>
+  <path d="M8 6 L8 10 M8 8 L10 8" stroke="#1976d2" stroke-width="0.5"/>
+  
+  <circle cx="24" cy="6" r="1" fill="#1976d2"/>
+  <path d="M24 6 L24 10 M24 8 L26 8" stroke="#1976d2" stroke-width="0.5"/>
+</svg>
