@@ -66,7 +66,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     ];
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'hidden'}}>
             <Header />
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
@@ -152,7 +152,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                         </div>
                     </div>
                 </Sidebar>
- <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
+ <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
   <MainContentHeader>Selected Concert</MainContentHeader>
   <div
     style={{
@@ -163,7 +163,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
       marginBottom: '24px',
       fontSize: '34px',       // Slightly bigger font
       fontWeight: 'bold',
-      width: '120%',        
+      width: '100%',        
       boxSizing: 'border-box',
       display: 'flex',
       alignItems: 'center',  
@@ -203,7 +203,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
       alignItems: 'center',
       gap: '20px',
       minHeight: '140px',
-      width: '120%',
+      width: '100%',
       boxSizing: 'border-box',
     }}
   >
