@@ -13,6 +13,140 @@ import React, { useState } from "react";
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
 
+  // Data arrays
+  const followedArtists = [
+    {
+      name: "Luna Moon",
+      description:
+        "Indie rock band known for dreamy melodies and atmospheric soundscapes",
+    },
+    {
+      name: "Echo Valley",
+      description:
+        "Alternative rock group with haunting vocals and experimental instrumentation",
+    },
+    {
+      name: "Midnight Sun",
+      description:
+        "Electronic music producer creating ambient and downtempo tracks",
+    },
+    {
+      name: "River Stone",
+      description:
+        "Folk singer-songwriter with acoustic guitar and heartfelt storytelling",
+    },
+    {
+      name: "Urban Beat",
+      description:
+        "Hip hop artist blending street poetry with modern production",
+    },
+    {
+      name: "Crystal Clear",
+      description:
+        "Pop sensation with catchy hooks and vibrant energy",
+    },
+    {
+      name: "Deep Forest",
+      description:
+        "Ambient music creator specializing in nature-inspired soundscapes",
+    },
+    {
+      name: "City Lights",
+      description:
+        "Jazz ensemble bringing smooth melodies and improvisational flair",
+    },
+  ];
+
+  const yourTickets = [
+    {
+      number: 1,
+      title: "Summer Festival",
+      date: "July 15",
+      venue: "Central Park",
+      price: "$45",
+      time: "7:00 PM",
+    },
+    {
+      number: 2,
+      title: "Acoustic Night",
+      date: "July 22",
+      venue: "Blue Note",
+      price: "$35",
+      time: "8:30 PM",
+    },
+    {
+      number: 3,
+      title: "Rock Concert",
+      date: "Aug 5",
+      venue: "Madison Square",
+      price: "$75",
+      time: "8:00 PM",
+    },
+  ];
+
+  const concertsNearYou = [
+    {
+      number: 1,
+      title: "Jazz Session",
+      date: "Aug 12",
+      venue: "Birdland",
+      price: "$40",
+      time: "9:00 PM",
+    },
+    {
+      number: 2,
+      title: "Indie Show",
+      date: "Aug 20",
+      venue: "Bowery Ballroom",
+      price: "$30",
+      time: "7:30 PM",
+    },
+    {
+      number: 3,
+      title: "Festival Finale",
+      date: "Aug 28",
+      venue: "Governors Island",
+      price: "$60",
+      time: "6:00 PM",
+    },
+    {
+      number: 4,
+      title: "Intimate Set",
+      date: "Sep 3",
+      venue: "Joe's Pub",
+      price: "$25",
+      time: "8:00 PM",
+    },
+    {
+      number: 5,
+      title: "Outdoor Concert",
+      date: "Sep 10",
+      venue: "Prospect Park",
+      price: "$50",
+      time: "7:00 PM",
+    },
+  ];
+
+  const supportArtists = ["Luna Moon", "Echo Valley", "Midnight Sun"];
+
+  // Filter function for concerts
+  const filterItems = (items, searchTerm) => {
+    if (!searchTerm.trim()) return items;
+    
+    return items.filter(item => {
+      const searchLower = searchTerm.toLowerCase();
+      // For concerts
+      return item.title.toLowerCase().includes(searchLower) || 
+             item.venue.toLowerCase().includes(searchLower) ||
+             item.date.toLowerCase().includes(searchLower);
+    });
+  };
+
+
+  // Get filtered data
+  const filteredTickets = filterItems(yourTickets, searchValue);
+  const filteredConcerts = filterItems(concertsNearYou, searchValue);
+
   return (
     <div
       style={{
@@ -46,48 +180,7 @@ export default function HomePage() {
                 marginTop: "20px",
               }}
             >
-              {[
-                {
-                  name: "Luna Moon",
-                  description:
-                    "Indie rock band known for dreamy melodies and atmospheric soundscapes",
-                },
-                {
-                  name: "Echo Valley",
-                  description:
-                    "Alternative rock group with haunting vocals and experimental instrumentation",
-                },
-                {
-                  name: "Midnight Sun",
-                  description:
-                    "Electronic music producer creating ambient and downtempo tracks",
-                },
-                {
-                  name: "River Stone",
-                  description:
-                    "Folk singer-songwriter with acoustic guitar and heartfelt storytelling",
-                },
-                {
-                  name: "Urban Beat",
-                  description:
-                    "Hip hop artist blending street poetry with modern production",
-                },
-                {
-                  name: "Crystal Clear",
-                  description:
-                    "Pop sensation with catchy hooks and vibrant energy",
-                },
-                {
-                  name: "Deep Forest",
-                  description:
-                    "Ambient music creator specializing in nature-inspired soundscapes",
-                },
-                {
-                  name: "City Lights",
-                  description:
-                    "Jazz ensemble bringing smooth melodies and improvisational flair",
-                },
-              ].map((artist, index) => (
+              {followedArtists.map((artist, index) => (
                 <SidebarArtistSquare
                   key={index}
                   artistName={artist.name}
@@ -139,32 +232,7 @@ export default function HomePage() {
               paddingBottom: "8px",
             }}
           >
-            {[
-              {
-                number: 1,
-                title: "Summer Festival",
-                date: "July 15",
-                venue: "Central Park",
-                price: "$45",
-                time: "7:00 PM",
-              },
-              {
-                number: 2,
-                title: "Acoustic Night",
-                date: "July 22",
-                venue: "Blue Note",
-                price: "$35",
-                time: "8:30 PM",
-              },
-              {
-                number: 3,
-                title: "Rock Concert",
-                date: "Aug 5",
-                venue: "Madison Square",
-                price: "$75",
-                time: "8:00 PM",
-              },
-            ].map((ticket) => (
+            {filteredTickets.map((ticket) => (
               <ConcertSquare
                 key={ticket.number}
                 concertNumber={ticket.number}
@@ -188,48 +256,7 @@ export default function HomePage() {
               paddingBottom: "8px",
             }}
           >
-            {[
-              {
-                number: 1,
-                title: "Jazz Session",
-                date: "Aug 12",
-                venue: "Birdland",
-                price: "$40",
-                time: "9:00 PM",
-              },
-              {
-                number: 2,
-                title: "Indie Show",
-                date: "Aug 20",
-                venue: "Bowery Ballroom",
-                price: "$30",
-                time: "7:30 PM",
-              },
-              {
-                number: 3,
-                title: "Festival Finale",
-                date: "Aug 28",
-                venue: "Governors Island",
-                price: "$60",
-                time: "6:00 PM",
-              },
-              {
-                number: 4,
-                title: "Intimate Set",
-                date: "Sep 3",
-                venue: "Joe's Pub",
-                price: "$25",
-                time: "8:00 PM",
-              },
-              {
-                number: 5,
-                title: "Outdoor Concert",
-                date: "Sep 10",
-                venue: "Prospect Park",
-                price: "$50",
-                time: "7:00 PM",
-              },
-            ].map((concert) => (
+            {filteredConcerts.map((concert) => (
               <ConcertSquare
                 key={concert.number}
                 concertNumber={concert.number}
@@ -263,11 +290,7 @@ export default function HomePage() {
                 flexWrap: "wrap",
               }}
             >
-              {[
-                "Luna Moon",
-                "Echo Valley", 
-                "Midnight Sun"
-              ].map((artistName) => (
+              {supportArtists.map((artistName) => (
                 <MainButton
                   key={artistName}
                   onClick={() => console.log(`Clicked on ${artistName}`)}
@@ -277,7 +300,7 @@ export default function HomePage() {
               ))}
             </div>
 
-            <h1>hi</h1>
+           
           <div className="main-content"></div>
           {/* <Footer>
             <div style={{ marginTop: '10px', fontSize: '14px', color: '#ccc' }}>
