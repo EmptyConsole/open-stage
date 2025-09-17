@@ -5,6 +5,7 @@ import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
 import MainContentHeader from "../components/MainContentHeader";
+import Link from "next/link";
 // import Footer from "../components/footer";
 let tickets = [
     { title: 'Ticket 1', description: 'Description for ticket 1.' },
@@ -191,7 +192,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     </p>
   </div>
 
-  <MainContentHeader>Artist Overview</MainContentHeader>
+  <MainContentHeader >Artist Overview</MainContentHeader>
   <div
     style={{
       background: '#fff',
@@ -226,7 +227,11 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     </div>
     <div style={{ flex: 1, minWidth: 0 }}>
       <h3 style={{ margin: '0 0 8px 0', color: '#1976d2', fontWeight: 'bold', fontSize: '22px' }}>
-        {clickedTicket ? clickedTicket.title : 'Select an Artist'}
+        {clickedTicket ? (
+          <Link href="/artistsprofiles" style={{ color: '#1976d2', textDecoration: 'underline' }}>
+            {clickedTicket.title}
+          </Link>
+        ) : 'Select an Artist'}
       </h3>
       <p style={{ margin: 0, color: '#333', fontSize: '16px', lineHeight: '1.5' }}>
         {clickedTicket ? clickedTicket.description : 'Choose a ticket on the left to view the artist\'s description and details.'}
