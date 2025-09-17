@@ -9,7 +9,7 @@ import ConcertSquare from "./components/ConcertSquare";
 import MainContentHeader from "./components/MainContentHeader";
 import MainButton from "./components/MainButton";
 import React, { useState, useEffect } from "react";
-import { getUsers, getArtists } from "./viewtickets/util/users";
+import { getUsers, getArtists } from "../../util/users";
 
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");

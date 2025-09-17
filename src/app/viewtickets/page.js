@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import "@/app/globals.css";
-import { names,  hobbyDescriptions } from "@/app/viewtickets/holder";
+import { names,  hobbyDescriptions } from "./holder";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
 import MainContentHeader from "../components/MainContentHeader";
