@@ -1,5 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
 import Header from "../components/Header";
@@ -9,15 +10,44 @@ import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
 import MainContentHeader from "../components/MainContentHeader";
 import MainButton from "../components/MainButton";
+import { getArtists } from "../../../util/users";
 
-export default function HomePage() {
+export default function ArtistProfilePage() {
   const [isFollowing, setIsFollowing] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [hoveredType, setHoveredType] = useState(null);
+  const [currentArtist, setCurrentArtist] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const artistId = searchParams.get('id');
 
   const toggleFollow = () => {
     setIsFollowing(!isFollowing);
   };
+
+  // Fetch artist data based on ID
+  useEffect(() => {
+    const fetchArtistData = async () => {
+      try {
+        setLoading(true);
+        const artists = await getArtists();
+        const artist = artists.find(a => a.id === artistId);
+        setCurrentArtist(artist || { name: 'Unknown Artist', description: 'Artist not found' });
+      } catch (error) {
+        console.error("Error fetching artist data:", error);
+        setCurrentArtist({ name: 'Error', description: 'Failed to load artist data' });
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    if (artistId) {
+      fetchArtistData();
+    } else {
+      setCurrentArtist({ name: 'No Artist Selected', description: 'Please select an artist from the sidebar' });
+      setLoading(false);
+    }
+  }, [artistId]);
 
   const handleItemHover = (item, type) => {
     setHoveredItem(item);
@@ -91,7 +121,7 @@ export default function HomePage() {
                     textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
                   }}
                 >
-                  Tooffu
+                  {loading ? 'Loading...' : (currentArtist?.name || 'Unknown Artist')}
                 </div>
                 <FollowButton
                   isFollowing={isFollowing}
@@ -106,7 +136,7 @@ export default function HomePage() {
                   textAlign: "left",
                 }}
               >
-                description...
+                {loading ? 'Loading description...' : (currentArtist?.description || 'No description available')}
               </p>
             </div>
 
@@ -131,7 +161,7 @@ export default function HomePage() {
                   background: "none",
                 }}
               >
-                One small step for you, one giant leap for Tooffu.
+                One small step for you, one giant leap for {currentArtist?.name || 'this artist'}.
               </p>
               <MainButton>
                 Help Support!
@@ -555,7 +585,7 @@ export default function HomePage() {
                   lineHeight: "1.5",
                 }}
               >
-                Join Tooffu for an unforgettable{" "}
+                Join {currentArtist?.name || 'this artist'} for an unforgettable{" "}
                 {hoveredItem.title.toLowerCase()} experience. This special event
                 promises to deliver an amazing night of music and entertainment.
               </p>

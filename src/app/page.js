@@ -169,6 +169,7 @@ export default function HomePage() {
                     key={artist.id || index}
                     artistName={artist.name}
                     description={artist.description}
+                    artistId={artist.id}
                     onClick={() => console.log(`Clicked on ${artist.name}`)}
                   />
                 ))
