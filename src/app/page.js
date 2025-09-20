@@ -153,14 +153,10 @@ export default function HomePage() {
                 followedArtists.map((artist, index) => (
                   <Link
                     key={artist.id || index}
-                    href={`/artistsprofiles/${artist.id || index}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <SidebarArtistSquare
-                      artistName={artist.name}
-                      description={artist.description}
-                    />
-                  </Link>
+                    artistName={artist.name}
+                    description={artist.description}
+                    onClick={() => console.log(`Clicked on ${artist.name}`)}
+                  />
                 ))
               ) : (
                 <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>

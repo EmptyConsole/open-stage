@@ -1,7 +1,22 @@
-export default function SidebarArtistSquare({ artistName, description, onClick }) {
+"use client";
+import { useRouter } from 'next/navigation';
+
+export default function SidebarArtistSquare({ artistName, description, artistId, onClick }) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+    // Navigate to artist profile page with artist ID
+    if (artistId) {
+      router.push(`/artistsprofiles?id=${artistId}`);
+    }
+  };
+
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       style={{
         display: 'flex',
         alignItems: 'center',
