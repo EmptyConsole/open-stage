@@ -1,15 +1,15 @@
 "use client";
-import styles from "./page.module.css";
+// import styles from "./page.module.css";
 import "./globals.css";
 import Sidebar from "./components/sidebar";
 import Header from "./components/Header";
 // import Footer from "./components/footer";
-import SidebarArtistSquare from "./components/SidebarArtistSquare";
+// import SidebarArtistSquare from "./components/SidebarArtistSquare";
 import ConcertSquare from "./components/ConcertSquare";
 import MainContentHeader from "./components/MainContentHeader";
 import MainButton from "./components/MainButton";
 import React, { useState, useEffect } from "react";
-import { getUsers, getArtists } from "../../util/users";
+import { getArtists } from "../../util/users";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -146,20 +146,49 @@ export default function HomePage() {
               }}
             >
               {loading ? (
-                <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: "#666",
+                    padding: "20px",
+                  }}
+                >
                   Loading artists...
                 </div>
               ) : followedArtists.length > 0 ? (
                 followedArtists.map((artist, index) => (
                   <Link
                     key={artist.id || index}
-                    artistName={artist.name}
-                    description={artist.description}
-                    onClick={() => console.log(`Clicked on ${artist.name}`)}
-                  />
+                    href={`/artist/${artist.id || index}`}
+                    style={{
+                      display: "block",
+                      padding: "8px 12px",
+                      borderRadius: "8px",
+                      background: "#fff",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                      color: "#1976d2",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      console.log(`Clicked on ${artist.name}`)
+                    }
+                  >
+                    <div>{artist.name}</div>
+                    <div style={{ fontSize: "12px", color: "#666" }}>
+                      {artist.description}
+                    </div>
+                  </Link>
                 ))
               ) : (
-                <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
+                <div
+                  style={{
+                    textAlign: "center",
+                    color: "#666",
+                    padding: "20px",
+                  }}
+                >
                   No artists found
                 </div>
               )}
