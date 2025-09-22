@@ -1,33 +1,40 @@
 "use client";
-// import styles from "./page.module.css";
+import styles from "./page.module.css";
 import "./globals.css";
 import Sidebar from "./components/sidebar";
 import Header from "./components/Header";
 // import Footer from "./components/footer";
-// import SidebarArtistSquare from "./components/SidebarArtistSquare";
+import SidebarArtistSquare from "./components/SidebarArtistSquare";
 import ConcertSquare from "./components/ConcertSquare";
 import MainContentHeader from "./components/MainContentHeader";
 import MainButton from "./components/MainButton";
 import React, { useState, useEffect } from "react";
-import { getArtists } from "../../util/users";
-import Link from "next/link";
+import { getUsers, getArtists } from "../../util/users";
 
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
   const [followedArtists, setFollowedArtists] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Example: Fetch followed artists on mount (replace with your logic)
+  // Call getUsers and getArtists when component mounts
   useEffect(() => {
-    async function fetchArtists() {
-      setLoading(true);
-      // Replace with your actual fetching logic
-      const artists = await getArtists();
-      setFollowedArtists(artists || []);
-      setLoading(false);
-    }
-    fetchArtists();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await getUsers();
+        const artists = await getArtists();
+        setFollowedArtists(artists);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchData();
   }, []);
+
+  // Data arrays
 
   const yourTickets = [
     {
@@ -103,12 +110,19 @@ export default function HomePage() {
 
   // Filter function for concerts
   const filterItems = (items, searchTerm) => {
-    if (!searchTerm) return items;
-    return items.filter((item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    if (!searchTerm.trim()) return items;
+    
+    return items.filter(item => {
+      const searchLower = searchTerm.toLowerCase();
+      // For concerts
+      return item.title.toLowerCase().includes(searchLower) || 
+             item.venue.toLowerCase().includes(searchLower) ||
+             item.date.toLowerCase().includes(searchLower);
+    });
   };
 
+
+  // Get filtered data
   const filteredTickets = filterItems(yourTickets, searchValue);
   const filteredConcerts = filterItems(concertsNearYou, searchValue);
 
@@ -146,87 +160,145 @@ export default function HomePage() {
               }}
             >
               {loading ? (
-                <div
-                  style={{
-                    textAlign: "center",
-                    color: "#666",
-                    padding: "20px",
-                  }}
-                >
+                <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
                   Loading artists...
                 </div>
               ) : followedArtists.length > 0 ? (
                 followedArtists.map((artist, index) => (
-                  <Link
+                  <SidebarArtistSquare
                     key={artist.id || index}
-                    href={`/artist/${artist.id || index}`}
-                    style={{
-                      display: "block",
-                      padding: "8px 12px",
-                      borderRadius: "8px",
-                      background: "#fff",
-                      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
-                      color: "#1976d2",
-                      textDecoration: "none",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
-                    onClick={() =>
-                      console.log(`Clicked on ${artist.name}`)
-                    }
-                  >
-                    <div>{artist.name}</div>
-                    <div style={{ fontSize: "12px", color: "#666" }}>
-                      {artist.description}
-                    </div>
-                  </Link>
+                    artistName={artist.name}
+                    description={artist.description}
+                    artistId={artist.id}
+                    onClick={() => console.log(`Clicked on ${artist.name}`)}
+                  />
                 ))
               ) : (
-                <div
-                  style={{
-                    textAlign: "center",
-                    color: "#666",
-                    padding: "20px",
-                  }}
-                >
+                <div style={{ textAlign: "center", color: "#666", padding: "20px" }}>
                   No artists found
                 </div>
               )}
             </div>
           </div>
         </Sidebar>
-        <main style={{ flex: 1, padding: "32px", overflowY: "auto" }}>
-          <MainContentHeader
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
+        <main
+          style={{
+            flex: 1,
+            padding: "32px",
+            display: "flex",
+            flexDirection: "column",
+            minWidth: 0,
+          }}
+        >
+          {/* Searchbar at the top */}
+          <input
+            type="text"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            placeholder="Search for concerts, artists, genres:"
+            style={{
+              padding: "12px 16px",
+              fontSize: "16px",
+              borderRadius: "8px",
+              border: "1px solid #ccc",
+              marginBottom: "24px",
+              outline: "none",
+              width: "100%",
+              boxSizing: "border-box",
+              background: "#fff",
+              color: "#000", // <-- Added to make text black
+            }}
           />
-          <section>
-            <h2>Your Tickets</h2>
-            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              {filteredTickets.map((ticket) => (
-                <ConcertSquare key={ticket.number} {...ticket} />
+          
+          {/* Your Tickets Section */}
+          <MainContentHeader>Your Tickets</MainContentHeader>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              marginBottom: "24px",
+              overflowX: "auto",
+              paddingBottom: "8px",
+            }}
+          >
+            {filteredTickets.map((ticket) => (
+              <ConcertSquare
+                key={ticket.number}
+                concertNumber={ticket.number}
+                title={ticket.title}
+                date={ticket.date}
+                venue={ticket.venue}
+                onClick={() => console.log(`Clicked on ${ticket.title}`)}
+              />
+            ))}
+          </div>
+
+          {/* Concerts Near You Section */}
+          <MainContentHeader>Concerts Near You</MainContentHeader>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "16px",
+              marginBottom: "24px",
+              overflowX: "auto",
+              paddingBottom: "8px",
+            }}
+          >
+            {filteredConcerts.map((concert) => (
+              <ConcertSquare
+                key={concert.number}
+                concertNumber={concert.number}
+                title={concert.title}
+                date={concert.date}
+                venue={concert.venue}
+                onClick={() => console.log(`Clicked on ${concert.title}`)}
+              />
+            ))}
+          </div>
+
+          {/* Support Section */}
+          <p
+            style={{
+              margin: "0 0 8px 0",
+              color: "#333",
+              fontSize: "14px",
+              textAlign: "left",
+            }}
+          >
+            Loved your latest concert?
+          </p>
+            <MainContentHeader>Help Support!</MainContentHeader>
+
+            {/* Recent Artists Buttons */}
+            <div
+              style={{
+                display: "flex",
+                gap: "12px",
+                marginBottom: "24px",
+                flexWrap: "wrap",
+              }}
+            >
+              {supportArtists.map((artistName) => (
+                <MainButton
+                  key={artistName}
+                  onClick={() => console.log(`Clicked on ${artistName}`)}
+                >
+                  {artistName}
+                </MainButton>
               ))}
             </div>
-          </section>
-          <section style={{ marginTop: "40px" }}>
-            <h2>Concerts Near You</h2>
-            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              {filteredConcerts.map((concert) => (
-                <ConcertSquare key={concert.number} {...concert} />
-              ))}
+
+           
+          <div className="main-content"></div>
+          {/* <Footer>
+            <div style={{ marginTop: '10px', fontSize: '14px', color: '#ccc' }}>
+              Built with Next.js and React. 
             </div>
-          </section>
-          <section style={{ marginTop: "40px" }}>
-            <h2>Support Artists</h2>
-            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
-              {supportArtists.map((artist, idx) => (
-                <MainButton key={idx} label={`Support ${artist}`} />
-              ))}
-            </div>
-          </section>
+          </Footer> */}
         </main>
       </div>
-      {/* <Footer /> */}
     </div>
   );
 }
