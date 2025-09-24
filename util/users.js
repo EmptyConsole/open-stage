@@ -50,13 +50,6 @@ const createUser = async (email, password, displayName, userType) => {
       throw new Error("Firebase Auth is not initialized. Please check your Firebase configuration.");
     }
     
-    // Additional check for auth configuration
-    if (!auth.app) {
-      throw new Error("Firebase Auth app is not available. This usually means Authentication is not enabled in your Firebase project.");
-    }
-    
-    console.log("Proceeding with user creation...");
-    
     // Create user with Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
