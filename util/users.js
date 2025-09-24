@@ -1,5 +1,6 @@
-import { firestore } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { firestore, auth } from "./firebase";
+import { collection, getDocs, addDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const getUsers = async () => {
   const usersCollection = collection(firestore, "users");
@@ -38,4 +39,43 @@ const getArtists = async () => {
   }
 };
 
-export { getUsers, getArtists };
+const createUser = async (email, password, displayName, userType) => {
+  try {
+    console.log("Attempting to create user with email:", email);
+    console.log("Auth object:", auth);
+    
+    // Create user with Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    
+    console.log("User created successfully:", user.uid);
+    
+    // Update user profile with display name
+    await updateProfile(user, {
+      displayName: displayName
+    });
+    
+    console.log("Profile updated with display name:", displayName);
+    
+    // Add user data to Firestore
+    await addDoc(collection(firestore, "users"), {
+      uid: user.uid,
+      email: email,
+      displayName: displayName,
+      userType: userType, // 'musician' or 'audience'
+      createdAt: new Date(),
+      profileComplete: false
+    });
+    
+    console.log("User data saved to Firestore");
+    
+    return { success: true, user: user };
+  } catch (error) {
+    console.error("Error creating user:", error);
+    console.error("Error code:", error.code);
+    console.error("Error message:", error.message);
+    return { success: false, error: error.message };
+  }
+};
+
+export { getUsers, getArtists, createUser };

@@ -1,6 +1,14 @@
+"use client";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    router.push("/signin");
+  };
   return (
     // The header is fixed at the top. Add paddingTop: 72px (header height) to your main layout or page content to prevent overlap.
     <div
@@ -24,7 +32,7 @@ export default function Header() {
         maxHeight: "72px",
       }}
     >
-      <Link href="/" style={{ color: "white", textDecoration: "none", fontSize: "30px", fontWeight: "bold" }}>
+      <Link href="/dashboard" style={{ color: "white", textDecoration: "none", fontSize: "30px", fontWeight: "bold" }}>
         OpenStage
       </Link>
       <div style={{
@@ -48,6 +56,29 @@ export default function Header() {
         <Link href="/aboutus" style={{ color: "white", textDecoration: "none", fontSize: "18px", fontWeight: "bold" }}>
           About Us
         </Link>
+        <button 
+          onClick={handleLogout}
+          style={{ 
+            color: "white", 
+            textDecoration: "none", 
+            fontSize: "18px", 
+            fontWeight: "bold",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            transition: "background-color 0.2s ease"
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = "transparent";
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

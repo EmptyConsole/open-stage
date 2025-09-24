@@ -23,7 +23,7 @@ export default function SignInPage() {
       if (email && password) {
         // Store user session (you can implement actual auth here)
         localStorage.setItem("user", JSON.stringify({ email, name: email.split("@")[0] }));
-        router.push("/");
+        router.push("/dashboard");
       } else {
         setError("Please fill in all fields");
       }
@@ -93,12 +93,20 @@ export default function SignInPage() {
           >
             {isLoading ? "Signing In..." : "Sign In"}
           </button>
+
+          <div className="divider">
+            <span>or</span>
+          </div>
+
+          <a href="/signup" className="create-account-button">
+            Create New Account
+          </a>
         </form>
 
         <div className="signin-footer">
           <p>
             Don't have an account?{" "}
-            <a href="#" className="signup-link">
+            <a href="/signup" className="signup-link">
               Sign up here
             </a>
           </p>
