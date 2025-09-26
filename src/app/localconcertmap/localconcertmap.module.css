@@ -20,7 +20,7 @@
 .sidebarTitle {
 	font-size: 1.3rem;
 	margin-bottom: 1.5rem;
-	color: #22223b;
+	color: var(--bg-header-alt);
 }
 .concertList {
 	list-style: none;
@@ -44,7 +44,7 @@
 }
 .concertCoords {
 	font-size: 0.9rem;
-	color: #22223b;
+	color: var(--bg-header-alt);
 }
 .header_main {
 	flex: 1;
@@ -52,8 +52,8 @@
 	flex-direction: column;
 }
 .headerContainer {
-	background: #22223b;
-	color: #fff;
+	background: var(--bg-header-alt);
+	color: white;
 	padding: 1.5rem 2rem 0.5rem 2rem;
 	font-size: 2rem;
 	font-weight: bold;

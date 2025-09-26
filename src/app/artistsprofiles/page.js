@@ -454,29 +454,29 @@ export default function ArtistProfilePage() {
                   gap: "16px",
                   marginBottom: "16px",
                   fontSize: "16px",
-                  color: "#111", // darker, stronger text
+                  color: "#333", // darker, stronger text
                 }}
               >
                 <div>
-                  <span style={{ fontWeight: 600, color: "#1976d2" }}>
+                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
                     Date:
                   </span>{" "}
                   {hoveredItem.date}
                 </div>
                 <div>
-                  <span style={{ fontWeight: 600, color: "#1976d2" }}>
+                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
                     Time:
                   </span>{" "}
                   {hoveredItem.time}
                 </div>
                 <div>
-                  <span style={{ fontWeight: 600, color: "#1976d2" }}>
+                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
                     Venue:
                   </span>{" "}
                   {hoveredItem.venue}
                 </div>
                 <div>
-                  <span style={{ fontWeight: 600, color: "#1976d2" }}>
+                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
                     Price:
                   </span>{" "}
                   {hoveredItem.price}
