@@ -3,15 +3,13 @@ import styles from "../page.module.css";
 import "../globals.css";
 import Sidebar from "../components/sidebar";
 import Header from "../components/Header";
-// import Footer from "../components/footer";
-import SidebarArtistSquare from "../components/SidebarArtistSquare";
-import ConcertSquare from "../components/ConcertSquare";
+// import Footer from "./components/footer";
 import MainContentHeader from "../components/MainContentHeader";
-import MainButton from "../components/MainButton";
 import React, { useState, useEffect } from "react";
 import { getUsers, getArtists } from "../../../util/users";
+import { colors } from "../styles/colors";
 
-export default function DashboardPage() {
+export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
   const [followedArtists, setFollowedArtists] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,239 +32,184 @@ export default function DashboardPage() {
     fetchData();
   }, []);
 
-  // Data arrays
-
-  const yourTickets = [
-    {
-      number: 1,
-      title: "Summer Festival",
-      date: "July 15",
-      venue: "Central Park",
-      price: "$45",
-      time: "7:00 PM",
-    },
-    {
-      number: 2,
-      title: "Acoustic Night",
-      date: "July 22",
-      venue: "Blue Note",
-      price: "$35",
-      time: "8:30 PM",
-    },
-    {
-      number: 3,
-      title: "Rock Concert",
-      date: "Aug 5",
-      venue: "Madison Square",
-      price: "$75",
-      time: "8:00 PM",
-    },
-  ];
-
-  const concertsNearYou = [
-    {
-      number: 1,
-      title: "Jazz Session",
-      date: "July 18",
-      venue: "Birdland",
-      price: "$40",
-      time: "9:00 PM",
-    },
-    {
-      number: 2,
-      title: "Indie Show",
-      date: "July 25",
-      venue: "Bowery Ballroom",
-      price: "$30",
-      time: "7:30 PM",
-    },
-    {
-      number: 3,
-      title: "Festival Finale",
-      date: "Aug 8",
-      venue: "Governors Island",
-      price: "$60",
-      time: "6:00 PM",
-    },
-    {
-      number: 4,
-      title: "Intimate Set",
-      date: "Aug 15",
-      venue: "Joe's Pub",
-      price: "$25",
-      time: "8:00 PM",
-    },
-    {
-      number: 5,
-      title: "Outdoor Concert",
-      date: "Aug 22",
-      venue: "Prospect Park",
-      price: "$50",
-      time: "7:00 PM",
-    },
-  ];
 
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        minHeight: "100vh",
+        height: "100vh",
         background: "#f5f5f5",
-        overflow: "auto",
+        overflow: "hidden",
       }}
     >
       <Header />
-      <div
-        style={{
-          display: "flex",
-          flex: 1,
-          height: "calc(100vh - 60px)",
-          overflow: "hidden",
-        }}
-      >
+      <div style={{ display: "flex", flex: 1 }}>
         <Sidebar>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              height: "100%",
-            }}
-          >
-            {/* Search Bar */}
-            <div
-              style={{
-                marginBottom: "20px",
-                padding: "0 16px",
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Search artists, concerts..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "12px 16px",
-                  border: "2px solid #e0e0e0",
-                  borderRadius: "8px",
-                  fontSize: "14px",
-                  outline: "none",
-                  transition: "border-color 0.2s ease",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#1976d2";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "#e0e0e0";
-                }}
-              />
+          <div style={{ marginTop: '-40px'}}>
+            <div style={{ marginLeft: '-100px'}}>
+              <MainContentHeader>Followed Artists</MainContentHeader>
             </div>
-
-            {/* Followed Artists Section */}
-            <div
+            <input
+              type="text"
+              placeholder="Search artists..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
               style={{
-                flex: 1,
-                overflowY: "auto",
-                padding: "0 16px",
+                color: colors.black,
+                padding: '8px',
+                border: `1px solid ${colors.border}`,
+                borderRadius: '6px',
+                margin: '0 0 24px 0',
+                fontSize: '14px',
+                outline: 'none',
+                width: '100%',
+                boxSizing: 'border-box',
               }}
-            >
-              <h3
-                style={{
-                  margin: "0 0 16px 0",
-                  color: "#333",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                }}
-              >
-                Followed Artists
-              </h3>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px",
-                }}
-              >
-                {loading ? (
-                  <div style={{ textAlign: "center", color: "#666" }}>
-                    Loading artists...
+            />
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '24px' }}>
+              {loading ? (
+                <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
+                  Loading artists...
+                </div>
+              ) : followedArtists.length > 0 ? (
+                followedArtists.map((artist, index) => (
+                  <div
+                    key={artist.id || index}
+                    onClick={() => console.log(`Clicked on ${artist.name}`)}
+                    style={{
+                      background: colors.lightGray,
+                      borderRadius: '8px',
+                      padding: '16px',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
+                      transition: 'background 0.2s ease, box-shadow 0.2s ease',
+                      cursor: 'pointer'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.background = colors.lightBlue;
+                      e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.background = colors.lightGray;
+                      e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.04)';
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      {/* Image placeholder */}
+                      <div
+                        style={{
+                          width: '80px',
+                          height: '80px',
+                          background: colors.lightGray,
+                          borderRadius: '8px',
+                          border: `2px dashed ${colors.border}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: colors.textLight,
+                          fontSize: '10px',
+                          flexShrink: 0,
+                        }}
+                      >
+                        Image
+                      </div>
+                      
+                      {/* Text content */}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <h3 style={{ margin: '0 0 4px 0', color: colors.primary, fontWeight: 'bold', fontSize: '14px', textAlign: 'left' }}>{artist.name}</h3>
+                        <p style={{ margin: 0, color: colors.textPrimary, fontSize: '12px', textAlign: 'left', lineHeight: '1.3' }}>{artist.description}</p>
+                      </div>
+                    </div>
                   </div>
-                ) : followedArtists.length > 0 ? (
-                  followedArtists.slice(0, 5).map((artist, index) => (
-                    <SidebarArtistSquare
-                      key={artist.id || index}
-                      artistNumber={index + 1}
-                      title={artist.name}
-                      onClick={() => {
-                        console.log(`Clicked on ${artist.name}`);
-                      }}
-                    />
-                  ))
-                ) : (
-                  <div style={{ textAlign: "center", color: "#666" }}>
-                    No artists followed yet
-                  </div>
-                )}
-              </div>
+                ))
+              ) : (
+                <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
+                  No artists found
+                </div>
+              )}
             </div>
           </div>
         </Sidebar>
-        <main
-          style={{
-            flex: 1,
-            padding: "32px",
-            display: "flex",
-            flexDirection: "column",
-            minWidth: 0,
-            overflow: "auto",
-          }}
-        >
+        <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <MainContentHeader>Your Tickets</MainContentHeader>
-
           <div
             style={{
-              display: "flex",
-              gap: "16px",
-              marginBottom: "32px",
-              overflowX: "auto",
-              paddingBottom: "8px",
+              background: colors.primary,
+              color: colors.white,
+              padding: '24px 32px',
+              borderRadius: '8px',
+              marginBottom: '24px',
+              fontSize: '34px',
+              fontWeight: 'bold',
+              width: '100%',
+              boxSizing: 'border-box',
+              display: 'flex',
+              alignItems: 'center',
+              height: '72px',
             }}
           >
-            {yourTickets.map((ticket) => (
-              <ConcertSquare
-                key={ticket.number}
-                concertNumber={ticket.number}
-                title={ticket.title}
-                date={ticket.date}
-                venue={ticket.venue}
-                onClick={() => console.log(`Clicked on ${ticket.title}`)}
-              />
-            ))}
+            Your Concert Tickets
           </div>
 
-          <MainContentHeader>Concerts Near You</MainContentHeader>
-
+          <MainContentHeader>Concert Details</MainContentHeader>
           <div
             style={{
-              display: "flex",
-              gap: "16px",
-              marginBottom: "24px",
-              overflowX: "auto",
-              paddingBottom: "8px",
+              background: colors.white,
+              padding: '24px',
+              borderRadius: '8px',
+              marginBottom: '24px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
             }}
           >
-            {concertsNearYou.map((concert) => (
-              <ConcertSquare
-                key={concert.number}
-                concertNumber={concert.number}
-                title={concert.title}
-                date={concert.date}
-                venue={concert.venue}
-                onClick={() => console.log(`Clicked on ${concert.title}`)}
-              />
-            ))}
+            <p style={{ color: colors.textPrimary, fontSize: '16px', lineHeight: '1.5', margin: 0 }}>
+              Welcome to your concert dashboard! Here you'll find all your upcoming events, ticket details, and concert information. Select a ticket from the sidebar to view specific details.
+            </p>
           </div>
+
+          <MainContentHeader>Artist Overview</MainContentHeader>
+          <div
+            style={{
+              background: colors.white,
+              padding: '24px 28px',
+              borderRadius: '8px',
+              marginBottom: '24px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '20px',
+              minHeight: '140px',
+              width: '100%',
+              boxSizing: 'border-box',
+            }}
+          >
+            <div
+              style={{
+                width: '120px',
+                height: '120px',
+                background: colors.lightGray,
+                borderRadius: '8px',
+                border: `2px dashed ${colors.border}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: colors.textLight,
+                fontSize: '12px',
+                flexShrink: 0,
+              }}
+            >
+              Image
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <h3 style={{ margin: '0 0 8px 0', color: colors.primary, fontWeight: 'bold', fontSize: '22px' }}>
+                Select an Artist
+              </h3>
+              <p style={{ margin: 0, color: colors.textPrimary, fontSize: '16px', lineHeight: '1.5' }}>
+                Choose an artist from the sidebar to view their description and details.
+              </p>
+            </div>
+          </div>
+
         </main>
       </div>
     </div>
