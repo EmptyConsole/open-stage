@@ -1,6 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { colors } from '../styles/colors';
 
 export default function Header() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function Header() {
       style={{
         padding: "16px 32px",
         color: "white",
-        backgroundColor: "rgba(31, 70, 117, 1)",
+        backgroundColor: colors.header,
         fontSize: "30px",
         fontWeight: "bold",
         display: "flex",
@@ -36,24 +37,70 @@ export default function Header() {
         OpenStage
       </Link>
       <div style={{
-        // padding: "16px 32px",
-        color: "white",
-        backgroundColor: "rgba(31, 70, 117, 1)",
-        fontSize: "30px",
-        fontWeight: "bold",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        width: "30%",
-        // boxSizing: "border-box",
+        gap: "24px",
+        width: "40%",
       }}>
-        <Link href="/viewtickets" style={{ color: "white", textDecoration: "none", fontSize: "18px", fontWeight: "bold" }}>
+        <Link 
+          href="/viewtickets" 
+          style={{ 
+            color: "white", 
+            textDecoration: "none", 
+            fontSize: "18px", 
+            fontWeight: "bold",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            transition: "background-color 0.2s ease"
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = "transparent";
+          }}
+        >
           View Tickets
         </Link>
-        <Link href="/localconcertmap" style={{ color: "white", textDecoration: "none", fontSize: "18px", fontWeight: "bold" }}>
+        <Link 
+          href="/localconcertmap" 
+          style={{ 
+            color: "white", 
+            textDecoration: "none", 
+            fontSize: "18px", 
+            fontWeight: "bold",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            transition: "background-color 0.2s ease"
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = "transparent";
+          }}
+        >
           Nearby Concerts
         </Link>
-        <Link href="/aboutus" style={{ color: "white", textDecoration: "none", fontSize: "18px", fontWeight: "bold" }}>
+        <Link 
+          href="/aboutus" 
+          style={{ 
+            color: "white", 
+            textDecoration: "none", 
+            fontSize: "18px", 
+            fontWeight: "bold",
+            padding: "8px 16px",
+            borderRadius: "4px",
+            transition: "background-color 0.2s ease"
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = "transparent";
+          }}
+        >
           About Us
         </Link>
         <button 

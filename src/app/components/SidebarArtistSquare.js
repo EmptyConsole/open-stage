@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
+import { colors } from '../styles/colors';
 
 export default function SidebarArtistSquare({ artistName, description, artistId, onClick }) {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function SidebarArtistSquare({ artistName, description, artistId,
         backgroundColor: 'transparent',
       }}
       onMouseEnter={(e) => {
-        e.target.style.backgroundColor = '#dce6f1';
+        e.target.style.backgroundColor = colors.lightBlue;
       }}
       onMouseLeave={(e) => {
         e.target.style.backgroundColor = 'transparent';
@@ -39,14 +40,14 @@ export default function SidebarArtistSquare({ artistName, description, artistId,
         style={{
           width: '150px',
           height: '150px',
-          backgroundColor: '#f0f0f0',
-          border: '2px dashed #ccc',
+          backgroundColor: colors.lightGray,
+          border: `2px dashed ${colors.border}`,
           borderRadius: '4px',
           flexShrink: 0,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          color: '#999',
+          color: colors.textLight,
           fontSize: '12px',
         }}
       >
@@ -59,7 +60,7 @@ export default function SidebarArtistSquare({ artistName, description, artistId,
           style={{
             fontWeight: 'bold',
             fontSize: '18px',
-            color: '#333',
+            color: colors.textPrimary,
             marginBottom: '4px',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
@@ -73,7 +74,7 @@ export default function SidebarArtistSquare({ artistName, description, artistId,
             style={{
               fontWeight: 'normal',
               fontSize: '14px',
-              color: '#666',
+              color: colors.textSecondary,
               lineHeight: '1.3',
               overflow: 'hidden',
               textOverflow: 'ellipsis',

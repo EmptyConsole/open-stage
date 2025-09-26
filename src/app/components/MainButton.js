@@ -1,12 +1,13 @@
 import React from 'react';
+import { colors } from '../styles/colors';
 
 export default function MainButton({ children, onClick }) {
   return (
     <button
       onClick={onClick}
       style={{
-        background: "#1976d2",
-        color: "white",
+        background: colors.primary,
+        color: colors.white,
         border: "none",
         borderRadius: "6px",
         padding: "8px 16px",
@@ -16,10 +17,10 @@ export default function MainButton({ children, onClick }) {
         transition: "background-color 0.2s ease",
       }}
       onMouseEnter={(e) => {
-        e.target.style.backgroundColor = "#1565c0";
+        e.target.style.backgroundColor = colors.primaryHover;
       }}
       onMouseLeave={(e) => {
-        e.target.style.backgroundColor = "#1976d2";
+        e.target.style.backgroundColor = colors.primary;
       }}
     >
       {children}
