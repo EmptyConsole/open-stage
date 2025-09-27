@@ -6,6 +6,7 @@ import Header from "../components/Header";
 // import Footer from "./components/footer";
 import MainContentHeader from "../components/MainContentHeader";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { getUsers, getArtists } from "../../../util/users";
 import { colors } from "../styles/colors";
 
@@ -13,6 +14,8 @@ export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
   const [followedArtists, setFollowedArtists] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hoveredArtist, setHoveredArtist] = useState(null);
+  const router = useRouter();
 
   // Call getUsers and getArtists when component mounts
   useEffect(() => {
@@ -77,7 +80,12 @@ export default function HomePage() {
                 followedArtists.map((artist, index) => (
                   <div
                     key={artist.id || index}
-                    onClick={() => console.log(`Clicked on ${artist.name}`)}
+                    onClick={() => {
+                      console.log(`Clicked on ${artist.name}`);
+                      if (artist.id) {
+                        router.push(`/artistsprofiles?id=${artist.id}`);
+                      }
+                    }}
                     style={{
                       background: colors.lightGray,
                       borderRadius: '8px',
@@ -89,10 +97,12 @@ export default function HomePage() {
                     onMouseEnter={(e) => {
                       e.target.style.background = colors.lightBlue;
                       e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                      setHoveredArtist(artist);
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.background = colors.lightGray;
                       e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.04)';
+                      setHoveredArtist(null);
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -174,20 +184,21 @@ export default function HomePage() {
               padding: '24px 28px',
               borderRadius: '8px',
               marginBottom: '24px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+              boxShadow: hoveredArtist ? '0 4px 12px rgba(0,0,0,0.15)' : '0 2px 4px rgba(0,0,0,0.1)',
               display: 'flex',
               alignItems: 'center',
               gap: '20px',
               minHeight: '140px',
               width: '100%',
               boxSizing: 'border-box',
+              transition: 'box-shadow 0.2s ease',
             }}
           >
             <div
               style={{
                 width: '120px',
                 height: '120px',
-                background: colors.lightGray,
+                background: hoveredArtist ? colors.lightBlue : colors.lightGray,
                 borderRadius: '8px',
                 border: `2px dashed ${colors.border}`,
                 display: 'flex',
@@ -196,16 +207,17 @@ export default function HomePage() {
                 color: colors.textLight,
                 fontSize: '12px',
                 flexShrink: 0,
+                transition: 'background 0.2s ease',
               }}
             >
-              Image
+              {hoveredArtist ? 'Artist' : 'Image'}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
               <h3 style={{ margin: '0 0 8px 0', color: colors.primary, fontWeight: 'bold', fontSize: '22px' }}>
-                Select an Artist
+                {hoveredArtist ? hoveredArtist.name : 'Select an Artist'}
               </h3>
               <p style={{ margin: 0, color: colors.textPrimary, fontSize: '16px', lineHeight: '1.5' }}>
-                Choose an artist from the sidebar to view their description and details.
+                {hoveredArtist ? hoveredArtist.description : 'Choose an artist from the sidebar to view their description and details.'}
               </p>
             </div>
           </div>

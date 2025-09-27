@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
 import Header from "../components/Header";
@@ -19,6 +19,7 @@ export default function ArtistProfilePage() {
   const [currentArtist, setCurrentArtist] = useState(null);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
+  const router = useRouter();
   const artistId = searchParams.get('id');
 
   const toggleFollow = () => {
@@ -361,6 +362,7 @@ export default function ArtistProfilePage() {
               {[
                 {
                   number: 1,
+                  id: "luna-moon",
                   title: "Luna Moon",
                   genre: "Indie Rock",
                   followers: "125K",
@@ -369,6 +371,7 @@ export default function ArtistProfilePage() {
                 },
                 {
                   number: 2,
+                  id: "echo-valley",
                   title: "Echo Valley",
                   genre: "Alternative",
                   followers: "89K",
@@ -377,6 +380,7 @@ export default function ArtistProfilePage() {
                 },
                 {
                   number: 3,
+                  id: "midnight-sun",
                   title: "Midnight Sun",
                   genre: "Electronic",
                   followers: "200K",
@@ -392,6 +396,9 @@ export default function ArtistProfilePage() {
                   onClick={() => {
                     console.log(`Clicked on ${artist.title}`);
                     setHoveredItem(null); // ✅ close popup when artist clicked
+                    if (artist.id) {
+                      router.push(`/artistsprofiles?id=${artist.id}`);
+                    }
                   }}
                 />
               ))}
