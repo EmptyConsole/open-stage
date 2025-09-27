@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
@@ -12,7 +12,7 @@ import MainContentHeader from "../components/MainContentHeader";
 import MainButton from "../components/MainButton";
 import { getArtists } from "../../../util/users";
 
-export default function ArtistProfilePage() {
+function ArtistProfileContent() {
   const [isFollowing, setIsFollowing] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [hoveredType, setHoveredType] = useState(null);
@@ -508,5 +508,26 @@ export default function ArtistProfilePage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function ArtistProfilePage() {
+  return (
+    <Suspense fallback={
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100vh",
+          background: "#f5f5f5",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ fontSize: "18px", color: "#666" }}>Loading artist profile...</div>
+      </div>
+    }>
+      <ArtistProfileContent />
+    </Suspense>
   );
 }
