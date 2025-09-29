@@ -102,7 +102,7 @@ export default function HomePage() {
                     onMouseLeave={(e) => {
                       e.target.style.background = colors.lightGray;
                       e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.04)';
-                      setHoveredArtist(null);
+                      // Don't clear hoveredArtist here - only change when hovering over a new artist
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
