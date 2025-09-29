@@ -38,10 +38,11 @@ export default function Header() {
       </Link>
       <div style={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         alignItems: "center",
-        gap: "24px",
-        width: "40%",
+        gap: "16px",
+        flex: "1",
+        minWidth: "0",
       }}>
         <Link 
           href="/viewtickets" 
