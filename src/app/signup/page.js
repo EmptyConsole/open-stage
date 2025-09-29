@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import "./signup.css";
+import "../styles/shared-background.css";
 import { createUser } from "../../../util/users";
 
 export default function SignUpPage() {
@@ -96,8 +97,8 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="signup-container">
-      <div className="signup-card">
+    <div className="auth-container">
+      <div className="auth-card">
         <div className="signup-header">
           <div className="logo">
             <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -222,5 +223,165 @@ export default function SignUpPage() {
         </div>
       </div>
     </div>
+
+    /* DAISYUI VERSION (COMMENTED OUT)
+    <div className="min-h-screen bg-base-200 flex items-center justify-center p-4">
+      <div className="card w-full max-w-md bg-base-100 shadow-xl">
+        <div className="card-body">
+          <div className="text-center mb-6">
+            <div className="flex justify-center mb-4">
+              <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="20" cy="8" rx="3" ry="2.5" fill="#1976d2"/>
+                <rect x="17" y="10.5" width="2" height="12" fill="#1976d2"/>
+                <rect x="18.5" y="10.5" width="1" height="8" fill="#1976d2"/>
+                <path d="M19.5 10.5 Q22 8 19.5 5.5" stroke="#1976d2" strokeWidth="1.5" fill="none"/>
+                <ellipse cx="12" cy="12" rx="2" ry="1.5" fill="#1976d2" opacity="0.7"/>
+                <rect x="10.5" y="13.5" width="1.5" height="8" fill="#1976d2" opacity="0.7"/>
+                <rect x="11.25" y="13.5" width="0.5" height="6" fill="#1976d2" opacity="0.7"/>
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-primary">Join Open Stage</h1>
+            <p className="text-base-content/70 mt-2">Create your account to discover concerts and connect with artists</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <div className="alert alert-error">
+                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
+
+            <div className="form-control">
+              <label className="label" htmlFor="displayName">
+                <span className="label-text">Full Name</span>
+              </label>
+              <input
+                type="text"
+                id="displayName"
+                name="displayName"
+                value={formData.displayName}
+                onChange={handleInputChange}
+                placeholder="Enter your full name"
+                className="input input-bordered"
+                required
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label" htmlFor="email">
+                <span className="label-text">Email Address</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                placeholder="Enter your email"
+                className="input input-bordered"
+                required
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label" htmlFor="password">
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                placeholder="Create a password (min. 6 characters)"
+                className="input input-bordered"
+                required
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label" htmlFor="confirmPassword">
+                <span className="label-text">Confirm Password</span>
+              </label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                placeholder="Confirm your password"
+                className="input input-bordered"
+                required
+                disabled={isLoading}
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">I am a...</span>
+              </label>
+              <div className="grid grid-cols-1 gap-3">
+                <div 
+                  className={`card bg-base-100 border-2 cursor-pointer transition-all duration-200 ${
+                    formData.userType === 'musician' ? 'border-primary bg-primary/5' : 'border-base-300 hover:border-primary/50'
+                  }`}
+                  onClick={() => handleUserTypeChange('musician')}
+                >
+                  <div className="card-body p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl">🎵</div>
+                      <div>
+                        <h3 className="font-semibold">Musician</h3>
+                        <p className="text-sm text-base-content/70">I create and perform music</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div 
+                  className={`card bg-base-100 border-2 cursor-pointer transition-all duration-200 ${
+                    formData.userType === 'audience' ? 'border-primary bg-primary/5' : 'border-base-300 hover:border-primary/50'
+                  }`}
+                  onClick={() => handleUserTypeChange('audience')}
+                >
+                  <div className="card-body p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="text-2xl">🎫</div>
+                      <div>
+                        <h3 className="font-semibold">Audience Member</h3>
+                        <p className="text-sm text-base-content/70">I enjoy discovering and attending concerts</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              className={`btn btn-primary w-full ${isLoading ? 'loading' : ''}`}
+              disabled={isLoading}
+            >
+              {isLoading ? "Creating Account..." : "Create Account"}
+            </button>
+          </form>
+
+          <div className="text-center mt-6">
+            <p className="text-sm text-base-content/70">
+              Already have an account?{" "}
+              <a href="/signin" className="link link-primary">
+                Sign in here
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    */
   );
 }

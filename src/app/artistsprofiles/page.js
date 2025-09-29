@@ -66,7 +66,7 @@ function ArtistProfileContent() {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        background: "#f5f5f5",
+        background: "var(--background-gradient)",
         overflow: "auto",
       }}
     >
@@ -101,8 +101,8 @@ function ArtistProfileContent() {
                 style={{
                   width: "100%",
                   height: "220px",
-                  background: "#f0f0f0",
-                  border: "2px dashed #ccc",
+                  background: "var(--background-secondary)",
+                  border: "2px dashed var(--border-dark)",
                   borderRadius: "0",
                   position: "relative",
                   display: "flex",
