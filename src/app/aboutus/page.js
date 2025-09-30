@@ -32,7 +32,7 @@ export default function AboutUs() {
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
             <Header />
             <div style={{ display: 'flex', flex: 1 }}>
-                <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
+                <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
                     {/* Main Title Section */}
                     <MainContentHeader>About Us</MainContentHeader>
                     <div

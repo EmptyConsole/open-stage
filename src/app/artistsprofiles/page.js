@@ -171,6 +171,7 @@ function ArtistProfileContent() {
           </div>
         </Sidebar>
         <main
+          className="main-content-background"
           style={{
             flex: 1,
             padding: "32px",
