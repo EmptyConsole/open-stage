@@ -6,8 +6,8 @@ export default function Sidebar({ children }) {
       style={{
         width: "330px",
         height: "100vh",
-        backgroundColor: colors.sidebarBackground,
-        boxShadow: "2px 0 5px rgba(0,0,0,0.05)",
+        backgroundColor: "var(--sidebar-background)",
+        boxShadow: "2px 0 8px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
         position: "relative",
         overflowY: "auto",
         overflowX: "hidden",

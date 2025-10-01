@@ -36,8 +36,7 @@ export const colors = {
   
   // Background colors
   background: '#f5f5f5',
-  cardBackground: '#ffffff',
-  sidebarBackground: '#badbf3ff'
+  cardBackground: '#ffffff'
 };
 
 // Helper function to get color with opacity
