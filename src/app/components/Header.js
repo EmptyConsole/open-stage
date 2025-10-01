@@ -33,7 +33,36 @@ export default function Header() {
         maxHeight: "72px",
       }}
     >
-      <Link href="/dashboard" style={{ color: "white", textDecoration: "none", fontSize: "30px", fontWeight: "bold" }}>
+      <Link 
+        href="/dashboard" 
+        style={{ 
+          color: "white", 
+          textDecoration: "none", 
+          fontSize: "30px", 
+          fontWeight: "bold",
+          display: "flex",
+          alignItems: "center",
+          gap: "2px",
+          padding: "8px 12px",
+          borderRadius: "6px",
+          transition: "background-color 0.2s ease"
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.backgroundColor = "transparent";
+        }}
+      >
+        <img 
+          src="/music-note.svg" 
+          alt="Music note" 
+          style={{ 
+            width: "36px", 
+            height: "36px",
+            filter: "brightness(0) invert(1)" // Makes the icon white
+          }} 
+        />
         OpenStage
       </Link>
       <div style={{

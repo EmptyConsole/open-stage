@@ -81,9 +81,9 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             style={{
-                                color: '#000000ff',
+                                color: '#1a1a1a',
                                 padding: '8px',
-                                border: '1px solid #5e5e5eff',
+                                border: '1px solid #666666',
                                 borderRadius: '6px',
                                 margin: '0 0 24px 0',
                                 fontSize: '14px',

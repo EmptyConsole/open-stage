@@ -59,9 +59,9 @@ export default function HomePage() {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               style={{
-                color: colors.black,
+                color: '#1a1a1a',
                 padding: '8px',
-                border: `1px solid ${colors.border}`,
+                border: '1px solid #666666',
                 borderRadius: '6px',
                 margin: '0 0 24px 0',
                 fontSize: '14px',

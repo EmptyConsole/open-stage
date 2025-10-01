@@ -31,7 +31,7 @@
   --card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
   
   /* Sidebar colors */
-  --sidebar-background: #f8f8f8; /* Lighter tint of background, closer to white */
+  --sidebar-background: #dce6f1; /* Light blue color for sidebar */
   
   /* Status colors */
   --success: #04aa6d;
@@ -46,25 +46,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --background-secondary: #1a1a1a;
-    --background-gradient: linear-gradient(135deg, #1a1a1a 0%, #0d47a1 100%);
-    --foreground: #ededed;
-    --text-primary: #ededed;
-    --text-secondary: #b0b0b0;
-    --text-light: #808080;
-    --card-background: #2a2a2a;
-    --border: #404040;
-    --border-light: #333333;
-    --border-dark: #555555;
-  }
-  
-  :root {
-    --sidebar-background: #2a2a2a; /* Lighter tint for dark mode, closer to card background */
-  }
-}
 
 html, body {
   background: var(--background);
