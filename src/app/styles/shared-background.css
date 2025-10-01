@@ -67,16 +67,7 @@
   }
 }
 
-.auth-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  width: 100%;
-  max-width: 500px;
-  position: relative;
-  z-index: 1;
-}
+/* Auth card styles are now handled in individual CSS files */
 
 /* Responsive design */
 @media (max-width: 600px) {
