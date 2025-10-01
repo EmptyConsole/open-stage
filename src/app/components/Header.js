@@ -82,7 +82,10 @@ export default function Header() {
             fontWeight: "bold",
             padding: "8px 16px",
             borderRadius: "4px",
-            transition: "background-color 0.2s ease"
+            transition: "background-color 0.2s ease",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px"
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
@@ -91,6 +94,9 @@ export default function Header() {
             e.target.style.backgroundColor = "transparent";
           }}
         >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M2 4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zm1 0v8h10V4H3zm2 1h6v1H5V5zm0 2h6v1H5V7zm0 2h4v1H5V9z"/>
+          </svg>
           View Tickets
         </Link>
         <Link 
@@ -102,7 +108,10 @@ export default function Header() {
             fontWeight: "bold",
             padding: "8px 16px",
             borderRadius: "4px",
-            transition: "background-color 0.2s ease"
+            transition: "background-color 0.2s ease",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px"
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
@@ -111,6 +120,9 @@ export default function Header() {
             e.target.style.backgroundColor = "transparent";
           }}
         >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM5.5 8a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0z"/>
+          </svg>
           Nearby Concerts
         </Link>
         <Link 
@@ -122,7 +134,10 @@ export default function Header() {
             fontWeight: "bold",
             padding: "8px 16px",
             borderRadius: "4px",
-            transition: "background-color 0.2s ease"
+            transition: "background-color 0.2s ease",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px"
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
@@ -131,6 +146,9 @@ export default function Header() {
             e.target.style.backgroundColor = "transparent";
           }}
         >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.93 5.428l-1 4.105c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+          </svg>
           About Us
         </Link>
         <button 
@@ -145,7 +163,10 @@ export default function Header() {
             cursor: "pointer",
             padding: "8px 16px",
             borderRadius: "4px",
-            transition: "background-color 0.2s ease"
+            transition: "background-color 0.2s ease",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px"
           }}
           onMouseEnter={(e) => {
             e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
@@ -154,6 +175,10 @@ export default function Header() {
             e.target.style.backgroundColor = "transparent";
           }}
         >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0v2z"/>
+            <path d="M.5 1a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H.5zM10.854 6.5a.5.5 0 0 1 0 .708L7.707 10l3.147 2.792a.5.5 0 0 1-.708.708l-3.5-3.5a.5.5 0 0 1 0-.708l3.5-3.5a.5.5 0 0 1 .708 0z"/>
+          </svg>
           Logout
         </button>
       </div>
