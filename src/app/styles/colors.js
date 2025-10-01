@@ -6,7 +6,7 @@ export const colors = {
   primaryActive: '#0d47a1',
   
   // Header blue (darker, intentional)
-  header: 'rgba(31, 70, 117, 1)',
+  header: 'rgba(16, 97, 196, 1)',
   headerHover: 'rgba(31, 70, 117, 0.9)',
   
   // Light blues for backgrounds and hover states
@@ -37,7 +37,7 @@ export const colors = {
   // Background colors
   background: '#f5f5f5',
   cardBackground: '#ffffff',
-  sidebarBackground: '#e0e0e0'
+  sidebarBackground: '#badbf3ff'
 };
 
 // Helper function to get color with opacity

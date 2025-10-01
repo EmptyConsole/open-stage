@@ -153,7 +153,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                         </div>
                     </div>
                 </Sidebar>
- <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+ <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
   <MainContentHeader>Selected Concert</MainContentHeader>
   <div
     style={{

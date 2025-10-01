@@ -141,7 +141,7 @@ export default function HomePage() {
             </div>
           </div>
         </Sidebar>
-        <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <MainContentHeader>Your Tickets</MainContentHeader>
           <div
             style={{
