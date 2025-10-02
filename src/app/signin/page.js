@@ -74,7 +74,7 @@ export default function AuthPage() {
       return false;
     }
     if (!signUpData.userType) {
-      setError("Please select whether you are a musician or audience member");
+      setError("Please select whether you are a musician, audience member, or venue");
       return false;
     }
     return true;
@@ -448,6 +448,16 @@ export default function AuthPage() {
                   <div className="user-type-content">
                     <h3>Audience Member</h3>
                     <p>I enjoy discovering and attending concerts</p>
+                  </div>
+                </div>
+                <div 
+                  className={`user-type-option ${signUpData.userType === 'venue' ? 'selected' : ''}`}
+                  onClick={() => handleUserTypeChange('venue')}
+                >
+                  <div className="user-type-icon">🏛️</div>
+                  <div className="user-type-content">
+                    <h3>Venue</h3>
+                    <p>I host concerts and events</p>
                   </div>
                 </div>
               </div>

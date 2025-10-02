@@ -68,7 +68,7 @@ const createUser = async (email, password, displayName, userType) => {
       uid: user.uid,
       email: email,
       displayName: displayName,
-      userType: userType, // 'musician' or 'audience'
+      userType: userType, // 'musician', 'audience', or 'venue'
       createdAt: new Date(),
       profileComplete: false
     });
