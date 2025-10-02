@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
-import Header from "../components/Header";
+import DynamicHeader from "../components/DynamicHeader";
 // import Footer from "../components/footer";
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
@@ -70,7 +70,7 @@ function ArtistProfileContent() {
         overflow: "auto",
       }}
     >
-      <Header />
+      <DynamicHeader />
       <div
         style={{
           display: "flex",

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import "@/app/globals.css";
 import { names,  hobbyDescriptions } from "./holder";
 import Sidebar from "../components/sidebar";
-import Header from "../components/Header";
+import DynamicHeader from "../components/DynamicHeader";
 import MainContentHeader from "../components/MainContentHeader";
 import Link from "next/link";
 // import Footer from "../components/footer";
@@ -68,7 +68,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'hidden'}}>
-            <Header />
+            <DynamicHeader />
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
                     <div style={{ marginTop: '-40px'}}>

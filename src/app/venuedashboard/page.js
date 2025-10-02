@@ -2,7 +2,7 @@
 import styles from "../page.module.css";
 import "../globals.css";
 import Sidebar from "../components/sidebar";
-import VenueHeader from "../components/VenueHeader";
+import DynamicHeader from "../components/DynamicHeader";
 import MainContentHeader from "../components/MainContentHeader";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -204,7 +204,7 @@ export default function VenueDashboard() {
         overflow: "auto",
       }}
     >
-      <VenueHeader />
+      <DynamicHeader />
       <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
         <Sidebar>
           <div style={{ marginTop: '-40px'}}>

@@ -2,7 +2,7 @@
 import styles from "../page.module.css";
 import "../globals.css";
 import Sidebar from "../components/sidebar";
-import Header from "../components/Header";
+import DynamicHeader from "../components/DynamicHeader";
 // import Footer from "./components/footer";
 import MainContentHeader from "../components/MainContentHeader";
 import React, { useState, useEffect } from "react";
@@ -109,7 +109,7 @@ export default function HomePage() {
         overflow: "hidden",
       }}
     >
-      <Header />
+      <DynamicHeader />
       <div style={{ display: "flex", flex: 1 }}>
         <Sidebar>
           <div style={{ marginTop: '-40px'}}>

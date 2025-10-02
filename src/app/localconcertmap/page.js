@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import styles from "./localconcertmap.module.css";
 import Sidebar from "../components/sidebar";
-import Header from "../components/Header";
+import DynamicHeader from "../components/DynamicHeader";
 // import Footer from "../components/footer";
 // import styles from "./src/app/globals.css"
 
@@ -42,7 +42,7 @@ export default function LocalConcertMapPage() {
         overflow: "auto",
       }}
     >
-      <Header />
+      <DynamicHeader />
       <div style={{ display: "flex", flex: 1 }}>
         <Sidebar>
           <div>

@@ -8,6 +8,7 @@ export default function VenueHeader() {
 
   const handleLogout = () => {
     localStorage.removeItem("user");
+    window.dispatchEvent(new CustomEvent('userLogout'));
     router.push("/signin");
   };
   

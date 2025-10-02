@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import "@/app/globals.css";
-import Header from "../components/Header";
+import DynamicHeader from "../components/DynamicHeader";
 import MainContentHeader from "../components/MainContentHeader";
 
 export default function AboutUs() {
@@ -30,7 +30,7 @@ export default function AboutUs() {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
-            <Header />
+            <DynamicHeader />
             <div style={{ display: 'flex', flex: 1 }}>
                 <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
                     {/* Main Title Section */}

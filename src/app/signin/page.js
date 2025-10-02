@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import "./signin.css";
 import "../styles/shared-background.css";
 import { createUser } from "../../../util/users";
+import { firestore } from "../../../util/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -13,6 +15,24 @@ export default function AuthPage() {
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
   const router = useRouter();
+
+  // Function to fetch user data from Firestore
+  const fetchUserData = async (email) => {
+    try {
+      const usersRef = collection(firestore, "users");
+      const q = query(usersRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0];
+        return userDoc.data();
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
+    }
+  };
 
   // Sign in state
   const [signInData, setSignInData] = useState({
@@ -91,12 +111,28 @@ export default function AuthPage() {
       
       // For demo purposes, accept any email/password
       if (signInData.email && signInData.password) {
-        // Store user session (you can implement actual auth here)
+        // Fetch user data from Firestore to get userType
+        const userData = await fetchUserData(signInData.email);
+        
+        // Store user session with userType
         localStorage.setItem("user", JSON.stringify({ 
           email: signInData.email, 
-          name: signInData.email.split("@")[0] 
+          name: userData?.displayName || signInData.email.split("@")[0],
+          userType: userData?.userType || 'general'
         }));
-        router.push("/dashboard");
+
+        // Dispatch custom event to notify header of user login
+        window.dispatchEvent(new CustomEvent('userLogin'));
+
+        // Redirect based on user type
+        const userType = userData?.userType || 'general';
+        if (userType === 'venue') {
+          router.push("/venuedashboard");
+        } else if (userType === 'musician') {
+          router.push("/artistcreateconcert");
+        } else {
+          router.push("/dashboard");
+        }
       } else {
         setError("Please fill in all fields");
       }
@@ -132,7 +168,18 @@ export default function AuthPage() {
           name: signUpData.displayName,
           userType: signUpData.userType
         }));
-        router.push("/dashboard");
+
+        // Dispatch custom event to notify header of user login
+        window.dispatchEvent(new CustomEvent('userLogin'));
+
+        // Redirect based on user type
+        if (signUpData.userType === 'venue') {
+          router.push("/venuedashboard");
+        } else if (signUpData.userType === 'musician') {
+          router.push("/artistcreateconcert");
+        } else {
+          router.push("/dashboard");
+        }
       } else {
         setError(result.error || "Sign up failed. Please try again.");
       }
