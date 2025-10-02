@@ -46,13 +46,13 @@ export default function VenueHeader() {
           gap: "2px",
           padding: "8px 12px",
           borderRadius: "6px",
-          transition: "background-color 0.2s ease"
+          transition: "transform 0.2s ease"
         }}
         onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+          e.currentTarget.style.transform = "scale(1.08)";
         }}
         onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "transparent";
+          e.currentTarget.style.transform = "scale(1)";
         }}
       >
         <img 
