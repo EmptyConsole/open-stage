@@ -141,9 +141,9 @@
 }
 
 .signin-button {
-  background: #1976d2;
-  color: white;
-  border: none;
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 2px solid #64b5f6;
   border-radius: 8px;
   padding: 14px 24px;
   font-size: 16px;
@@ -154,7 +154,7 @@
 }
 
 .signin-button:hover:not(:disabled) {
-  background: #1565c0;
+  background: #bbdefb;
 }
 
 .signin-button:disabled {
@@ -186,9 +186,9 @@
 
 .create-account-button {
   display: block;
-  background: #fff;
+  background: #e3f2fd;
   color: #1976d2;
-  border: 2px solid #1976d2;
+  border: 2px solid #64b5f6;
   border-radius: 8px;
   padding: 14px 24px;
   font-size: 16px;
@@ -201,8 +201,8 @@
 }
 
 .create-account-button:hover {
-  background: #1976d2;
-  color: white;
+  background: #bbdefb;
+  color: #1976d2;
 }
 
 .error-message {
@@ -419,9 +419,9 @@
 }
 
 .signup-button {
-  background: #1976d2;
-  color: white;
-  border: none;
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 2px solid #64b5f6;
   border-radius: 8px;
   padding: 14px 24px;
   font-size: 16px;
@@ -432,7 +432,7 @@
 }
 
 .signup-button:hover:not(:disabled) {
-  background: #1565c0;
+  background: #bbdefb;
 }
 
 .signup-button:disabled {

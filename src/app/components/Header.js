@@ -154,25 +154,25 @@ export default function Header() {
         <button 
           onClick={handleLogout}
           style={{ 
-            color: "white", 
+            color: "#d32f2f", 
             textDecoration: "none", 
-            fontSize: "18px", 
+            fontSize: "14px", 
             fontWeight: "bold",
-            background: "none",
-            border: "none",
+            background: "#ffebee",
+            border: "2px solid #d32f2f",
             cursor: "pointer",
-            padding: "8px 16px",
+            padding: "6px 12px",
             borderRadius: "4px",
             transition: "background-color 0.2s ease",
             display: "flex",
             alignItems: "center",
-            gap: "8px"
+            gap: "6px"
           }}
           onMouseEnter={(e) => {
-            e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+            e.target.style.backgroundColor = "#ffcdd2";
           }}
           onMouseLeave={(e) => {
-            e.target.style.backgroundColor = "transparent";
+            e.target.style.backgroundColor = "#ffebee";
           }}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
