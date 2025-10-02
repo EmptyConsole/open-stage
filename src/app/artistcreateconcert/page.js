@@ -206,13 +206,13 @@ export default function MusicianPage() {
                       cursor: 'pointer'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.background = colors.lightBlue;
-                      e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.background = colors.lightGray;
-                      e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.04)';
-                    }}
+                        e.currentTarget.style.background = colors.lightBlue;
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = colors.lightGray;
+                        e.currentTarget.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
+                      }}
                   >
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                       <h4 style={{ 
@@ -273,12 +273,13 @@ export default function MusicianPage() {
                           cursor: 'pointer',
                           fontWeight: '500'
                         }}
-                        onMouseEnter={(e) => {
-                          e.target.style.backgroundColor = '#ffcdd2';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = '#ffebee';
-                        }}
+                       onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#efaeaeff';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#ffebee';
+              }}
+
                       >
                         Delete
                       </button>
@@ -307,7 +308,7 @@ export default function MusicianPage() {
           
           {showForm ? (
             <div style={{
-              background: colors.white,
+              background: colors.lightBlue,
               padding: '32px',
               borderRadius: '8px',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -346,7 +347,8 @@ export default function MusicianPage() {
                         borderRadius: '6px',
                         fontSize: '14px',
                         outline: 'none',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
                       }}
                     />
                   </div>
@@ -373,7 +375,8 @@ export default function MusicianPage() {
                         borderRadius: '6px',
                         fontSize: '14px',
                         outline: 'none',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
                       }}
                     />
                   </div>
@@ -402,7 +405,8 @@ export default function MusicianPage() {
                         borderRadius: '6px',
                         fontSize: '14px',
                         outline: 'none',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
                       }}
                     />
                   </div>
@@ -471,7 +475,8 @@ export default function MusicianPage() {
                         borderRadius: '6px',
                         fontSize: '14px',
                         outline: 'none',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
                       }}
                     />
                   </div>
@@ -499,7 +504,8 @@ export default function MusicianPage() {
                         borderRadius: '6px',
                         fontSize: '14px',
                         outline: 'none',
-                        boxSizing: 'border-box'
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
                       }}
                     />
                   </div>
@@ -551,7 +557,7 @@ export default function MusicianPage() {
             </div>
           ) : (
             <div style={{
-              background: colors.white,
+              background: colors.lightBlue,
               padding: '32px',
               borderRadius: '8px',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -588,6 +594,8 @@ export default function MusicianPage() {
                     padding: '16px',
                     background: colors.lightGray,
                     borderRadius: '8px',
+                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    borderRadius: '8px',
                     minWidth: '120px'
                   }}>
                     <div style={{ fontSize: '24px', marginBottom: '8px' }}>🎵</div>
@@ -596,7 +604,9 @@ export default function MusicianPage() {
                   </div>
                   <div style={{
                     padding: '16px',
-                    background: colors.lightGray,
+                   background: colors.lightGray,
+                    borderRadius: '8px',
+                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                     borderRadius: '8px',
                     minWidth: '120px'
                   }}>

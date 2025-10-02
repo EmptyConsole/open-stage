@@ -31,63 +31,65 @@ export default function Header() {
         height: "72px",
         minHeight: "72px",
         maxHeight: "72px",
-      }}
-    >
-      <Link 
-        href="/dashboard" 
-        style={{ 
-          color: "white", 
-          textDecoration: "none", 
-          fontSize: "30px", 
-          fontWeight: "bold",
-          display: "flex",
-          alignItems: "center",
-          gap: "2px",
-          padding: "8px 12px",
-          borderRadius: "6px",
-          transition: "background-color 0.2s ease"
-        }}
-        onMouseEnter={(e) => {
-          e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-        }}
-        onMouseLeave={(e) => {
-          e.target.style.backgroundColor = "transparent";
-        }}
-      >
-        <img 
-          src="/music-note.svg" 
-          alt="Music note" 
-          style={{ 
-            width: "36px", 
-            height: "36px",
-            filter: "brightness(0) invert(1)" // Makes the icon white
-          }} 
-        />
-        OpenStage
-      </Link>
-      <div style={{
-        display: "flex",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        gap: "16px",
-        flex: "1",
-        minWidth: "0",
-      }}>
-        <Link 
-          href="/viewtickets" 
-          style={{ 
-            color: "white", 
-            textDecoration: "none", 
-            fontSize: "18px", 
-            fontWeight: "bold",
-            padding: "8px 16px",
-            borderRadius: "4px",
-            transition: "background-color 0.2s ease",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px"
-          }}
-          onMouseEnter={(e) => {
+        paddingLeft: "8px", // shifted left
+        paddingRight: "32px", // keep right padding
+            }}
+            >
+            <Link 
+              href="/dashboard" 
+              style={{ 
+              color: "white", 
+              textDecoration: "none", 
+              fontSize: "32px", 
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              gap: "2px",
+              padding: "8px 12px",
+              borderRadius: "6px",
+              transition: "transform 0.2s ease"
+              }}
+              onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "scale(1.08)";
+              }}
+              onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "scale(1)";
+              }}
+            >
+              <img 
+              src="/music-note.svg" 
+              alt="Music note" 
+              style={{ 
+                width: "36px", 
+                height: "36px",
+                filter: "brightness(0) invert(1)" // Makes the icon white
+              }} 
+              />
+              OpenStage
+            </Link>
+            <div style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              gap: "16px",
+              flex: "1",
+              minWidth: "0",
+            }}>
+              <Link 
+              href="/viewtickets" 
+              style={{ 
+                color: "white", 
+                textDecoration: "none", 
+                fontSize: "18px", 
+                fontWeight: "bold",
+                padding: "8px 16px",
+                borderRadius: "4px",
+                transition: "background-color 0.2s ease",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px"
+              }}
+              onMouseEnter={(e) => {
             e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
           }}
           onMouseLeave={(e) => {
@@ -155,10 +157,9 @@ export default function Header() {
           onClick={handleLogout}
           style={{ 
             color: "#d32f2f", 
-            textDecoration: "none", 
             fontSize: "14px", 
             fontWeight: "bold",
-            background: "#ffebee",
+            backgroundColor: "#ffebee",
             border: "2px solid #d32f2f",
             cursor: "pointer",
             padding: "6px 12px",
@@ -166,13 +167,22 @@ export default function Header() {
             transition: "background-color 0.2s ease",
             display: "flex",
             alignItems: "center",
-            gap: "6px"
+            gap: "6px",
+            outline: "none",
+            boxSizing: "border-box",
+            WebkitAppearance: "none",
+            MozAppearance: "none",
+            appearance: "none",
+            boxShadow: "none",
+            textDecoration: "none",
+            position: "relative",
+            overflow: "hidden"
           }}
           onMouseEnter={(e) => {
-            e.target.style.backgroundColor = "#ffcdd2";
+            e.currentTarget.style.setProperty('background-color', '#ffcdd2', 'important');
           }}
           onMouseLeave={(e) => {
-            e.target.style.backgroundColor = "#ffebee";
+            e.currentTarget.style.setProperty('background-color', '#ffebee', 'important');
           }}
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
