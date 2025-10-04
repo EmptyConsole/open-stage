@@ -71,8 +71,8 @@ export default function HomePage() {
         console.log('Fetched artists:', artists);
         setFollowedArtists(artists);
         
-        // Generate tickets from Firebase artists - limit to 3 for mobile
-        const firebaseTickets = artists && artists.length > 0 ? artists.slice(0, 3).map((artist, index) => ({
+        // Generate tickets from Firebase artists
+        const firebaseTickets = artists && artists.length > 0 ? artists.slice(0, 2).map((artist, index) => ({
           id: artist.id || index + 1,
           artist: {
             name: artist.name,
@@ -140,7 +140,7 @@ export default function HomePage() {
                   Loading artists...
                 </div>
               ) : followedArtists.length > 0 ? (
-                followedArtists.slice(0, 4).map((artist, index) => (
+                followedArtists.map((artist, index) => (
                   <div
                     key={artist.id || index}
                     onClick={() => {

@@ -21,32 +21,11 @@ export default function ViewTickets() {
     const [searchTerm, setSearchTerm] = useState('');   
     const [clickedIndex, setClickedIndex] = useState(null);
     const [selectedConcert, setSelectedConcert] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [isMobile, setIsMobile] = useState(false);
-    
-    const itemsPerPage = isMobile ? 6 : 12;
-    
     const filteredTickets = tickets.filter(ticket =>
-        ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        ticket.description.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    
-    const totalPages = Math.ceil(filteredTickets.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentTickets = filteredTickets.slice(startIndex, endIndex);
-    
-    const clickedTicket = clickedIndex !== null ? currentTickets[clickedIndex] : null;
-
-    // Check if mobile on mount and resize
-    React.useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, []);
+    ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    ticket.description.toLowerCase().includes(searchTerm.toLowerCase())
+);
+const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : null;
 
     // Concert data for popup
     const concerts = [
@@ -88,11 +67,11 @@ export default function ViewTickets() {
     ];
 
     return (
-        <div className="main" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'hidden'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'hidden'}}>
             <DynamicHeader />
             <div style={{ display: 'flex', flex: 1 }}>
                 <Sidebar>
-                    <div className="desktop-only" style={{ marginTop: '-40px'}}>
+                    <div style={{ marginTop: '-40px'}}>
                     <div style={{ marginLeft: '-100px'}}>
                         <MainContentHeader>Bought Tickets</MainContentHeader>
                     </div>
@@ -115,7 +94,7 @@ export default function ViewTickets() {
                         />
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '24px' }}>
-                            {currentTickets.slice(0, 4).map((ticket, idx) => {
+                            {filteredTickets.map((ticket, idx) => {
                                 const isHovered = hoveredIndex === idx;
                                 const concertData = concerts[idx % concerts.length]; // Cycle through concerts
                                 return (
@@ -174,28 +153,8 @@ export default function ViewTickets() {
                         </div>
                     </div>
                 </Sidebar>
- <main className="main-content-background main_content" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+ <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
   <MainContentHeader>Selected Concert</MainContentHeader>
-  
-  {/* Mobile Search - Only visible on mobile */}
-  <div className="mobile-only" style={{ marginBottom: '20px' }}>
-    <input
-      type="text"
-      placeholder="Search tickets..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      style={{
-        color: '#1a1a1a',
-        padding: '12px',
-        border: '1px solid #666666',
-        borderRadius: '8px',
-        fontSize: '16px',
-        outline: 'none',
-        width: '100%',
-        boxSizing: 'border-box',
-      }}
-    />
-  </div>
   <div
     style={{
       background: '#1976d2',
@@ -279,58 +238,6 @@ export default function ViewTickets() {
       </p>
     </div>
   </div>
-
-  {/* Pagination Controls */}
-  {totalPages > 1 && (
-    <div style={{ 
-      display: 'flex', 
-      justifyContent: 'center', 
-      alignItems: 'center', 
-      gap: '8px', 
-      marginTop: '24px',
-      padding: '16px 0'
-    }}>
-      <button
-        onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-        disabled={currentPage === 1}
-        style={{
-          padding: '8px 16px',
-          border: '1px solid #ddd',
-          borderRadius: '4px',
-          background: currentPage === 1 ? '#f5f5f5' : 'white',
-          color: currentPage === 1 ? '#999' : '#333',
-          cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
-          fontSize: '14px'
-        }}
-      >
-        Previous
-      </button>
-      
-      <span style={{ 
-        padding: '8px 12px', 
-        fontSize: '14px',
-        color: '#666'
-      }}>
-        Page {currentPage} of {totalPages}
-      </span>
-      
-      <button
-        onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-        disabled={currentPage === totalPages}
-        style={{
-          padding: '8px 16px',
-          border: '1px solid #ddd',
-          borderRadius: '4px',
-          background: currentPage === totalPages ? '#f5f5f5' : 'white',
-          color: currentPage === totalPages ? '#999' : '#333',
-          cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
-          fontSize: '14px'
-        }}
-      >
-        Next
-      </button>
-    </div>
-  )}
 
   {/* Add more content below as needed */}
   {/* <Footer /> */}
