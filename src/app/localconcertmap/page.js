@@ -91,6 +91,7 @@ export default function LocalConcertMapPage() {
           }}
         >
 <<<<<<< HEAD
+<<<<<<< HEAD
           {/* Mobile Concert List - Only visible on mobile */}
           <div className="mobile-only" style={{ marginBottom: '20px' }}>
             <h2 style={{ fontSize: '18px', marginBottom: '12px', color: '#333' }}>Concerts Nearby</h2>
@@ -120,10 +121,15 @@ export default function LocalConcertMapPage() {
             <div
               ref={mapRef}
 =======
+=======
+>>>>>>> parent of 7b15a93 (stuf)
           {mapUrl ? (
             <img
               src={mapUrl}
               alt="Concert Map"
+<<<<<<< HEAD
+>>>>>>> parent of 7b15a93 (stuf)
+=======
 >>>>>>> parent of 7b15a93 (stuf)
               className={selectedConcert ? styles.mapSelected : styles.map}
             />
