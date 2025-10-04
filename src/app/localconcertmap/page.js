@@ -17,9 +17,15 @@ const concerts = [
 const MAP_CENTER = { lat: 37.7749, lng: -122.4194 };
 const MAP_ZOOM = 13;
 const MAP_SIZE = "600x400";
-const GOOGLE_MAPS_API_KEY = "YOUR_API_KEY"; // Replace with your API key
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; // Replace with your API key
 
 function getMapUrl() {
+  // Handle missing API key gracefully
+  if (!GOOGLE_MAPS_API_KEY) {
+    console.warn("Google Maps API key is missing. Please add GOOGLE_MAPS_API_KEY to your environment variables.");
+    return ""; // Return empty string to prevent broken image
+  }
+  
   const markers = concerts
     .map(
       (concert) =>
@@ -31,6 +37,12 @@ function getMapUrl() {
 
 export default function LocalConcertMapPage() {
   const [selectedConcert, setSelectedConcert] = useState(null);
+  const [mapUrl, setMapUrl] = useState("");
+
+  // Use useEffect to ensure consistent behavior between server and client
+  React.useEffect(() => {
+    setMapUrl(getMapUrl());
+  }, []);
 
   return (
     <div
@@ -78,11 +90,17 @@ export default function LocalConcertMapPage() {
             minWidth: 0,
           }}
         >
-          <img
-            src={getMapUrl()}
-            alt="Concert Map"
-            className={selectedConcert ? styles.mapSelected : styles.map}
-          />
+          {mapUrl ? (
+            <img
+              src={mapUrl}
+              alt="Concert Map"
+              className={selectedConcert ? styles.mapSelected : styles.map}
+            />
+          ) : (
+            <div className={styles.mapPlaceholder}>
+              <p>Map unavailable - Please configure GOOGLE_MAPS_API_KEY</p>
+            </div>
+          )}
           {/* <Footer /> */}
         </main>
       </div>
