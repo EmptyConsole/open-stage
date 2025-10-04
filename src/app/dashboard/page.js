@@ -100,7 +100,7 @@ export default function HomePage() {
 
 
   return (
-    <div className="main"
+    <div
       style={{
         display: "flex",
         flexDirection: "column",
@@ -112,7 +112,7 @@ export default function HomePage() {
       <DynamicHeader />
       <div style={{ display: "flex", flex: 1 }}>
         <Sidebar>
-          <div className="desktop-only" style={{ marginTop: '-40px'}}>
+          <div style={{ marginTop: '-40px'}}>
             <div style={{ marginLeft: '-100px'}}>
               <MainContentHeader>Followed Artists</MainContentHeader>
             </div>
@@ -231,28 +231,8 @@ export default function HomePage() {
             </div>
           </div>
         </Sidebar>
-        <main className="main-content-background main_content" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <MainContentHeader>Your Tickets</MainContentHeader>
-          
-          {/* Mobile Search - Only visible on mobile */}
-          <div className="mobile-only" style={{ marginBottom: '20px' }}>
-            <input
-              type="text"
-              placeholder="Search artists..."
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              style={{
-                color: '#1a1a1a',
-                padding: '12px',
-                border: '1px solid #666666',
-                borderRadius: '8px',
-                fontSize: '16px',
-                outline: 'none',
-                width: '100%',
-                boxSizing: 'border-box',
-              }}
-            />
-          </div>
           
           {/* Ticket Cards */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
@@ -265,7 +245,6 @@ export default function HomePage() {
               tickets.map((ticket) => (
               <div
                 key={ticket.id}
-                className="card-streamlined ticket-card"
                 style={{
                   background: colors.white,
                   borderRadius: '8px',
@@ -286,7 +265,6 @@ export default function HomePage() {
               >
                 {/* Artist Profile Picture */}
                 <div
-                  className="ticket-image"
                   style={{
                     width: '80px',
                     height: '80px',
@@ -329,7 +307,7 @@ export default function HomePage() {
                 </div>
                 
                 {/* Artist and Concert Info */}
-                <div className="ticket-info" style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
                   <h3 style={{ 
                     margin: '0 0 8px 0', 
                     color: colors.primary, 
@@ -351,7 +329,7 @@ export default function HomePage() {
                 </div>
                 
                 {/* Date and Status Capsule */}
-                <div className="ticket-details" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   {/* Date */}
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ 
