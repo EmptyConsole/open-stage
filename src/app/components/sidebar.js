@@ -49,8 +49,8 @@ export default function Sidebar({ children }) {
           </Link>
           
           <Link 
-            href="/mobile-tickets" 
-            className={`mobile-nav-item ${isActive('/mobile-tickets') || isActive('/viewtickets') ? 'active' : ''}`}
+            href="/viewtickets" 
+            className={`mobile-nav-item ${isActive('/viewtickets') ? 'active' : ''}`}
           >
             <svg className="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M2 4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zm1 0v8h10V4H3zm2 1h6v1H5V5zm0 2h6v1H5V7zm0 2h4v1H5V9z"/>
@@ -69,8 +69,8 @@ export default function Sidebar({ children }) {
           </Link>
           
           <Link 
-            href="/mobile-artists" 
-            className={`mobile-nav-item ${isActive('/mobile-artists') || isActive('/artistsprofiles') ? 'active' : ''}`}
+            href="/artistsprofiles" 
+            className={`mobile-nav-item ${isActive('/artistsprofiles') ? 'active' : ''}`}
           >
             <svg className="mobile-nav-icon" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>

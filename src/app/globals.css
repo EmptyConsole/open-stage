@@ -295,9 +295,8 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    padding: 6px 0;
+    padding: 8px 0;
     background: var(--sidebar-background);
-    border-top: 1px solid rgba(0,0,0,0.1);
   }
 
   .sidebar-content {
@@ -313,21 +312,19 @@ html, body {
     flex: 1;
     margin-bottom: 70px; /* Space for bottom navigation */
     overflow-y: auto;
-    min-height: 0;
   }
 
   .main_content {
     padding: 16px;
     margin-bottom: 70px; /* Space for bottom navigation */
     overflow-y: auto;
-    height: calc(100vh - 126px); /* Full height minus header (56px) and bottom nav (70px) */
-    min-height: 0;
+    height: calc(100vh - 130px); /* Full height minus header and bottom nav */
   }
 
   /* Header adjustments */
   .header-container {
-    height: 56px;
-    min-height: 56px;
+    height: 60px;
+    min-height: 60px;
     position: sticky;
     top: 0;
     z-index: 1001;
@@ -338,28 +335,24 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 4px 6px;
+    padding: 6px 8px;
     text-decoration: none;
     color: var(--text-primary);
-    font-size: 9px;
+    font-size: 10px;
     font-weight: 500;
-    transition: all 0.2s ease;
-    min-width: 44px;
+    transition: color 0.2s ease;
+    min-width: 50px;
     text-align: center;
-    border-radius: 6px;
-    flex: 1;
-    max-width: 60px;
   }
 
   .mobile-nav-item:hover,
   .mobile-nav-item.active {
     color: var(--primary);
-    background: rgba(25, 118, 210, 0.1);
   }
 
   .mobile-nav-icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     margin-bottom: 2px;
   }
 
@@ -520,44 +513,6 @@ html, body {
 
   .main_content > *:last-child {
     margin-bottom: 0 !important;
-  }
-
-  /* Mobile-specific improvements */
-  .main_content {
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-  }
-
-  /* Mobile card improvements */
-  .card-streamlined {
-    border-radius: 12px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
-  }
-
-  /* Mobile input improvements */
-  input[type="text"], input[type="search"] {
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: 8px !important;
-  }
-
-  /* Mobile button improvements */
-  button {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-  }
-
-  /* Mobile scrollbar styling */
-  .main_content::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .main_content::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .main_content::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.2);
-    border-radius: 2px;
   }
 
   /* Hide desktop-only elements */
