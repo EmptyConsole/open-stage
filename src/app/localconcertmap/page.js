@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./localconcertmap.module.css";
 import Sidebar from "../components/sidebar";
 import DynamicHeader from "../components/DynamicHeader";
@@ -13,36 +13,97 @@ const concerts = [
   { id: 3, name: "Indie Jam", lat: 37.7649, lng: -122.4294 },
 ];
 
-// Simple map using Google Maps Static API (for demo purposes)
+// Map configuration
 const MAP_CENTER = { lat: 37.7749, lng: -122.4194 };
 const MAP_ZOOM = 13;
-const MAP_SIZE = "600x400";
-const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; // Replace with your API key
-
-function getMapUrl() {
-  // Handle missing API key gracefully
-  if (!GOOGLE_MAPS_API_KEY) {
-    console.warn("Google Maps API key is missing. Please add GOOGLE_MAPS_API_KEY to your environment variables.");
-    return ""; // Return empty string to prevent broken image
-  }
-  
-  const markers = concerts
-    .map(
-      (concert) =>
-        `&markers=color:red%7Clabel:${concert.id}%7C${concert.lat},${concert.lng}`
-    )
-    .join("");
-  return `https://maps.googleapis.com/maps/api/staticmap?center=${MAP_CENTER.lat},${MAP_CENTER.lng}&zoom=${MAP_ZOOM}&size=${MAP_SIZE}${markers}&key=${GOOGLE_MAPS_API_KEY}`;
-}
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 export default function LocalConcertMapPage() {
   const [selectedConcert, setSelectedConcert] = useState(null);
-  const [mapUrl, setMapUrl] = useState("");
+  const [map, setMap] = useState(null);
+  const [markers, setMarkers] = useState([]);
+  const mapRef = useRef(null);
 
-  // Use useEffect to ensure consistent behavior between server and client
-  React.useEffect(() => {
-    setMapUrl(getMapUrl());
+  // Load Google Maps API
+  useEffect(() => {
+    if (!GOOGLE_MAPS_API_KEY) {
+      console.warn("Google Maps API key is missing. Please add GOOGLE_MAPS_API_KEY to your environment variables.");
+      return;
+    }
+
+    // Check if Google Maps is already loaded
+    if (window.google && window.google.maps) {
+      initializeMap();
+      return;
+    }
+
+    // Load Google Maps API script
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
+    script.async = true;
+    script.defer = true;
+    script.onload = initializeMap;
+    document.head.appendChild(script);
+
+    return () => {
+      // Cleanup script if component unmounts
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
   }, []);
+
+  const initializeMap = () => {
+    if (!mapRef.current || !window.google) return;
+
+    const mapInstance = new window.google.maps.Map(mapRef.current, {
+      center: MAP_CENTER,
+      zoom: MAP_ZOOM,
+      mapTypeId: 'roadmap',
+      gestureHandling: 'greedy', // Enable mouse wheel zoom and drag
+      zoomControl: true,
+      mapTypeControl: true,
+      scaleControl: true,
+      streetViewControl: true,
+      rotateControl: true,
+      fullscreenControl: true,
+    });
+
+    setMap(mapInstance);
+
+    // Create markers for concerts
+    const concertMarkers = concerts.map((concert) => {
+      const marker = new window.google.maps.Marker({
+        position: { lat: concert.lat, lng: concert.lng },
+        map: mapInstance,
+        title: concert.name,
+        label: concert.id.toString(),
+        animation: window.google.maps.Animation.DROP,
+      });
+
+      // Add click listener to marker
+      marker.addListener('click', () => {
+        setSelectedConcert(concert.id);
+        // Center map on selected concert
+        mapInstance.setCenter({ lat: concert.lat, lng: concert.lng });
+        mapInstance.setZoom(15);
+      });
+
+      return marker;
+    });
+
+    setMarkers(concertMarkers);
+  };
+
+  // Handle concert selection from sidebar
+  const handleConcertSelect = (concertId) => {
+    setSelectedConcert(concertId);
+    const concert = concerts.find(c => c.id === concertId);
+    if (concert && map) {
+      map.setCenter({ lat: concert.lat, lng: concert.lng });
+      map.setZoom(15);
+    }
+  };
 
   return (
     <div className="main"
@@ -68,7 +129,7 @@ export default function LocalConcertMapPage() {
                       ? styles.concertItemSelected
                       : styles.concertItem
                   }
-                  onClick={() => setSelectedConcert(concert.id)}
+                  onClick={() => handleConcertSelect(concert.id)}
                 >
                   <span className={styles.concertName}>{concert.name}</span>
                   <br />
@@ -90,7 +151,6 @@ export default function LocalConcertMapPage() {
             minWidth: 0,
           }}
         >
-<<<<<<< HEAD
           {/* Mobile Concert List - Only visible on mobile */}
           <div className="mobile-only" style={{ marginBottom: '20px' }}>
             <h2 style={{ fontSize: '18px', marginBottom: '12px', color: '#333' }}>Concerts Nearby</h2>
@@ -119,13 +179,13 @@ export default function LocalConcertMapPage() {
           {GOOGLE_MAPS_API_KEY ? (
             <div
               ref={mapRef}
-=======
-          {mapUrl ? (
-            <img
-              src={mapUrl}
-              alt="Concert Map"
->>>>>>> parent of 7b15a93 (stuf)
               className={selectedConcert ? styles.mapSelected : styles.map}
+              style={{
+                width: "100%",
+                height: "500px",
+                borderRadius: "12px",
+                boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+              }}
             />
           ) : (
             <div className={styles.mapPlaceholder}>
