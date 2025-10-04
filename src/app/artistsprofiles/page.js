@@ -61,7 +61,7 @@ function ArtistProfileContent() {
   };
 
   return (
-    <div
+    <div className="main"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -352,6 +352,7 @@ function ArtistProfileContent() {
             <MainContentHeader>Similar Artists</MainContentHeader>
 
             <div
+              className="artists-grid"
               style={{
                 display: "flex",
                 gap: "16px",
@@ -388,7 +389,7 @@ function ArtistProfileContent() {
                   albums: "4",
                   topSong: "Digital Dawn",
                 },
-              ].map((artist) => (
+              ].slice(0, 3).map((artist) => (
                 <ArtistSquare
                   key={artist.number}
                   artistNumber={artist.number}

@@ -279,14 +279,13 @@ html, body {
   /* Main layout adjustments */
   .main {
     flex-direction: column;
-    height: auto;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
   }
 
   .sidebar {
     width: 100%;
-    height: auto;
-    min-height: 60px;
+    height: 70px;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -297,6 +296,7 @@ html, body {
     align-items: center;
     justify-content: space-around;
     padding: 8px 0;
+    background: var(--sidebar-background);
   }
 
   .sidebar-content {
@@ -305,22 +305,29 @@ html, body {
     width: 100%;
     justify-content: space-around;
     align-items: center;
+    height: 100%;
   }
 
   .header_main {
     flex: 1;
-    margin-bottom: 80px; /* Space for bottom navigation */
+    margin-bottom: 70px; /* Space for bottom navigation */
+    overflow-y: auto;
   }
 
   .main_content {
     padding: 16px;
-    margin-bottom: 80px; /* Space for bottom navigation */
+    margin-bottom: 70px; /* Space for bottom navigation */
+    overflow-y: auto;
+    height: calc(100vh - 130px); /* Full height minus header and bottom nav */
   }
 
   /* Header adjustments */
   .header-container {
-    height: auto;
+    height: 60px;
     min-height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
   }
 
   /* Mobile navigation styles */
@@ -328,13 +335,14 @@ html, body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px 12px;
+    padding: 6px 8px;
     text-decoration: none;
     color: var(--text-primary);
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
     transition: color 0.2s ease;
-    min-width: 60px;
+    min-width: 50px;
+    text-align: center;
   }
 
   .mobile-nav-item:hover,
@@ -343,9 +351,9 @@ html, body {
   }
 
   .mobile-nav-icon {
-    width: 24px;
-    height: 24px;
-    margin-bottom: 4px;
+    width: 20px;
+    height: 20px;
+    margin-bottom: 2px;
   }
 
   /* Button adjustments */
@@ -370,15 +378,28 @@ html, body {
     flex-direction: column !important;
     text-align: center !important;
     gap: 12px !important;
+    padding: 16px !important;
+    margin: 8px 0 !important;
   }
 
   .ticket-card .ticket-info {
     order: 2;
   }
 
+  .ticket-card .ticket-info h3 {
+    font-size: 18px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .ticket-card .ticket-info p {
+    font-size: 14px !important;
+  }
+
   .ticket-card .ticket-image {
     order: 1;
     align-self: center;
+    width: 60px !important;
+    height: 60px !important;
   }
 
   .ticket-card .ticket-details {
@@ -386,6 +407,19 @@ html, body {
     flex-direction: column !important;
     gap: 8px !important;
     align-items: center !important;
+  }
+
+  .ticket-card .ticket-details > div {
+    text-align: center !important;
+  }
+
+  .ticket-card .ticket-details > div > div:first-child {
+    font-size: 16px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .ticket-card .ticket-details > div > div:last-child {
+    font-size: 12px !important;
   }
 
   /* Mobile artist square adjustments */
@@ -404,9 +438,81 @@ html, body {
     padding: 12px !important;
   }
 
+  /* Mobile artists grid */
+  .artists-grid {
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+
+  .artists-grid .artist-square {
+    min-width: 120px !important;
+    height: 100px !important;
+    font-size: 11px !important;
+    padding: 8px !important;
+  }
+
+  /* Mobile map adjustments */
+  .map {
+    height: 300px !important;
+    width: 100% !important;
+  }
+
+  .mapSelected {
+    height: 300px !important;
+    width: 100% !important;
+  }
+
   /* Text size adjustments */
   .ShyGuy {
     font-size: 60px;
+  }
+
+  /* Mobile typography improvements */
+  h1, h2, h3 {
+    line-height: 1.2 !important;
+  }
+
+  h1 {
+    font-size: 24px !important;
+  }
+
+  h2 {
+    font-size: 20px !important;
+  }
+
+  h3 {
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Mobile form elements */
+  input, textarea, select {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 12px !important;
+  }
+
+  /* Mobile button improvements */
+  button {
+    min-height: 44px !important; /* Touch target size */
+    padding: 12px 16px !important;
+  }
+
+  /* Mobile spacing improvements */
+  .main_content {
+    line-height: 1.5 !important;
+  }
+
+  .main_content > * {
+    margin-bottom: 16px !important;
+  }
+
+  .main_content > *:last-child {
+    margin-bottom: 0 !important;
   }
 
   /* Hide desktop-only elements */

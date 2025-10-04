@@ -106,7 +106,7 @@ export default function LocalConcertMapPage() {
   };
 
   return (
-    <div
+    <div className="main"
       style={{
         display: "flex",
         flexDirection: "column",
@@ -118,10 +118,10 @@ export default function LocalConcertMapPage() {
       <DynamicHeader />
       <div style={{ display: "flex", flex: 1 }}>
         <Sidebar>
-          <div>
+          <div className="desktop-only">
             <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
             <ul className={styles.concertList}>
-              {concerts.map((concert) => (
+              {concerts.slice(0, 4).map((concert) => (
                 <li
                   key={concert.id}
                   className={
@@ -142,7 +142,7 @@ export default function LocalConcertMapPage() {
           </div>
         </Sidebar>
         <main
-          className="main-content-background"
+          className="main-content-background main_content"
           style={{
             flex: 1,
             padding: "32px",
@@ -151,6 +151,31 @@ export default function LocalConcertMapPage() {
             minWidth: 0,
           }}
         >
+          {/* Mobile Concert List - Only visible on mobile */}
+          <div className="mobile-only" style={{ marginBottom: '20px' }}>
+            <h2 style={{ fontSize: '18px', marginBottom: '12px', color: '#333' }}>Concerts Nearby</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {concerts.slice(0, 3).map((concert) => (
+                <div
+                  key={concert.id}
+                  onClick={() => handleConcertSelect(concert.id)}
+                  style={{
+                    padding: '12px',
+                    background: selectedConcert === concert.id ? '#e3f2fd' : '#fff',
+                    border: selectedConcert === concert.id ? '2px solid #1976d2' : '1px solid #ddd',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '14px'
+                  }}
+                >
+                  <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{concert.name}</div>
+                  <div style={{ color: '#666', fontSize: '12px' }}>
+                    Lat: {concert.lat}, Lng: {concert.lng}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
           {GOOGLE_MAPS_API_KEY ? (
             <div
               ref={mapRef}
