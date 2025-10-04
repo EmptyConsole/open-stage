@@ -205,10 +205,10 @@ export default function Header() {
       {/* Mobile Header */}
       <div className="mobile-only"
         style={{
-          padding: "8px 12px",
+          padding: "12px 16px",
           color: "white",
           backgroundColor: colors.header,
-          fontSize: "18px",
+          fontSize: "20px",
           fontWeight: "bold",
           display: "flex",
           justifyContent: "space-between",
@@ -218,10 +218,9 @@ export default function Header() {
           top: 0,
           left: 0,
           zIndex: 1000,
-          height: "56px",
-          minHeight: "56px",
-          maxHeight: "56px",
-          position: "sticky",
+          height: "60px",
+          minHeight: "60px",
+          maxHeight: "60px",
         }}
       >
         <Link 
@@ -229,28 +228,23 @@ export default function Header() {
           style={{ 
             color: "white", 
             textDecoration: "none", 
-            fontSize: "16px", 
+            fontSize: "20px", 
             fontWeight: "bold",
             display: "flex",
             alignItems: "center",
-            gap: "6px",
-            flex: 1,
-            minWidth: 0,
+            gap: "4px",
           }}
         >
           <img 
             src="/music-note.svg" 
             alt="Music note" 
             style={{ 
-              width: "20px", 
-              height: "20px",
-              filter: "brightness(0) invert(1)",
-              flexShrink: 0,
+              width: "24px", 
+              height: "24px",
+              filter: "brightness(0) invert(1)"
             }} 
           />
-          <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            OpenStage
-          </span>
+          OpenStage
         </Link>
         
         <button 
@@ -259,15 +253,12 @@ export default function Header() {
             background: "none",
             border: "none",
             color: "white",
-            fontSize: "20px",
+            fontSize: "24px",
             cursor: "pointer",
-            padding: "6px",
+            padding: "8px",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            flexShrink: 0,
-            minWidth: "32px",
-            height: "32px",
           }}
         >
           {isMobileMenuOpen ? "✕" : "☰"}
@@ -280,15 +271,13 @@ export default function Header() {
           className="mobile-only"
           style={{
             position: "fixed",
-            top: "56px",
+            top: "60px",
             left: 0,
             right: 0,
             backgroundColor: colors.header,
             zIndex: 999,
-            padding: "12px 16px",
+            padding: "16px",
             boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-            maxHeight: "calc(100vh - 56px)",
-            overflowY: "auto",
           }}
         >
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>

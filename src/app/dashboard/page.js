@@ -243,14 +243,13 @@ export default function HomePage() {
               onChange={(e) => setSearchValue(e.target.value)}
               style={{
                 color: '#1a1a1a',
-                padding: '12px 16px',
-                border: '1px solid #ddd',
+                padding: '12px',
+                border: '1px solid #666666',
                 borderRadius: '8px',
                 fontSize: '16px',
                 outline: 'none',
                 width: '100%',
                 boxSizing: 'border-box',
-                background: 'white',
               }}
             />
           </div>
