@@ -2,6 +2,7 @@ export default function ConcertSquare({ concertNumber, title, date, venue, onCli
   return (
     <div
       onClick={onClick}
+      className="concert-square"
       style={{
         minWidth: '200px',
         height: '150px',

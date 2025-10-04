@@ -2,6 +2,7 @@ export default function ArtistSquare({ artistNumber, title, genre, onClick }) {
   return (
     <div
       onClick={onClick}
+      className="artist-square"
       style={{
         minWidth: '200px',
         height: '150px',
