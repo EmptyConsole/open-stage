@@ -14,7 +14,24 @@ export default function AuthPage() {
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
+
+  // Handle window resize and mobile detection
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Function to fetch user data from Firestore
   const fetchUserData = async (email) => {
@@ -247,8 +264,8 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className={`auth-wrapper ${isSignUp ? 'signup-mode' : showForgotPassword ? 'forgot-password-mode' : ''}`}>
+    <div className={`auth-container ${isMobile ? 'mobile' : ''}`}>
+      <div className={`auth-wrapper ${isSignUp ? 'signup-mode' : showForgotPassword ? 'forgot-password-mode' : ''} ${isMobile ? 'mobile' : ''}`}>
         <div className={`auth-card signin-card ${isSignUp ? 'slide-left' : showForgotPassword ? 'slide-left' : 'slide-center'}`}>
           <div className="signin-header">
             <div className="logo">

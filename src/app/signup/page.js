@@ -1,11 +1,22 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import "./signup.css";
 import "../styles/shared-background.css";
 import { createUser } from "../../../util/users";
 
 export default function SignUpPage() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   const [formData, setFormData] = useState({
     displayName: "",
     email: "",
@@ -97,8 +108,8 @@ export default function SignUpPage() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className={`auth-container ${isMobile ? 'mobile' : ''}`}>
+      <div className={`auth-card ${isMobile ? 'mobile' : ''}`}>
         <div className="signup-header">
           <div className="logo">
             <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

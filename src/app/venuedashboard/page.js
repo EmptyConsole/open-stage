@@ -16,6 +16,7 @@ export default function VenueDashboard() {
   const [loading, setLoading] = useState(true);
   const [hoveredArtist, setHoveredArtist] = useState(null);
   const [hoveredFollowedArtist, setHoveredFollowedArtist] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
   // Sample local musician data with genres and contact info
@@ -138,6 +139,22 @@ export default function VenueDashboard() {
     }
   ]);
 
+  // Handle window resize and mobile detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Call getUsers and getArtists when component mounts
   useEffect(() => {
     const fetchData = async () => {
@@ -194,6 +211,136 @@ export default function VenueDashboard() {
     artist.genre.toLowerCase().includes(searchValue.toLowerCase())
   );
 
+  // Followed Artists Component
+  const FollowedArtistsSection = ({ isMobileLayout = false }) => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingBottom: isMobileLayout ? '0' : '24px' }}>
+      {loading ? (
+        <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
+          Loading artists...
+        </div>
+      ) : filteredFollowedArtists.length > 0 ? (
+        filteredFollowedArtists.map((artist, index) => (
+          <div
+            key={artist.id || index}
+            onClick={() => {
+              console.log(`Clicked on ${artist.name}`);
+              if (artist.id) {
+                router.push(`/artistsprofiles?id=${artist.id}`);
+              }
+            }}
+            style={{
+              background: isMobileLayout ? colors.white : colors.lightGray,
+              borderRadius: isMobileLayout ? '12px' : '8px',
+              padding: '16px',
+              boxShadow: isMobileLayout ? '0 2px 8px rgba(0,0,0,0.1)' : '0 2px 4px rgba(0,0,0,0.04)',
+              transition: 'all 0.2s ease',
+              cursor: 'pointer',
+              border: isMobileLayout ? '1px solid #e0e0e0' : 'none'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = colors.lightBlue;
+              e.target.style.boxShadow = isMobileLayout ? '0 4px 16px rgba(0,0,0,0.15)' : '0 4px 12px rgba(0,0,0,0.1)';
+              if (isMobileLayout) {
+                e.target.style.transform = 'translateY(-2px)';
+              }
+              setHoveredFollowedArtist(artist);
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = isMobileLayout ? colors.white : colors.lightGray;
+              e.target.style.boxShadow = isMobileLayout ? '0 2px 8px rgba(0,0,0,0.1)' : '0 2px 4px rgba(0,0,0,0.04)';
+              if (isMobileLayout) {
+                e.target.style.transform = 'translateY(0)';
+              }
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: isMobileLayout ? '16px' : '12px' }}>
+              {/* Artist Profile Picture */}
+              <div
+                style={{
+                  width: isMobileLayout ? '60px' : '80px',
+                  height: isMobileLayout ? '60px' : '80px',
+                  background: colors.lightGray,
+                  borderRadius: isMobileLayout ? '12px' : '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: colors.textLight,
+                  fontSize: '10px',
+                  flexShrink: 0,
+                  overflow: 'hidden',
+                  border: isMobileLayout ? 'none' : `2px dashed ${colors.border}`
+                }}
+              >
+                <img
+                  src={artist.profilePicture || `https://via.placeholder.com/${isMobileLayout ? '60x60' : '80x80'}/1976d2/ffffff?text=${artist.name.split(' ').map(n => n[0]).join('')}`}
+                  alt={artist.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextSibling.style.display = 'flex';
+                  }}
+                />
+                <div
+                  style={{
+                    display: 'none',
+                    width: '100%',
+                    height: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: colors.textLight,
+                    fontSize: isMobileLayout ? '12px' : '10px',
+                    background: colors.lightGray
+                  }}
+                >
+                  {artist.name.split(' ').map(n => n[0]).join('')}
+                </div>
+              </div>
+              
+              {/* Text content */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <h3 style={{ 
+                  margin: '0 0 4px 0', 
+                  color: colors.primary, 
+                  fontWeight: 'bold', 
+                  fontSize: isMobileLayout ? '16px' : '14px', 
+                  textAlign: 'left' 
+                }}>
+                  {artist.name}
+                </h3>
+                <p style={{ 
+                  margin: '0 0 4px 0', 
+                  color: colors.textPrimary, 
+                  fontSize: isMobileLayout ? '14px' : '12px', 
+                  textAlign: 'left', 
+                  lineHeight: '1.3' 
+                }}>
+                  {artist.genre}
+                </p>
+                <p style={{ 
+                  margin: 0, 
+                  color: colors.textSecondary, 
+                  fontSize: isMobileLayout ? '12px' : '11px', 
+                  textAlign: 'left', 
+                  lineHeight: '1.3' 
+                }}>
+                  {artist.contactInfo}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))
+      ) : (
+        <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
+          No followed artists found
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div
       style={{
@@ -205,12 +352,18 @@ export default function VenueDashboard() {
       }}
     >
       <DynamicHeader />
-      <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
-        <Sidebar>
-          <div style={{ marginTop: '-40px'}}>
-            <div style={{ marginLeft: '-100px'}}>
-              <MainContentHeader>Followed Artists</MainContentHeader>
-            </div>
+      {isMobile ? (
+        // Mobile Layout - Single Column
+        <main className="main-content-background" style={{ 
+          flex: 1, 
+          padding: '16px', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          overflow: 'auto',
+          maxWidth: '100%'
+        }}>
+          {/* Search Bar */}
+          <div style={{ marginBottom: '24px' }}>
             <input
               type="text"
               placeholder="Search artists or genres..."
@@ -218,26 +371,39 @@ export default function VenueDashboard() {
               onChange={(e) => setSearchValue(e.target.value)}
               style={{
                 color: '#1a1a1a',
-                padding: '8px',
+                padding: '12px 16px',
                 border: '1px solid #666666',
-                borderRadius: '6px',
-                margin: '0 0 24px 0',
-                fontSize: '14px',
+                borderRadius: '8px',
+                fontSize: '16px',
                 outline: 'none',
                 width: '100%',
                 boxSizing: 'border-box',
+                background: colors.white,
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
               }}
             />
+          </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', paddingBottom: '24px' }}>
-              {loading ? (
+          {/* Followed Artists Section */}
+          <div style={{ marginBottom: '32px' }}>
+            <MainContentHeader>Followed Artists</MainContentHeader>
+            <div style={{ marginTop: '16px' }}>
+              <FollowedArtistsSection isMobileLayout={true} />
+            </div>
+          </div>
+
+          {/* Artists Near You Section */}
+          <div>
+            <MainContentHeader>Artists Near You</MainContentHeader>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginTop: '16px' }}>
+              {loading && artistsNearYou.length === 0 ? (
                 <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
                   Loading artists...
                 </div>
-              ) : filteredFollowedArtists.length > 0 ? (
-                filteredFollowedArtists.map((artist, index) => (
+              ) : filteredArtists.length > 0 ? (
+                filteredArtists.map((artist) => (
                   <div
-                    key={artist.id || index}
+                    key={artist.id}
                     onClick={() => {
                       console.log(`Clicked on ${artist.name}`);
                       if (artist.id) {
@@ -245,75 +411,97 @@ export default function VenueDashboard() {
                       }
                     }}
                     style={{
-                      background: colors.lightGray,
-                      borderRadius: '8px',
+                      background: colors.white,
+                      borderRadius: '12px',
                       padding: '16px',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.04)',
-                      transition: 'background 0.2s ease, box-shadow 0.2s ease',
-                      cursor: 'pointer'
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      transition: 'all 0.2s ease',
+                      cursor: 'pointer',
+                      border: '1px solid #e0e0e0'
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.background = colors.lightBlue;
-                      e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-                      setHoveredFollowedArtist(artist);
+                      e.target.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)';
+                      e.target.style.transform = 'translateY(-2px)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.background = colors.lightGray;
-                      e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.04)';
+                      e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                      e.target.style.transform = 'translateY(0)';
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      {/* Artist Profile Picture */}
+                    {/* Artist Profile Picture */}
+                    <div
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '12px',
+                        background: colors.lightGray,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        overflow: 'hidden'
+                      }}
+                    >
+                      <img
+                        src={artist.profilePicture}
+                        alt={artist.name}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
                       <div
                         style={{
-                          width: '80px',
-                          height: '80px',
-                          background: colors.lightGray,
-                          borderRadius: '8px',
-                          border: `2px dashed ${colors.border}`,
-                          display: 'flex',
+                          display: 'none',
+                          width: '100%',
+                          height: '100%',
                           alignItems: 'center',
                           justifyContent: 'center',
                           color: colors.textLight,
-                          fontSize: '10px',
-                          flexShrink: 0,
-                          overflow: 'hidden'
+                          fontSize: '12px',
+                          background: colors.lightGray
                         }}
                       >
-                        <img
-                          src={artist.profilePicture || `https://via.placeholder.com/80x80/1976d2/ffffff?text=${artist.name.split(' ').map(n => n[0]).join('')}`}
-                          alt={artist.name}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            objectFit: 'cover'
-                          }}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
-                        />
-                        <div
-                          style={{
-                            display: 'none',
-                            width: '100%',
-                            height: '100%',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: colors.textLight,
-                            fontSize: '10px',
-                            background: colors.lightGray
-                          }}
-                        >
-                          {artist.name.split(' ').map(n => n[0]).join('')}
-                        </div>
+                        {artist.name.split(' ').map(n => n[0]).join('')}
                       </div>
-                      
-                      {/* Text content */}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <h3 style={{ margin: '0 0 4px 0', color: colors.primary, fontWeight: 'bold', fontSize: '14px', textAlign: 'left' }}>{artist.name}</h3>
-                        <p style={{ margin: '0 0 4px 0', color: colors.textPrimary, fontSize: '12px', textAlign: 'left', lineHeight: '1.3' }}>{artist.genre}</p>
-                        <p style={{ margin: 0, color: colors.textSecondary, fontSize: '11px', textAlign: 'left', lineHeight: '1.3' }}>{artist.contactInfo}</p>
+                    </div>
+                    
+                    {/* Artist Info */}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <h3 style={{ 
+                        margin: '0 0 6px 0', 
+                        color: colors.primary, 
+                        fontWeight: 'bold', 
+                        fontSize: '16px',
+                        textAlign: 'left'
+                      }}>
+                        {artist.name}
+                      </h3>
+                      <div style={{ 
+                        margin: '0 0 6px 0', 
+                        color: colors.textPrimary, 
+                        fontSize: '14px', 
+                        textAlign: 'left',
+                        fontWeight: '500'
+                      }}>
+                        {artist.genre}
+                      </div>
+                      <div style={{ 
+                        margin: 0, 
+                        color: colors.textSecondary, 
+                        fontSize: '12px', 
+                        textAlign: 'left',
+                        lineHeight: '1.3'
+                      }}>
+                        {artist.contactInfo}
                       </div>
                     </div>
                   </div>
@@ -325,129 +513,156 @@ export default function VenueDashboard() {
               )}
             </div>
           </div>
-        </Sidebar>
-        <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
-          <MainContentHeader>Artists Near You</MainContentHeader>
-          
-          {/* Artist Cards */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-            {loading && artistsNearYou.length === 0 ? (
-              <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
-                Loading artists...
+        </main>
+      ) : (
+        // Desktop Layout - With Sidebar
+        <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
+          <Sidebar>
+            <div style={{ marginTop: '-40px'}}>
+              <div style={{ marginLeft: '-100px'}}>
+                <MainContentHeader>Followed Artists</MainContentHeader>
               </div>
-            ) : filteredArtists.length > 0 ? (
-              filteredArtists.slice(0, 3).map((artist) => (
-              <div
-                key={artist.id}
-                onClick={() => {
-                  console.log(`Clicked on ${artist.name}`);
-                  if (artist.id) {
-                    router.push(`/artistsprofiles?id=${artist.id}`);
-                  }
-                }}
+              <input
+                type="text"
+                placeholder="Search artists or genres..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
                 style={{
-                  background: colors.white,
-                  borderRadius: '8px',
-                  padding: '16px',
-                  boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '16px',
-                  transition: 'box-shadow 0.2s ease',
-                  cursor: 'pointer'
+                  color: '#1a1a1a',
+                  padding: '8px',
+                  border: '1px solid #666666',
+                  borderRadius: '6px',
+                  margin: '0 0 24px 0',
+                  fontSize: '14px',
+                  outline: 'none',
+                  width: '100%',
+                  boxSizing: 'border-box',
                 }}
-                onMouseEnter={(e) => {
-                  e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
-                }}
-              >
-                {/* Artist Profile Picture */}
+              />
+              <FollowedArtistsSection isMobileLayout={false} />
+            </div>
+          </Sidebar>
+          <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
+            <MainContentHeader>Artists Near You</MainContentHeader>
+            
+            {/* Artist Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
+              {loading && artistsNearYou.length === 0 ? (
+                <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
+                  Loading artists...
+                </div>
+              ) : filteredArtists.length > 0 ? (
+                filteredArtists.slice(0, 3).map((artist) => (
                 <div
+                  key={artist.id}
+                  onClick={() => {
+                    console.log(`Clicked on ${artist.name}`);
+                    if (artist.id) {
+                      router.push(`/artistsprofiles?id=${artist.id}`);
+                    }
+                  }}
                   style={{
-                    width: '70px',
-                    height: '70px',
+                    background: colors.white,
                     borderRadius: '8px',
-                    background: colors.lightGray,
+                    padding: '16px',
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    overflow: 'hidden'
+                    gap: '16px',
+                    transition: 'box-shadow 0.2s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
                   }}
                 >
-                  <img
-                    src={artist.profilePicture}
-                    alt={artist.name}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover'
-                    }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'flex';
-                    }}
-                  />
+                  {/* Artist Profile Picture */}
                   <div
                     style={{
-                      display: 'none',
-                      width: '100%',
-                      height: '100%',
+                      width: '70px',
+                      height: '70px',
+                      borderRadius: '8px',
+                      background: colors.lightGray,
+                      display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: colors.textLight,
-                      fontSize: '12px',
-                      background: colors.lightGray
+                      flexShrink: 0,
+                      overflow: 'hidden'
                     }}
                   >
-                    {artist.name.split(' ').map(n => n[0]).join('')}
+                    <img
+                      src={artist.profilePicture}
+                      alt={artist.name}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
+                    />
+                    <div
+                      style={{
+                        display: 'none',
+                        width: '100%',
+                        height: '100%',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: colors.textLight,
+                        fontSize: '12px',
+                        background: colors.lightGray
+                      }}
+                    >
+                      {artist.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                  </div>
+                  
+                  {/* Artist Info */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <h3 style={{ 
+                      margin: '0 0 6px 0', 
+                      color: colors.primary, 
+                      fontWeight: 'bold', 
+                      fontSize: '20px',
+                      textAlign: 'left'
+                    }}>
+                      {artist.name}
+                    </h3>
+                    <div style={{ 
+                      margin: '0 0 6px 0', 
+                      color: colors.textPrimary, 
+                      fontSize: '16px', 
+                      textAlign: 'left',
+                      fontWeight: '500'
+                    }}>
+                      {artist.genre}
+                    </div>
+                    <div style={{ 
+                      margin: 0, 
+                      color: colors.textSecondary, 
+                      fontSize: '14px', 
+                      textAlign: 'left',
+                      lineHeight: '1.3'
+                    }}>
+                      {artist.contactInfo}
+                    </div>
                   </div>
                 </div>
-                
-                {/* Artist Info */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <h3 style={{ 
-                    margin: '0 0 6px 0', 
-                    color: colors.primary, 
-                    fontWeight: 'bold', 
-                    fontSize: '20px',
-                    textAlign: 'left'
-                  }}>
-                    {artist.name}
-                  </h3>
-                  <div style={{ 
-                    margin: '0 0 6px 0', 
-                    color: colors.textPrimary, 
-                    fontSize: '16px', 
-                    textAlign: 'left',
-                    fontWeight: '500'
-                  }}>
-                    {artist.genre}
-                  </div>
-                  <div style={{ 
-                    margin: 0, 
-                    color: colors.textSecondary, 
-                    fontSize: '14px', 
-                    textAlign: 'left',
-                    lineHeight: '1.3'
-                  }}>
-                    {artist.contactInfo}
-                  </div>
+                ))
+              ) : (
+                <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
+                  No artists found
                 </div>
-              </div>
-              ))
-            ) : (
-              <div style={{ textAlign: "center", color: colors.textSecondary, padding: "20px" }}>
-                No artists found
-              </div>
-            )}
-          </div>
-
-
-        </main>
-      </div>
+              )}
+            </div>
+          </main>
+        </div>
+      )}
     </div>
   );
 }

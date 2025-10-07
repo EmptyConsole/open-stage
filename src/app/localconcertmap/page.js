@@ -22,7 +22,24 @@ export default function LocalConcertMapPage() {
   const [selectedConcert, setSelectedConcert] = useState(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const mapRef = useRef(null);
+
+  // Handle window resize and mobile detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Set initial state
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Load Google Maps API
   useEffect(() => {
@@ -116,60 +133,156 @@ export default function LocalConcertMapPage() {
       }}
     >
       <DynamicHeader />
-      <div style={{ display: "flex", flex: 1 }}>
-        <Sidebar>
-          <div>
-            <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
-            <ul className={styles.concertList}>
-              {concerts.map((concert) => (
-                <li
-                  key={concert.id}
-                  className={
-                    selectedConcert === concert.id
-                      ? styles.concertItemSelected
-                      : styles.concertItem
-                  }
-                  onClick={() => handleConcertSelect(concert.id)}
-                >
-                  <span className={styles.concertName}>{concert.name}</span>
-                  <br />
-                  <span className={styles.concertCoords}>
-                    Lat: {concert.lat}, Lng: {concert.lng}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Sidebar>
+      {isMobile ? (
+        // Mobile Layout - Single Column
         <main
           className="main-content-background"
           style={{
             flex: 1,
-            padding: "32px",
+            padding: "16px",
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
           }}
         >
+          {/* Concerts List Section */}
+          <div
+            style={{
+              background: "white",
+              borderRadius: "12px",
+              padding: "20px",
+              marginBottom: "24px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+            }}
+          >
+            <h2 style={{ 
+              margin: "0 0 16px 0", 
+              color: "#1976d2", 
+              fontSize: "20px",
+              fontWeight: "bold"
+            }}>
+              Concerts Nearby
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {concerts.map((concert) => (
+                <div
+                  key={concert.id}
+                  onClick={() => handleConcertSelect(concert.id)}
+                  style={{
+                    padding: "16px",
+                    borderRadius: "8px",
+                    background: selectedConcert === concert.id ? "#e3f2fd" : "#f8f9fa",
+                    border: selectedConcert === concert.id ? "2px solid #1976d2" : "1px solid #e0e0e0",
+                    cursor: "pointer",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  <div style={{ 
+                    fontWeight: "bold", 
+                    color: "#1976d2", 
+                    fontSize: "16px",
+                    marginBottom: "4px"
+                  }}>
+                    {concert.name}
+                  </div>
+                  <div style={{ 
+                    color: "#666", 
+                    fontSize: "12px" 
+                  }}>
+                    Lat: {concert.lat}, Lng: {concert.lng}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Map Section */}
           {GOOGLE_MAPS_API_KEY ? (
             <div
               ref={mapRef}
               className={selectedConcert ? styles.mapSelected : styles.map}
               style={{
                 width: "100%",
-                height: "500px",
+                height: "400px",
                 borderRadius: "12px",
                 boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
               }}
             />
           ) : (
-            <div className={styles.mapPlaceholder}>
-              <p>Map unavailable - Please configure GOOGLE_MAPS_API_KEY</p>
+            <div 
+              className={styles.mapPlaceholder}
+              style={{
+                height: "400px",
+                borderRadius: "12px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "#f8f9fa",
+                border: "2px dashed #ccc"
+              }}
+            >
+              <p style={{ color: "#666", textAlign: "center" }}>
+                Map unavailable - Please configure GOOGLE_MAPS_API_KEY
+              </p>
             </div>
           )}
-          {/* <Footer /> */}
         </main>
-      </div>
+      ) : (
+        // Desktop Layout - With Sidebar
+        <div style={{ display: "flex", flex: 1 }}>
+          <Sidebar>
+            <div>
+              <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
+              <ul className={styles.concertList}>
+                {concerts.map((concert) => (
+                  <li
+                    key={concert.id}
+                    className={
+                      selectedConcert === concert.id
+                        ? styles.concertItemSelected
+                        : styles.concertItem
+                    }
+                    onClick={() => handleConcertSelect(concert.id)}
+                  >
+                    <span className={styles.concertName}>{concert.name}</span>
+                    <br />
+                    <span className={styles.concertCoords}>
+                      Lat: {concert.lat}, Lng: {concert.lng}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Sidebar>
+          <main
+            className="main-content-background"
+            style={{
+              flex: 1,
+              padding: "32px",
+              display: "flex",
+              flexDirection: "column",
+              minWidth: 0,
+            }}
+          >
+            {GOOGLE_MAPS_API_KEY ? (
+              <div
+                ref={mapRef}
+                className={selectedConcert ? styles.mapSelected : styles.map}
+                style={{
+                  width: "100%",
+                  height: "500px",
+                  borderRadius: "12px",
+                  boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
+                }}
+              />
+            ) : (
+              <div className={styles.mapPlaceholder}>
+                <p>Map unavailable - Please configure GOOGLE_MAPS_API_KEY</p>
+              </div>
+            )}
+          </main>
+        </div>
+      )}
     </div>
   );
 }

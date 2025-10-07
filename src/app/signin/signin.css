@@ -1,5 +1,98 @@
 /* Background styles moved to shared-background.css */
 
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .auth-container.mobile {
+    padding: 16px;
+  }
+  
+  .auth-wrapper.mobile {
+    max-width: 100%;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .auth-wrapper.mobile.signup-mode {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .auth-wrapper.mobile.forgot-password-mode {
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .auth-card {
+    position: relative;
+    transform: none !important;
+    height: auto;
+    min-height: 100vh;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hide inactive cards on mobile */
+  .auth-card.slide-left,
+  .auth-card.slide-right {
+    display: none;
+  }
+  
+  /* Show only the active card on mobile */
+  .auth-card.slide-center {
+    display: flex;
+  }
+  
+  .signin-header h1 {
+    font-size: 24px;
+  }
+  
+  .signin-header p {
+    font-size: 14px;
+  }
+  
+  .form-group {
+    margin-bottom: 16px;
+  }
+  
+  .form-group label {
+    font-size: 14px;
+  }
+  
+  .form-group input {
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  .user-type-selection {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .user-type-option {
+    padding: 16px;
+  }
+  
+  .user-type-option h3 {
+    font-size: 16px;
+  }
+  
+  .user-type-option p {
+    font-size: 12px;
+  }
+  
+  .signin-button,
+  .signup-button {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .create-account-button {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
 /* Auth wrapper for transition container */
 .auth-wrapper {
   position: relative;

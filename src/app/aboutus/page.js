@@ -1,10 +1,27 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "@/app/globals.css";
 import DynamicHeader from "../components/DynamicHeader";
 import MainContentHeader from "../components/MainContentHeader";
 
 export default function AboutUs() {
+    const [isMobile, setIsMobile] = useState(false);
+
+    // Handle window resize and mobile detection
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        // Set initial state
+        handleResize();
+
+        // Add event listener
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     const teamMembers = [
         {
             name: "Everett Yeh",
@@ -32,21 +49,26 @@ export default function AboutUs() {
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
             <DynamicHeader />
             <div style={{ display: 'flex', flex: 1 }}>
-                <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
+                <main className="main-content-background" style={{ 
+                    flex: 1, 
+                    padding: isMobile ? '16px' : '32px', 
+                    display: 'flex', 
+                    flexDirection: 'column' 
+                }}>
                     {/* Main Title Section */}
                     <MainContentHeader>About Us</MainContentHeader>
                     <div
                         style={{
                             background: '#fff',
-                            padding: '32px',
-                            borderRadius: '8px',
-                            marginBottom: '32px',
+                            padding: isMobile ? '20px' : '32px',
+                            borderRadius: isMobile ? '12px' : '8px',
+                            marginBottom: isMobile ? '24px' : '32px',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                         }}
                     >
                         <h1 style={{ 
                             color: '#1976d2', 
-                            fontSize: '36px', 
+                            fontSize: isMobile ? '28px' : '36px', 
                             fontWeight: 'bold', 
                             margin: '0 0 16px 0' 
                         }}>
@@ -54,7 +76,7 @@ export default function AboutUs() {
                         </h1>
                         <p style={{ 
                             color: '#333', 
-                            fontSize: '18px', 
+                            fontSize: isMobile ? '16px' : '18px', 
                             lineHeight: '1.6', 
                             margin: 0 
                         }}>
@@ -68,33 +90,35 @@ export default function AboutUs() {
 
                     {/* Team Members Section */}
                     <MainContentHeader>Our Team</MainContentHeader>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '32px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '16px' : '20px', marginBottom: isMobile ? '24px' : '32px' }}>
                         {teamMembers.slice(0, 3).map((member, index) => (
                             <div
                                 key={index}
                                 style={{
                                     background: '#fff',
-                                    padding: '24px',
-                                    borderRadius: '8px',
+                                    padding: isMobile ? '16px' : '24px',
+                                    borderRadius: isMobile ? '12px' : '8px',
                                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '20px',
+                                    gap: isMobile ? '16px' : '20px',
+                                    flexDirection: isMobile ? 'column' : 'row',
+                                    textAlign: isMobile ? 'center' : 'left'
                                 }}
                             >
                                 {/* Team Member Image Placeholder */}
                                 <div
                                     style={{
-                                        width: '100px',
-                                        height: '100px',
+                                        width: isMobile ? '80px' : '100px',
+                                        height: isMobile ? '80px' : '100px',
                                         background: '#f8f8f8',
-                                        borderRadius: '8px',
+                                        borderRadius: isMobile ? '12px' : '8px',
                                         border: '2px dashed #ccc',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         color: '#999',
-                                        fontSize: '12px',
+                                        fontSize: isMobile ? '10px' : '12px',
                                         flexShrink: 0,
                                     }}
                                 >
@@ -107,14 +131,14 @@ export default function AboutUs() {
                                         margin: '0 0 8px 0', 
                                         color: '#1976d2', 
                                         fontWeight: 'bold', 
-                                        fontSize: '20px' 
+                                        fontSize: isMobile ? '18px' : '20px' 
                                     }}>
                                         {member.name}
                                     </h3>
                                     <p style={{ 
                                         margin: 0, 
                                         color: '#333', 
-                                        fontSize: '16px', 
+                                        fontSize: isMobile ? '14px' : '16px', 
                                         lineHeight: '1.5' 
                                     }}>
                                         {member.description}
@@ -126,33 +150,35 @@ export default function AboutUs() {
 
                     {/* Team Coaches Section */}
                     <MainContentHeader>Team Coaches</MainContentHeader>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '16px' : '20px' }}>
                         {teamMembers.slice(3, 5).map((member, index) => (
                             <div
                                 key={index + 3}
                                 style={{
                                     background: '#fff',
-                                    padding: '24px',
-                                    borderRadius: '8px',
+                                    padding: isMobile ? '16px' : '24px',
+                                    borderRadius: isMobile ? '12px' : '8px',
                                     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '20px',
+                                    gap: isMobile ? '16px' : '20px',
+                                    flexDirection: isMobile ? 'column' : 'row',
+                                    textAlign: isMobile ? 'center' : 'left'
                                 }}
                             >
                                 {/* Team Member Image Placeholder */}
                                 <div
                                     style={{
-                                        width: '100px',
-                                        height: '100px',
+                                        width: isMobile ? '80px' : '100px',
+                                        height: isMobile ? '80px' : '100px',
                                         background: '#f8f8f8',
-                                        borderRadius: '8px',
+                                        borderRadius: isMobile ? '12px' : '8px',
                                         border: '2px dashed #ccc',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         color: '#999',
-                                        fontSize: '12px',
+                                        fontSize: isMobile ? '10px' : '12px',
                                         flexShrink: 0,
                                     }}
                                 >
@@ -165,14 +191,14 @@ export default function AboutUs() {
                                         margin: '0 0 8px 0', 
                                         color: '#1976d2', 
                                         fontWeight: 'bold', 
-                                        fontSize: '20px' 
+                                        fontSize: isMobile ? '18px' : '20px' 
                                     }}>
                                         {member.name}
                                     </h3>
                                     <p style={{ 
                                         margin: 0, 
                                         color: '#333', 
-                                        fontSize: '16px', 
+                                        fontSize: isMobile ? '14px' : '16px', 
                                         lineHeight: '1.5' 
                                     }}>
                                         {member.description}
