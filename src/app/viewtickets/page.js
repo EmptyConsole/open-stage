@@ -180,8 +180,6 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
             <DynamicHeader />
             {isMobile ? (
                 <main className="main-content-background" style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                    <TicketsListSection isMobileLayout={true} />
-                    
                     <MainContentHeader>Selected Concert</MainContentHeader>
                     <div
                         style={{
@@ -267,6 +265,8 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
                             </p>
                         </div>
                     </div>
+                    
+                    <TicketsListSection isMobileLayout={true} />
                 </main>
             ) : (
                 <div style={{ display: 'flex', flex: 1 }}>

@@ -98,32 +98,6 @@ export default function Header() {
             minWidth: "0",
           }}>
             <Link 
-              href="/viewtickets" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                <path d="M2 4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zm1 0v8h10V4H3zm2 1h6v1H5V5zm0 2h6v1H5V7zm0 2h4v1H5V9z"/>
-              </svg>
-              View Tickets
-            </Link>
-            <Link 
               href="/localconcertmap" 
               style={{ 
                 color: "white", 
@@ -273,34 +247,6 @@ export default function Header() {
           padding: "20px",
           gap: "16px"
         }}>
-          <Link 
-            href="/viewtickets" 
-            onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
-          >
-            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
-              <path d="M2 4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4zm1 0v8h10V4H3zm2 1h6v1H5V5zm0 2h6v1H5V7zm0 2h4v1H5V9z"/>
-            </svg>
-            View Tickets
-          </Link>
           <Link 
             href="/localconcertmap" 
             onClick={() => setIsMobileMenuOpen(false)}

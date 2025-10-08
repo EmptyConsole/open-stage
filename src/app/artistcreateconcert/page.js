@@ -641,7 +641,7 @@ export default function MusicianPage() {
           )}
 
           {/* Owned Concerts Section */}
-          <div style={{ marginBottom: '32px' }}>
+          <div style={{ marginBottom: '32px', marginTop: '20px' }}>
             <MainContentHeader>Owned Concerts</MainContentHeader>
             <div style={{ marginTop: '16px' }}>
               <ConcertsListSection isMobileLayout={true} />
