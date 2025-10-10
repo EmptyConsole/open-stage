@@ -195,7 +195,7 @@ function ArtistProfileContent() {
                 title: "Summer Festival",
                 date: "July 15",
                 venue: "Central Park",
-                price: "$45",
+                price: "$6",
                 time: "7:00 PM",
               },
               {
@@ -203,7 +203,7 @@ function ArtistProfileContent() {
                 title: "Acoustic Night",
                 date: "July 22",
                 venue: "Blue Note",
-                price: "$35",
+                price: "$7",
                 time: "8:30 PM",
               },
               {
@@ -211,7 +211,7 @@ function ArtistProfileContent() {
                 title: "Rock Concert",
                 date: "Aug 5",
                 venue: "Madison Square",
-                price: "$75",
+                price: "$8",
                 time: "8:00 PM",
               },
               {
@@ -219,7 +219,7 @@ function ArtistProfileContent() {
                 title: "Jazz Session",
                 date: "Aug 12",
                 venue: "Birdland",
-                price: "$40",
+                price: "$5",
                 time: "9:00 PM",
               },
               {
@@ -227,7 +227,7 @@ function ArtistProfileContent() {
                 title: "Indie Show",
                 date: "Aug 20",
                 venue: "Bowery Ballroom",
-                price: "$30",
+                price: "$6",
                 time: "7:30 PM",
               },
               {
@@ -235,7 +235,7 @@ function ArtistProfileContent() {
                 title: "Festival Finale",
                 date: "Aug 28",
                 venue: "Governors Island",
-                price: "$60",
+                price: "$7",
                 time: "6:00 PM",
               },
               {
@@ -243,7 +243,7 @@ function ArtistProfileContent() {
                 title: "Intimate Set",
                 date: "Sep 3",
                 venue: "Joe's Pub",
-                price: "$25",
+                price: "$5",
                 time: "8:00 PM",
               },
               {
@@ -251,7 +251,7 @@ function ArtistProfileContent() {
                 title: "Outdoor Concert",
                 date: "Sep 10",
                 venue: "Prospect Park",
-                price: "$50",
+                price: "$6",
                 time: "7:00 PM",
               },
               {
@@ -259,7 +259,7 @@ function ArtistProfileContent() {
                 title: "Club Show",
                 date: "Sep 17",
                 venue: "Mercury Lounge",
-                price: "$20",
+                price: "$5",
                 time: "9:30 PM",
               },
               {
@@ -267,7 +267,7 @@ function ArtistProfileContent() {
                 title: "Theater Show",
                 date: "Sep 24",
                 venue: "Beacon Theatre",
-                price: "$85",
+                price: "$8",
                 time: "8:00 PM",
               },
               {
@@ -275,7 +275,7 @@ function ArtistProfileContent() {
                 title: "Halloween Special",
                 date: "Oct 31",
                 venue: "Brooklyn Bowl",
-                price: "$55",
+                price: "$7",
                 time: "9:00 PM",
               },
               {
@@ -283,7 +283,7 @@ function ArtistProfileContent() {
                 title: "Fall Festival",
                 date: "Nov 7",
                 venue: "Forest Hills",
-                price: "$65",
+                price: "$8",
                 time: "6:30 PM",
               },
               {
@@ -291,7 +291,7 @@ function ArtistProfileContent() {
                 title: "Holiday Concert",
                 date: "Dec 15",
                 venue: "Carnegie Hall",
-                price: "$95",
+                price: "$8",
                 time: "7:30 PM",
               },
               {
@@ -299,7 +299,7 @@ function ArtistProfileContent() {
                 title: "New Year's Eve",
                 date: "Dec 31",
                 venue: "Times Square",
-                price: "$120",
+                price: "$8",
                 time: "11:00 PM",
               },
               {
@@ -307,7 +307,7 @@ function ArtistProfileContent() {
                 title: "Winter Tour",
                 date: "Jan 15",
                 venue: "Radio City",
-                price: "$80",
+                price: "$8",
                 time: "8:00 PM",
               },
             ].map((concert) => (
@@ -520,7 +520,7 @@ function ArtistProfileContent() {
                   title: "Summer Festival",
                   date: "July 15",
                   venue: "Central Park",
-                  price: "$45",
+                  price: "$6",
                   time: "7:00 PM",
                 },
                 {
@@ -528,7 +528,7 @@ function ArtistProfileContent() {
                   title: "Acoustic Night",
                   date: "July 22",
                   venue: "Blue Note",
-                  price: "$35",
+                  price: "$7",
                   time: "8:30 PM",
                 },
                 {
@@ -536,7 +536,7 @@ function ArtistProfileContent() {
                   title: "Rock Concert",
                   date: "Aug 5",
                   venue: "Madison Square",
-                  price: "$75",
+                  price: "$8",
                   time: "8:00 PM",
                 },
                 {
@@ -544,7 +544,7 @@ function ArtistProfileContent() {
                   title: "Jazz Session",
                   date: "Aug 12",
                   venue: "Birdland",
-                  price: "$40",
+                  price: "$5",
                   time: "9:00 PM",
                 },
                 {
@@ -552,7 +552,7 @@ function ArtistProfileContent() {
                   title: "Indie Show",
                   date: "Aug 20",
                   venue: "Bowery Ballroom",
-                  price: "$30",
+                  price: "$6",
                   time: "7:30 PM",
                 },
                 {
@@ -560,7 +560,7 @@ function ArtistProfileContent() {
                   title: "Festival Finale",
                   date: "Aug 28",
                   venue: "Governors Island",
-                  price: "$60",
+                  price: "$7",
                   time: "6:00 PM",
                 },
                 {
@@ -568,7 +568,7 @@ function ArtistProfileContent() {
                   title: "Intimate Set",
                   date: "Sep 3",
                   venue: "Joe's Pub",
-                  price: "$25",
+                  price: "$5",
                   time: "8:00 PM",
                 },
                 {
@@ -576,7 +576,7 @@ function ArtistProfileContent() {
                   title: "Outdoor Concert",
                   date: "Sep 10",
                   venue: "Prospect Park",
-                  price: "$50",
+                  price: "$6",
                   time: "7:00 PM",
                 },
                 {
@@ -584,7 +584,7 @@ function ArtistProfileContent() {
                   title: "Club Show",
                   date: "Sep 17",
                   venue: "Mercury Lounge",
-                  price: "$20",
+                  price: "$5",
                   time: "9:30 PM",
                 },
                 {
@@ -592,7 +592,7 @@ function ArtistProfileContent() {
                   title: "Theater Show",
                   date: "Sep 24",
                   venue: "Beacon Theatre",
-                  price: "$85",
+                  price: "$8",
                   time: "8:00 PM",
                 },
                 {
@@ -600,7 +600,7 @@ function ArtistProfileContent() {
                   title: "Halloween Special",
                   date: "Oct 31",
                   venue: "Brooklyn Bowl",
-                  price: "$55",
+                  price: "$7",
                   time: "9:00 PM",
                 },
                 {
@@ -608,7 +608,7 @@ function ArtistProfileContent() {
                   title: "Fall Festival",
                   date: "Nov 7",
                   venue: "Forest Hills",
-                  price: "$65",
+                  price: "$8",
                   time: "6:30 PM",
                 },
                 {
@@ -616,7 +616,7 @@ function ArtistProfileContent() {
                   title: "Holiday Concert",
                   date: "Dec 15",
                   venue: "Carnegie Hall",
-                  price: "$95",
+                  price: "$8",
                   time: "7:30 PM",
                 },
                 {
@@ -624,7 +624,7 @@ function ArtistProfileContent() {
                   title: "New Year's Eve",
                   date: "Dec 31",
                   venue: "Times Square",
-                  price: "$120",
+                  price: "$8",
                   time: "11:00 PM",
                 },
                 {
@@ -632,7 +632,7 @@ function ArtistProfileContent() {
                   title: "Winter Tour",
                   date: "Jan 15",
                   venue: "Radio City",
-                  price: "$80",
+                  price: "$8",
                   time: "8:00 PM",
                 },
               ].map((concert) => (

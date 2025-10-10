@@ -48,7 +48,7 @@ export default function MusicianPage() {
         place: "Central Park Amphitheater",
         genre: "Pop",
         time: "19:00",
-        admissionFee: "$25"
+        admissionFee: "$6"
       },
       {
         id: 2,
@@ -57,7 +57,7 @@ export default function MusicianPage() {
         place: "Blue Note Club",
         genre: "Jazz",
         time: "20:30",
-        admissionFee: "$35"
+        admissionFee: "$7"
       }
     ];
     setConcerts(sampleConcerts);

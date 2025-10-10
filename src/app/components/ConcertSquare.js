@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import { navigateToPurchaseTicket } from '../utils/concertNavigation';
+import { navigateToConcertDetails } from '../utils/concertNavigation';
 
 export default function ConcertSquare({ 
   concertNumber, 
@@ -8,7 +8,7 @@ export default function ConcertSquare({
   venue, 
   onClick, 
   concertData,
-  price = "25" 
+  price = "7" 
 }) {
   const router = useRouter();
 
@@ -16,7 +16,7 @@ export default function ConcertSquare({
     if (onClick) {
       onClick();
     } else {
-      // Default behavior: navigate to purchase ticket page
+      // Default behavior: navigate to concert details page
       const defaultConcertData = {
         artist: title || `Artist ${concertNumber}`,
         title: title || `Concert ${concertNumber}`,
@@ -24,10 +24,11 @@ export default function ConcertSquare({
         time: "8:00 PM",
         venue: venue || "TBD Venue",
         address: "123 Music Street, City, State 12345",
-        price: price
+        price: price,
+        description: "Join us for an unforgettable evening of live music featuring amazing performances and great vibes. This concert promises to deliver an incredible experience with top-notch sound quality and an intimate atmosphere."
       };
       
-      navigateToPurchaseTicket(router, defaultConcertData);
+      navigateToConcertDetails(router, defaultConcertData);
     }
   };
 
