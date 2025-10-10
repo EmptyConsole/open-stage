@@ -1,7 +1,39 @@
-export default function ConcertSquare({ concertNumber, title, date, venue, onClick }) {
+import { useRouter } from 'next/navigation';
+import { navigateToPurchaseTicket } from '../utils/concertNavigation';
+
+export default function ConcertSquare({ 
+  concertNumber, 
+  title, 
+  date, 
+  venue, 
+  onClick, 
+  concertData,
+  price = "25" 
+}) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Default behavior: navigate to purchase ticket page
+      const defaultConcertData = {
+        artist: title || `Artist ${concertNumber}`,
+        title: title || `Concert ${concertNumber}`,
+        date: date || "TBD",
+        time: "8:00 PM",
+        venue: venue || "TBD Venue",
+        address: "123 Music Street, City, State 12345",
+        price: price
+      };
+      
+      navigateToPurchaseTicket(router, defaultConcertData);
+    }
+  };
+
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       style={{
         minWidth: '200px',
         height: '150px',

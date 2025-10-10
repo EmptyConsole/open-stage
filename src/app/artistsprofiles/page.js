@@ -320,7 +320,16 @@ function ArtistProfileContent() {
                   title={concert.title}
                   date={concert.date}
                   venue={concert.venue}
-                  onClick={() => console.log(`Clicked on ${concert.title}`)}
+                  price={concert.price?.replace('$', '') || "25"}
+                  concertData={{
+                    artist: currentArtist?.name || 'Artist',
+                    title: concert.title,
+                    date: concert.date,
+                    time: concert.time || "8:00 PM",
+                    venue: concert.venue,
+                    address: "123 Music Street, City, State 12345",
+                    price: concert.price?.replace('$', '') || "25"
+                  }}
                 />
               </div>
             ))}
@@ -636,7 +645,16 @@ function ArtistProfileContent() {
                     title={concert.title}
                     date={concert.date}
                     venue={concert.venue}
-                    onClick={() => console.log(`Clicked on ${concert.title}`)}
+                    price={concert.price?.replace('$', '') || "25"}
+                    concertData={{
+                      artist: currentArtist?.name || 'Artist',
+                      title: concert.title,
+                      date: concert.date,
+                      time: concert.time || "8:00 PM",
+                      venue: concert.venue,
+                      address: "123 Music Street, City, State 12345",
+                      price: concert.price?.replace('$', '') || "25"
+                    }}
                   />
                 </div>
               ))}
@@ -792,7 +810,18 @@ function ArtistProfileContent() {
                 {hoveredItem.title.toLowerCase()} experience. This special event
                 promises to deliver an amazing night of music and entertainment.
               </p>
-              <MainButton>
+              <MainButton
+                concertData={{
+                  artist: currentArtist?.name || 'Artist',
+                  title: hoveredItem.title,
+                  date: hoveredItem.date,
+                  time: hoveredItem.time,
+                  venue: hoveredItem.venue,
+                  address: "123 Music Street, City, State 12345", // Default address
+                  price: hoveredItem.price?.replace('$', '') || "25"
+                }}
+                router={router}
+              >
                 Buy Tickets
               </MainButton>
             </div>

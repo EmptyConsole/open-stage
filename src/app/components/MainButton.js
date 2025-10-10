@@ -1,10 +1,21 @@
 import React from 'react';
 import { colors } from '../styles/colors';
 
-export default function MainButton({ children, onClick }) {
+export default function MainButton({ children, onClick, concertData, router }) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else if (concertData && router) {
+      // Import the navigation utility dynamically to avoid circular dependencies
+      import('../utils/concertNavigation').then(({ navigateToPurchaseTicket }) => {
+        navigateToPurchaseTicket(router, concertData);
+      });
+    }
+  };
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       style={{
         background: colors.primary,
         color: colors.white,
