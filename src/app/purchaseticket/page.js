@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import "./purchaseticket.css";
 import "../styles/shared-background.css";
 
-export default function PurchaseTicketPage() {
+// Component that uses useSearchParams - needs to be wrapped in Suspense
+function PurchaseTicketContent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -325,5 +326,41 @@ export default function PurchaseTicketPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function PurchaseTicketLoading() {
+  return (
+    <div className="purchase-container">
+      <div className="purchase-wrapper">
+        <div className="purchase-card">
+          <div className="purchase-header">
+            <div className="logo">
+              <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="20" cy="8" rx="3" ry="2.5" fill="#1976d2"/>
+                <rect x="17" y="10.5" width="2" height="12" fill="#1976d2"/>
+                <rect x="18.5" y="10.5" width="1" height="8" fill="#1976d2"/>
+                <path d="M19.5 10.5 Q22 8 19.5 5.5" stroke="#1976d2" strokeWidth="1.5" fill="none"/>
+                <ellipse cx="12" cy="12" rx="2" ry="1.5" fill="#1976d2" opacity="0.7"/>
+                <rect x="10.5" y="13.5" width="1.5" height="8" fill="#1976d2" opacity="0.7"/>
+                <rect x="11.25" y="13.5" width="0.5" height="6" fill="#1976d2" opacity="0.7"/>
+              </svg>
+            </div>
+            <h1>Loading...</h1>
+            <p>Preparing your ticket purchase</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main export component that wraps the content in Suspense
+export default function PurchaseTicketPage() {
+  return (
+    <Suspense fallback={<PurchaseTicketLoading />}>
+      <PurchaseTicketContent />
+    </Suspense>
   );
 }

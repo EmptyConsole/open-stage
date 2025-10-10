@@ -1,10 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import "../styles/shared-background.css";
 import { colors } from "../styles/colors";
 
-export default function ConcertDetailsPage() {
+// Component that uses useSearchParams - needs to be wrapped in Suspense
+function ConcertDetailsContent() {
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -348,5 +349,39 @@ export default function ConcertDetailsPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function ConcertDetailsLoading() {
+  return (
+    <div className="shared-background">
+      <div style={{
+        minHeight: '100vh',
+        padding: '24px',
+        maxWidth: '1200px',
+        margin: '0 auto',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div style={{
+          textAlign: 'center',
+          color: colors.primary,
+          fontSize: '18px'
+        }}>
+          Loading concert details...
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main export component that wraps the content in Suspense
+export default function ConcertDetailsPage() {
+  return (
+    <Suspense fallback={<ConcertDetailsLoading />}>
+      <ConcertDetailsContent />
+    </Suspense>
   );
 }
