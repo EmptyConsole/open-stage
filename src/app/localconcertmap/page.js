@@ -18,6 +18,10 @@ const MAP_CENTER = { lat: 37.7749, lng: -122.4194 };
 const MAP_ZOOM = 13;
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
+// Global flag to track if Google Maps script is being loaded
+let isGoogleMapsLoading = false;
+let googleMapsLoadPromise = null;
+
 export default function LocalConcertMapPage() {
   const [selectedConcert, setSelectedConcert] = useState(null);
   const [map, setMap] = useState(null);
@@ -54,20 +58,49 @@ export default function LocalConcertMapPage() {
       return;
     }
 
-    // Load Google Maps API script
-    const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
-    script.async = true;
-    script.defer = true;
-    script.onload = initializeMap;
-    document.head.appendChild(script);
+    // If script is already being loaded, wait for it
+    if (isGoogleMapsLoading && googleMapsLoadPromise) {
+      googleMapsLoadPromise.then(initializeMap);
+      return;
+    }
 
-    return () => {
-      // Cleanup script if component unmounts
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
+    // Start loading the script
+    isGoogleMapsLoading = true;
+    googleMapsLoadPromise = new Promise((resolve, reject) => {
+      // Check if script already exists in DOM
+      const existingScript = document.querySelector('script[src*="maps.googleapis.com"]');
+      if (existingScript) {
+        // Script already exists, just wait for it to load
+        if (window.google && window.google.maps) {
+          resolve();
+        } else {
+          existingScript.addEventListener('load', resolve);
+          existingScript.addEventListener('error', reject);
+        }
+        return;
       }
-    };
+
+      // Create and load new script
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
+      script.async = true;
+      script.defer = true;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+
+    googleMapsLoadPromise
+      .then(() => {
+        isGoogleMapsLoading = false;
+        initializeMap();
+      })
+      .catch((error) => {
+        isGoogleMapsLoading = false;
+        console.error('Failed to load Google Maps API:', error);
+      });
+
+    // No cleanup needed as we want to keep the script loaded globally
   }, []);
 
   const initializeMap = () => {
