@@ -268,16 +268,23 @@ export default function AuthPage() {
       <div className={`auth-wrapper ${isSignUp ? 'signup-mode' : showForgotPassword ? 'forgot-password-mode' : ''} ${isMobile ? 'mobile' : ''}`}>
         <div className={`auth-card signin-card ${isSignUp ? 'slide-left' : showForgotPassword ? 'slide-left' : 'slide-center'}`}>
           <div className="signin-header">
-            <div className="logo">
-              <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="20" cy="8" rx="3" ry="2.5" fill="#1976d2"/>
-                <rect x="17" y="10.5" width="2" height="12" fill="#1976d2"/>
-                <rect x="18.5" y="10.5" width="1" height="8" fill="#1976d2"/>
-                <path d="M19.5 10.5 Q22 8 19.5 5.5" stroke="#1976d2" strokeWidth="1.5" fill="none"/>
-                <ellipse cx="12" cy="12" rx="2" ry="1.5" fill="#1976d2" opacity="0.7"/>
-                <rect x="10.5" y="13.5" width="1.5" height="8" fill="#1976d2" opacity="0.7"/>
-                <rect x="11.25" y="13.5" width="0.5" height="6" fill="#1976d2" opacity="0.7"/>
-              </svg>
+            <img
+              src="/music-note.svg"
+              alt="Music note"
+              style={{
+                display: "block",
+                margin: "0 auto 16px auto",
+                width: "48px",
+                height: "48px",
+                filter: "brightness(0) invert(1)",
+              }}
+              onError={(e) => {
+                e.target.style.display = 'none';
+                if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div style={{display:'none',width:'48px',height:'48px',alignItems:'center',justifyContent:'center',color:'#1976d2',fontSize:'32px',fontWeight:'bold',margin:'0 auto 16px auto'}}>
+              🎵
             </div>
             <h1>Welcome to Open Stage</h1>
             <p>Sign in to discover amazing concerts and manage your tickets</p>
@@ -358,15 +365,11 @@ export default function AuthPage() {
         <div className={`auth-card forgot-password-card ${showForgotPassword ? 'slide-center' : 'slide-right'}`}>
           <div className="signin-header">
             <div className="logo">
-              <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="20" cy="8" rx="3" ry="2.5" fill="#1976d2"/>
-                <rect x="17" y="10.5" width="2" height="12" fill="#1976d2"/>
-                <rect x="18.5" y="10.5" width="1" height="8" fill="#1976d2"/>
-                <path d="M19.5 10.5 Q22 8 19.5 5.5" stroke="#1976d2" strokeWidth="1.5" fill="none"/>
-                <ellipse cx="12" cy="12" rx="2" ry="1.5" fill="#1976d2" opacity="0.7"/>
-                <rect x="10.5" y="13.5" width="1.5" height="8" fill="#1976d2" opacity="0.7"/>
-                <rect x="11.25" y="13.5" width="0.5" height="6" fill="#1976d2" opacity="0.7"/>
-              </svg>
+              <img 
+                src="/music-note.svg" 
+                alt="Music note" 
+                style={{ width: "48px", height: "48px", filter: "brightness(0) invert(1)" }} 
+              />
             </div>
             <h1>Reset Password</h1>
             <p>Enter your email address and we'll send you reset instructions</p>
