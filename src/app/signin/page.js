@@ -340,12 +340,12 @@ export default function AuthPage() {
           </form>
 
           <div className="signin-footer">
-            <p>
+            {/* <p>
               Don't have an account?{" "}
               <button onClick={switchToSignUp} className="signup-link">
                 Sign up here
               </button>
-            </p>
+            </p> */}
             <button 
               onClick={switchToForgotPassword}
               className="forgot-password"
