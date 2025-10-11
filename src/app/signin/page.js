@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import "./signin.css";
 import "../styles/shared-background.css";
 import { createUser } from "../../../util/users";
@@ -15,31 +16,24 @@ export default function AuthPage() {
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
   const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+  const [imageError, setImageError] = useState(false); // track SVG load error
   const router = useRouter();
 
-  // Handle window resize and mobile detection
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
-
-    // Set initial state
     handleResize();
-
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Function to fetch user data from Firestore
   const fetchUserData = async (email) => {
     try {
       const usersRef = collection(firestore, "users");
       const q = query(usersRef, where("email", "==", email));
       const querySnapshot = await getDocs(q);
-      
+
       if (!querySnapshot.empty) {
         const userDoc = querySnapshot.docs[0];
         return userDoc.data();
@@ -51,42 +45,27 @@ export default function AuthPage() {
     }
   };
 
-  // Sign in state
-  const [signInData, setSignInData] = useState({
-    email: "",
-    password: ""
-  });
-
-  // Sign up state
+  const [signInData, setSignInData] = useState({ email: "", password: "" });
   const [signUpData, setSignUpData] = useState({
     displayName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    userType: ""
+    userType: "",
   });
 
   const handleSignInChange = (e) => {
     const { name, value } = e.target;
-    setSignInData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setSignInData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSignUpChange = (e) => {
     const { name, value } = e.target;
-    setSignUpData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setSignUpData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleUserTypeChange = (userType) => {
-    setSignUpData(prev => ({
-      ...prev,
-      userType: userType
-    }));
+    setSignUpData((prev) => ({ ...prev, userType }));
   };
 
   const validateSignUpForm = () => {
@@ -111,7 +90,9 @@ export default function AuthPage() {
       return false;
     }
     if (!signUpData.userType) {
-      setError("Please select whether you are a musician, audience member, or venue");
+      setError(
+        "Please select whether you are a musician, audience member, or venue"
+      );
       return false;
     }
     return true;
@@ -123,37 +104,30 @@ export default function AuthPage() {
     setError("");
 
     try {
-      // Simulate API call - replace with actual authentication logic
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demo purposes, accept any email/password
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       if (signInData.email && signInData.password) {
-        // Fetch user data from Firestore to get userType
         const userData = await fetchUserData(signInData.email);
-        
-        // Store user session with userType
-        localStorage.setItem("user", JSON.stringify({ 
-          email: signInData.email, 
-          name: userData?.displayName || signInData.email.split("@")[0],
-          userType: userData?.userType || 'general'
-        }));
 
-        // Dispatch custom event to notify header of user login
-        window.dispatchEvent(new CustomEvent('userLogin'));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            email: signInData.email,
+            name: userData?.displayName || signInData.email.split("@")[0],
+            userType: userData?.userType || "general",
+          })
+        );
 
-        // Redirect based on user type
-        const userType = userData?.userType || 'general';
-        if (userType === 'venue') {
-          router.push("/venuedashboard");
-        } else if (userType === 'musician') {
-          router.push("/artistcreateconcert");
-        } else {
-          router.push("/dashboard");
-        }
+        window.dispatchEvent(new CustomEvent("userLogin"));
+
+        const userType = userData?.userType || "general";
+        if (userType === "venue") router.push("/venuedashboard");
+        else if (userType === "musician") router.push("/artistcreateconcert");
+        else router.push("/dashboard");
       } else {
         setError("Please fill in all fields");
       }
-    } catch (err) {
+    } catch {
       setError("Sign in failed. Please try again.");
     } finally {
       setIsLoading(false);
@@ -164,9 +138,7 @@ export default function AuthPage() {
     e.preventDefault();
     setError("");
 
-    if (!validateSignUpForm()) {
-      return;
-    }
+    if (!validateSignUpForm()) return;
 
     setIsLoading(true);
 
@@ -179,28 +151,25 @@ export default function AuthPage() {
       );
 
       if (result.success) {
-        // Store user session
-        localStorage.setItem("user", JSON.stringify({ 
-          email: signUpData.email, 
-          name: signUpData.displayName,
-          userType: signUpData.userType
-        }));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            email: signUpData.email,
+            name: signUpData.displayName,
+            userType: signUpData.userType,
+          })
+        );
 
-        // Dispatch custom event to notify header of user login
-        window.dispatchEvent(new CustomEvent('userLogin'));
+        window.dispatchEvent(new CustomEvent("userLogin"));
 
-        // Redirect based on user type
-        if (signUpData.userType === 'venue') {
-          router.push("/venuedashboard");
-        } else if (signUpData.userType === 'musician') {
+        if (signUpData.userType === "venue") router.push("/venuedashboard");
+        else if (signUpData.userType === "musician")
           router.push("/artistcreateconcert");
-        } else {
-          router.push("/dashboard");
-        }
+        else router.push("/dashboard");
       } else {
         setError(result.error || "Sign up failed. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setError("Sign up failed. Please try again.");
     } finally {
       setIsLoading(false);
@@ -228,30 +197,29 @@ export default function AuthPage() {
   const handleForgotPassword = async (e) => {
     e.preventDefault();
     setForgotPasswordMessage("");
-    
+
     if (!forgotPasswordEmail.trim()) {
       setForgotPasswordMessage("Please enter your email address");
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
-      // Simulate API call for password reset
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // For demo purposes, always show success
-      setForgotPasswordMessage("Password reset instructions have been sent to your email address.");
-      
-      // Reset form after 3 seconds
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setForgotPasswordMessage(
+        "Password reset instructions have been sent to your email address."
+      );
+
       setTimeout(() => {
         setShowForgotPassword(false);
         setForgotPasswordEmail("");
         setForgotPasswordMessage("");
       }, 3000);
-      
-    } catch (err) {
-      setForgotPasswordMessage("Failed to send reset instructions. Please try again.");
+    } catch {
+      setForgotPasswordMessage(
+        "Failed to send reset instructions. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -263,38 +231,61 @@ export default function AuthPage() {
     setForgotPasswordMessage("");
   };
 
+  const renderHeaderIcon = () => {
+    return !imageError ? (
+      <Image
+        src="/music-note.svg"
+        alt="Music note"
+        width={48}
+        height={48}
+        onError={() => setImageError(true)}
+        style={{ display: "block", margin: "0 auto 16px auto" }}
+      />
+    ) : (
+      <div
+        style={{
+          width: "48px",
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "32px",
+          fontWeight: "bold",
+          color: "#1976d2", // blue
+          margin: "0 auto 16px auto",
+        }}
+      >
+        🎵
+      </div>
+    );
+  };
+
   return (
-    <div className={`auth-container ${isMobile ? 'mobile' : ''}`}>
-      <div className={`auth-wrapper ${isSignUp ? 'signup-mode' : showForgotPassword ? 'forgot-password-mode' : ''} ${isMobile ? 'mobile' : ''}`}>
-        <div className={`auth-card signin-card ${isSignUp ? 'slide-left' : showForgotPassword ? 'slide-left' : 'slide-center'}`}>
+    <div className={`auth-container ${isMobile ? "mobile" : ""}`}>
+      <div
+        className={`auth-wrapper ${
+          isSignUp
+            ? "signup-mode"
+            : showForgotPassword
+            ? "forgot-password-mode"
+            : ""
+        } ${isMobile ? "mobile" : ""}`}
+      >
+        {/* Sign In Card */}
+        <div
+          className={`auth-card signin-card ${
+            isSignUp ? "slide-left" : showForgotPassword ? "slide-left" : "slide-center"
+          }`}
+        >
           <div className="signin-header">
-            <img
-              src="/music-note.svg"
-              alt="Music note"
-              style={{
-                display: "block",
-                margin: "0 auto 16px auto",
-                width: "48px",
-                height: "48px",
-                filter: "brightness(0) invert(1)",
-              }}
-              onError={(e) => {
-                e.target.style.display = 'none';
-                if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
-              }}
-            />
-            <div style={{display:'none',width:'48px',height:'48px',alignItems:'center',justifyContent:'center',color:'#1976d2',fontSize:'32px',fontWeight:'bold',margin:'0 auto 16px auto'}}>
-              🎵
-            </div>
+            {renderHeaderIcon()}
             <h1>Welcome to Open Stage</h1>
             <p>Sign in to discover amazing concerts and manage your tickets</p>
           </div>
 
           <form onSubmit={handleSignInSubmit} className="signin-form">
             {error && !isSignUp && !showForgotPassword && (
-              <div className="error-message">
-                {error}
-              </div>
+              <div className="error-message">{error}</div>
             )}
 
             <div className="form-group">
@@ -325,11 +316,7 @@ export default function AuthPage() {
               />
             </div>
 
-            <button 
-              type="submit" 
-              className="signin-button"
-              disabled={isLoading}
-            >
+            <button type="submit" className="signin-button" disabled={isLoading}>
               {isLoading ? "Signing In..." : "Sign In"}
             </button>
 
@@ -337,7 +324,7 @@ export default function AuthPage() {
               <span>or</span>
             </div>
 
-            <button 
+            <button
               type="button"
               onClick={switchToSignUp}
               className="create-account-button"
@@ -347,37 +334,29 @@ export default function AuthPage() {
           </form>
 
           <div className="signin-footer">
-            {/* <p>
-              Don't have an account?{" "}
-              <button onClick={switchToSignUp} className="signup-link">
-                Sign up here
-              </button>
-            </p> */}
-            <button 
-              onClick={switchToForgotPassword}
-              className="forgot-password"
-            >
+            <button onClick={switchToForgotPassword} className="forgot-password">
               Forgot your password?
             </button>
           </div>
         </div>
 
-        <div className={`auth-card forgot-password-card ${showForgotPassword ? 'slide-center' : 'slide-right'}`}>
-          <div className="signin-header">
-            <div className="logo">
-              <img 
-                src="/music-note.svg" 
-                alt="Music note" 
-                style={{ width: "48px", height: "48px", filter: "brightness(0) invert(1)" }} 
-              />
-            </div>
-            <h1>Reset Password</h1>
-            <p>Enter your email address and we'll send you reset instructions</p>
-          </div>
+        {/* Forgot Password Card */}
+        <div
+          className={`auth-card forgot-password-card ${
+            showForgotPassword ? "slide-center" : "slide-right"
+          }`}
+        >
+          <div className="signin-header">{renderHeaderIcon()}</div>
+          <h1>Reset Password</h1>
+          <p>Enter your email address and we'll send you reset instructions</p>
 
           <form onSubmit={handleForgotPassword} className="signin-form">
             {forgotPasswordMessage && (
-              <div className={`message ${forgotPasswordMessage.includes('sent') ? 'success-message' : 'error-message'}`}>
+              <div
+                className={`message ${
+                  forgotPasswordMessage.includes("sent") ? "success-message" : "error-message"
+                }`}
+              >
                 {forgotPasswordMessage}
               </div>
             )}
@@ -395,47 +374,29 @@ export default function AuthPage() {
               />
             </div>
 
-            <button 
-              type="submit" 
-              className="signin-button"
-              disabled={isLoading}
-            >
+            <button type="submit" className="signin-button" disabled={isLoading}>
               {isLoading ? "Sending..." : "Send Reset Instructions"}
             </button>
           </form>
 
           <div className="signin-footer">
-            <button 
-              onClick={handleBackToSignIn}
-              className="back-to-signin"
-            >
+            <button onClick={handleBackToSignIn} className="back-to-signin">
               ← Back to Sign In
             </button>
           </div>
         </div>
 
-        <div className={`auth-card signup-card ${isSignUp ? 'slide-center' : 'slide-right'}`}>
-          <div className="signup-header">
-            <div className="logo">
-              <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <ellipse cx="20" cy="8" rx="3" ry="2.5" fill="#1976d2"/>
-                <rect x="17" y="10.5" width="2" height="12" fill="#1976d2"/>
-                <rect x="18.5" y="10.5" width="1" height="8" fill="#1976d2"/>
-                <path d="M19.5 10.5 Q22 8 19.5 5.5" stroke="#1976d2" strokeWidth="1.5" fill="none"/>
-                <ellipse cx="12" cy="12" rx="2" ry="1.5" fill="#1976d2" opacity="0.7"/>
-                <rect x="10.5" y="13.5" width="1.5" height="8" fill="#1976d2" opacity="0.7"/>
-                <rect x="11.25" y="13.5" width="0.5" height="6" fill="#1976d2" opacity="0.7"/>
-              </svg>
-            </div>
-            <h1>Join Open Stage</h1>
-            <p>Create your account to discover concerts and connect with artists</p>
-          </div>
+        {/* Sign Up Card */}
+        <div
+          className={`auth-card signup-card ${isSignUp ? "slide-center" : "slide-right"}`}
+        >
+          <div className="signup-header">{renderHeaderIcon()}</div>
+          <h1>Join Open Stage</h1>
+          <p>Create your account to discover concerts and connect with artists</p>
 
           <form onSubmit={handleSignUpSubmit} className="signup-form">
             {error && isSignUp && !showForgotPassword && (
-              <div className="error-message">
-                {error}
-              </div>
+              <div className="error-message">{error}</div>
             )}
 
             <div className="form-group">
@@ -497,44 +458,35 @@ export default function AuthPage() {
             <div className="form-group">
               <label>I am a...</label>
               <div className="user-type-selection">
-                <div 
-                  className={`user-type-option ${signUpData.userType === 'musician' ? 'selected' : ''}`}
-                  onClick={() => handleUserTypeChange('musician')}
-                >
-                  <div className="user-type-icon">🎵</div>
-                  <div className="user-type-content">
-                    <h3>Musician</h3>
-                    <p>I create and perform music</p>
+                {["musician","audience","venue"].map((type) => (
+                  <div
+                    key={type}
+                    className={`user-type-option ${
+                      signUpData.userType === type ? "selected" : ""
+                    }`}
+                    onClick={() => handleUserTypeChange(type)}
+                  >
+                    <div className="user-type-icon">
+                      {type === "musician" ? "🎵" : type === "audience" ? "🎫" : "🏛️"}
+                    </div>
+                    <div className="user-type-content">
+                      <h3>
+                        {type.charAt(0).toUpperCase() + type.slice(1).replace("venue","Venue")}
+                      </h3>
+                      <p>
+                        {type === "musician"
+                          ? "I create and perform music"
+                          : type === "audience"
+                          ? "I enjoy discovering and attending concerts"
+                          : "I host concerts and events"}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div 
-                  className={`user-type-option ${signUpData.userType === 'audience' ? 'selected' : ''}`}
-                  onClick={() => handleUserTypeChange('audience')}
-                >
-                  <div className="user-type-icon">🎫</div>
-                  <div className="user-type-content">
-                    <h3>Audience Member</h3>
-                    <p>I enjoy discovering and attending concerts</p>
-                  </div>
-                </div>
-                <div 
-                  className={`user-type-option ${signUpData.userType === 'venue' ? 'selected' : ''}`}
-                  onClick={() => handleUserTypeChange('venue')}
-                >
-                  <div className="user-type-icon">🏛️</div>
-                  <div className="user-type-content">
-                    <h3>Venue</h3>
-                    <p>I host concerts and events</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            <button 
-              type="submit" 
-              className="signup-button"
-              disabled={isLoading}
-            >
+            <button type="submit" className="signup-button" disabled={isLoading}>
               {isLoading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
