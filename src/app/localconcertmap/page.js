@@ -23,11 +23,35 @@ let isGoogleMapsLoading = false;
 let googleMapsLoadPromise = null;
 
 export default function LocalConcertMapPage() {
+
   const [selectedConcert, setSelectedConcert] = useState(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const mapRef = useRef(null);
+  // Filter concerts by search term
+  const filteredConcerts = concerts.filter(concert =>
+    concert.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Zoom and fit map to filtered concerts when search changes
+  useEffect(() => {
+    if (!map || filteredConcerts.length === 0 || !window.google) return;
+    if (filteredConcerts.length === 1) {
+      // Center and zoom to single concert
+      const c = filteredConcerts[0];
+      map.setCenter({ lat: c.lat, lng: c.lng });
+      map.setZoom(15);
+    } else {
+      // Fit bounds to all filtered concerts
+      const bounds = new window.google.maps.LatLngBounds();
+      filteredConcerts.forEach(c => {
+        bounds.extend(new window.google.maps.LatLng(c.lat, c.lng));
+      });
+      map.fitBounds(bounds);
+    }
+  }, [searchTerm, map]);
 
   // Handle window resize and mobile detection
   useEffect(() => {
@@ -145,6 +169,7 @@ export default function LocalConcertMapPage() {
     setMarkers(concertMarkers);
   };
 
+
   // Handle concert selection from sidebar
   const handleConcertSelect = (concertId) => {
     setSelectedConcert(concertId);
@@ -176,8 +201,42 @@ export default function LocalConcertMapPage() {
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
+            position: "relative"
           }}
         >
+          {/* Search bar hovering over the map */}
+          <div
+            style={{
+              position: "absolute",
+              top: "30px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 2,
+              background: "rgba(255,255,255,0.95)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+              borderRadius: "8px",
+              padding: "8px 16px",
+              display: "flex",
+              alignItems: "center",
+              minWidth: "220px",
+              maxWidth: "90%"
+            }}
+          >
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              placeholder="Search concerts..."
+              style={{
+                width: "100%",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+                padding: "8px 12px",
+                fontSize: "16px",
+                outline: "none"
+              }}
+            />
+          </div>
           {/* Concerts List Section */}
           <div
             style={{
@@ -197,7 +256,7 @@ export default function LocalConcertMapPage() {
               Concerts Nearby
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {concerts.map((concert) => (
+              {filteredConcerts.map((concert) => (
                 <div
                   key={concert.id}
                   onClick={() => handleConcertSelect(concert.id)}
@@ -266,8 +325,37 @@ export default function LocalConcertMapPage() {
           <Sidebar>
             <div>
               <h2 className={styles.sidebarTitle}>Concerts Nearby</h2>
+              {/* Search bar below heading in sidebar */}
+              <div
+                style={{
+                  margin: "16px 0 20px 0",
+                  background: "rgba(255,255,255,0.95)",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                  borderRadius: "8px",
+                  padding: "8px 16px",
+                  display: "flex",
+                  alignItems: "center",
+                  minWidth: "180px",
+                  maxWidth: "100%"
+                }}
+              >
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  placeholder="Search concerts..."
+                  style={{
+                    width: "100%",
+                    border: "1px solid #ccc",
+                    borderRadius: "6px",
+                    padding: "8px 12px",
+                    fontSize: "16px",
+                    outline: "none"
+                  }}
+                />
+              </div>
               <ul className={styles.concertList}>
-                {concerts.map((concert) => (
+                {filteredConcerts.map((concert) => (
                   <li
                     key={concert.id}
                     className={
@@ -295,6 +383,7 @@ export default function LocalConcertMapPage() {
               display: "flex",
               flexDirection: "column",
               minWidth: 0,
+              position: "relative"
             }}
           >
             {GOOGLE_MAPS_API_KEY ? (
