@@ -17,7 +17,7 @@ export default function VenueDashboard() {
   const [hoveredArtist, setHoveredArtist] = useState(null);
   const [hoveredFollowedArtist, setHoveredFollowedArtist] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const router = useRouter();
+  const router = useRouter(); 
 
   // Sample local musician data with genres and contact info
   const [sampleArtists] = useState([
