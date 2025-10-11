@@ -311,14 +311,6 @@ export default function HomePage() {
                       cursor: 'pointer',
                       border: '1px solid #e0e0e0'
                     }}
-                    onMouseEnter={(e) => {
-                      e.target.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)';
-                      e.target.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
-                      e.target.style.transform = 'translateY(0)';
-                    }}
                   >
                     {/* Artist Profile Picture */}
                     <div
@@ -470,12 +462,6 @@ export default function HomePage() {
                     gap: '16px',
                     transition: 'box-shadow 0.2s ease',
                     cursor: 'pointer'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
                   }}
                 >
                   {/* Artist Profile Picture */}
