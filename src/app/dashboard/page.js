@@ -434,19 +434,6 @@ export default function HomePage() {
                         {formatDate(ticket.date)}
                       </div>
                     </div>
-
-                    {/* Status */}
-                    <div
-                      style={{
-                        background: getStatusColor(ticket.status),
-                        padding: "8px 16px",
-                        borderRadius: "20px",
-                        fontSize: "12px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      {ticket.status}
-                    </div>
                   </div>
                 ))
               ) : (
@@ -577,43 +564,24 @@ export default function HomePage() {
                         {ticket.concert}
                       </p>
                     </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "16px",
-                      }}
-                    >
-                      <div style={{ textAlign: "right" }}>
-                        <div
-                          style={{
-                            color: colors.textPrimary,
-                            fontSize: "18px",
-                            fontWeight: "500",
-                            marginBottom: "4px",
-                          }}
-                        >
-                          {formatDate(ticket.date)}
-                        </div>
-                        <div
-                          style={{
-                            color: colors.textSecondary,
-                            fontSize: "16px",
-                          }}
-                        >
-                          {ticket.concert}
-                        </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div
+                        style={{
+                          color: colors.textPrimary,
+                          fontSize: "18px",
+                          fontWeight: "500",
+                          marginBottom: "4px",
+                        }}
+                      >
+                        {formatDate(ticket.date)}
                       </div>
                       <div
                         style={{
-                          background: getStatusColor(ticket.status),
-                          padding: "12px 24px",
-                          borderRadius: "25px",
+                          color: colors.textSecondary,
                           fontSize: "16px",
-                          fontWeight: "500",
                         }}
                       >
-                        {ticket.status}
+                        {ticket.concert}
                       </div>
                     </div>
                   </div>
