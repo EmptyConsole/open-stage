@@ -160,26 +160,15 @@ export default function HomePage() {
               boxShadow: isMobileLayout
                 ? "0 2px 8px rgba(0,0,0,0.1)"
                 : "0 2px 4px rgba(0,0,0,0.04)",
-              transition: "all 0.2s ease",
+              transition: "transform 0.18s cubic-bezier(0.4,0,0.2,1)",
               cursor: "pointer",
               border: isMobileLayout ? "1px solid #e0e0e0" : "none",
             }}
-            onMouseEnter={(e) => {
-              e.target.style.background = colors.lightBlue;
-              e.target.style.boxShadow = isMobileLayout
-                ? "0 4px 16px rgba(0,0,0,0.15)"
-                : "0 4px 12px rgba(0,0,0,0.1)";
-              if (isMobileLayout) e.target.style.transform = "translateY(-2px)";
-              setHoveredArtist(artist);
+            onMouseEnter={e => {
+              e.currentTarget.style.transform = "scale(1.04)";
             }}
-            onMouseLeave={(e) => {
-              e.target.style.background = isMobileLayout
-                ? colors.white
-                : colors.lightGray;
-              e.target.style.boxShadow = isMobileLayout
-                ? "0 2px 8px rgba(0,0,0,0.1)"
-                : "0 2px 4px rgba(0,0,0,0.04)";
-              if (isMobileLayout) e.target.style.transform = "translateY(0)";
+            onMouseLeave={e => {
+              e.currentTarget.style.transform = "scale(1)";
             }}
           >
             <div
@@ -378,6 +367,13 @@ export default function HomePage() {
                       alignItems: "center",
                       gap: "16px",
                       cursor: "pointer",
+                      transition: "transform 0.18s cubic-bezier(0.4,0,0.2,1)",
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = "scale(1.03)";
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = "scale(1)";
                     }}
                   >
                     {/* Artist Picture */}
@@ -522,6 +518,13 @@ export default function HomePage() {
                       alignItems: "center",
                       gap: "16px",
                       cursor: "pointer",
+                      transition: "transform 0.18s cubic-bezier(0.4,0,0.2,1)",
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = "scale(1.04)";
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = "scale(1)";
                     }}
                   >
                     <div
