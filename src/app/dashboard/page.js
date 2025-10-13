@@ -15,6 +15,8 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [hoveredArtist, setHoveredArtist] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedTicket, setSelectedTicket] = useState(null);
   const router = useRouter();
 
   // Sample ticket data - will be populated from Firebase artists
@@ -64,6 +66,7 @@ export default function HomePage() {
         const hardcodedTicket = {
           id: "hardcoded-1",
           artist: {
+            id: "taylor-swift",
             name: "Taylor Swift",
             profilePicture:
               "https://via.placeholder.com/80x80/1976d2/ffffff?text=TS",
@@ -86,6 +89,7 @@ export default function HomePage() {
             ? artists.slice(0, 2).map((artist, index) => ({
                 id: artist.id || index + 1,
                 artist: {
+                  id: artist.id,
                   name: artist.name,
                   profilePicture:
                     artist.profilePicture ||
@@ -122,6 +126,248 @@ export default function HomePage() {
   const filteredArtists = followedArtists.filter((artist) =>
     artist.name.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  // Ticket Popup Component
+  const TicketPopup = () => {
+    if (!showPopup || !selectedTicket) return null;
+
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px',
+        }}
+        onClick={() => setShowPopup(false)}
+      >
+        <div
+          style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            padding: '32px',
+            maxWidth: '600px',
+            width: '100%',
+            maxHeight: '80vh',
+            overflow: 'auto',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+            position: 'relative',
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Close button */}
+          <button
+            onClick={() => setShowPopup(false)}
+            style={{
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              background: 'none',
+              border: 'none',
+              fontSize: '24px',
+              cursor: 'pointer',
+              color: '#666',
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              transition: 'background-color 0.2s',
+            }}
+            onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+          >
+            ×
+          </button>
+
+          {/* Header */}
+          <div style={{ marginBottom: '24px' }}>
+            <h2 style={{ 
+              margin: '0 0 8px 0', 
+              color: colors.primary, 
+              fontSize: '28px',
+              fontWeight: 'bold'
+            }}>
+              {selectedTicket.artist.name}'s Concert
+            </h2>
+            <p style={{ 
+              margin: 0, 
+              color: '#666', 
+              fontSize: '16px'
+            }}>
+              {selectedTicket.concert}
+            </p>
+          </div>
+
+          {/* Concert Image */}
+          <div
+            style={{
+              width: '100%',
+              height: '200px',
+              background: 'linear-gradient(135deg, #1976d2, #42a5f5)',
+              borderRadius: '8px',
+              marginBottom: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '18px',
+              fontWeight: 'bold',
+            }}
+          >
+            Concert Image
+          </div>
+
+          {/* Concert Details Grid */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+            gap: '16px',
+            marginBottom: '24px'
+          }}>
+            <div style={{ 
+              background: '#f8f9fa', 
+              padding: '16px', 
+              borderRadius: '8px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+                DATE
+              </h4>
+              <p style={{ margin: 0, color: '#333', fontSize: '16px' }}>
+                {formatDate(selectedTicket.date)}
+              </p>
+            </div>
+            <div style={{ 
+              background: '#f8f9fa', 
+              padding: '16px', 
+              borderRadius: '8px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+                STATUS
+              </h4>
+              <p style={{ margin: 0, color: '#333', fontSize: '16px', fontWeight: 'bold', textTransform: 'capitalize' }}>
+                {selectedTicket.status}
+              </p>
+            </div>
+            <div style={{ 
+              background: '#f8f9fa', 
+              padding: '16px', 
+              borderRadius: '8px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+                VENUE
+              </h4>
+              <p style={{ margin: 0, color: '#333', fontSize: '16px' }}>
+                TBD
+              </p>
+            </div>
+            <div style={{ 
+              background: '#f8f9fa', 
+              padding: '16px', 
+              borderRadius: '8px',
+              border: '1px solid #e9ecef'
+            }}>
+              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+                PRICE
+              </h4>
+              <p style={{ margin: 0, color: '#333', fontSize: '16px', fontWeight: 'bold' }}>
+                $50
+              </p>
+            </div>
+          </div>
+
+          {/* Artist Description */}
+          <div style={{ marginBottom: '24px' }}>
+            <h3 style={{ 
+              margin: '0 0 12px 0', 
+              color: colors.primary, 
+              fontSize: '20px',
+              fontWeight: 'bold'
+            }}>
+              About {selectedTicket.artist.name}
+            </h3>
+            <p style={{ 
+              margin: 0, 
+              color: '#333', 
+              fontSize: '16px', 
+              lineHeight: '1.6'
+            }}>
+              {selectedTicket.artist.description}
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '12px', 
+            justifyContent: 'flex-end',
+            marginTop: '24px'
+          }}>
+            <button
+              onClick={() => setShowPopup(false)}
+              style={{
+                padding: '12px 24px',
+                border: '1px solid #ddd',
+                borderRadius: '6px',
+                background: 'white',
+                color: '#333',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#f8f9fa';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'white';
+              }}
+            >
+              Close
+            </button>
+            <button
+              onClick={() => {
+                if (selectedTicket.artist.id) {
+                  router.push(`/artistsprofiles?id=${selectedTicket.artist.id}`);
+                }
+                setShowPopup(false);
+              }}
+              style={{
+                padding: '12px 24px',
+                border: 'none',
+                borderRadius: '6px',
+                background: colors.primary,
+                color: 'white',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '500',
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#1565c0';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = colors.primary;
+              }}
+            >
+              View Artist Profile
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   // Followed Artists Component
   const FollowedArtistsSection = ({ isMobileLayout = false }) => (
@@ -290,6 +536,7 @@ export default function HomePage() {
       }}
     >
       <DynamicHeader />
+      <TicketPopup />
       {isMobile ? (
         // 📱 Mobile Layout
         <main
@@ -358,6 +605,10 @@ export default function HomePage() {
                 tickets.map((ticket) => (
                   <div
                     key={ticket.id}
+                    onClick={() => {
+                      setSelectedTicket(ticket);
+                      setShowPopup(true);
+                    }}
                     style={{
                       background: colors.white,
                       borderRadius: "12px",
@@ -509,6 +760,10 @@ export default function HomePage() {
                 tickets.map((ticket) => (
                   <div
                     key={ticket.id}
+                    onClick={() => {
+                      setSelectedTicket(ticket);
+                      setShowPopup(true);
+                    }}
                     style={{
                       background: colors.white,
                       borderRadius: "8px",
