@@ -287,8 +287,8 @@ export default function MusicianPage() {
             />
           </div>
 
-          {/* New Concert Button */}
-          <div style={{ marginBottom: '24px' }}>
+          {/* Action Buttons */}
+          <div style={{ marginBottom: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <button
               onClick={() => {
                 setShowForm(true);
@@ -322,6 +322,36 @@ export default function MusicianPage() {
               }}
             >
               + New Concert
+            </button>
+            <button
+              onClick={() => window.location.href = '/concertstats'}
+              style={{
+                width: '100%',
+                padding: '16px',
+                backgroundColor: '#f3e5f5',
+                color: '#7b1fa2',
+                border: '2px solid #ba68c8',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: '500',
+                cursor: 'pointer',
+                transition: 'background-color 0.2s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#e1bee7';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#f3e5f5';
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4zM2 1a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm1 3h10a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
+              </svg>
+              View Concert Statistics
             </button>
           </div>
 
@@ -676,42 +706,73 @@ export default function MusicianPage() {
                 }}
               />
 
-              {/* New Concert Button */}
-              <button
-                onClick={() => {
-                  setShowForm(true);
-                  setEditingConcert(null);
-                  setFormData({
-                    name: "",
-                    date: "",
-                    place: "",
-                    genre: "",
-                    time: "",
-                    admissionFee: ""
-                  });
-                }}
-                style={{
-                  width: '100%',
-                  padding: '12px',
-                  backgroundColor: '#e3f2fd',
-                  color: '#1976d2',
-                  border: '2px solid #64b5f6',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  marginBottom: '24px',
-                  transition: 'background-color 0.2s ease'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = '#bbdefb';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = '#e3f2fd';
-                }}
-              >
-                + New Concert
-              </button>
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+                <button
+                  onClick={() => {
+                    setShowForm(true);
+                    setEditingConcert(null);
+                    setFormData({
+                      name: "",
+                      date: "",
+                      place: "",
+                      genre: "",
+                      time: "",
+                      admissionFee: ""
+                    });
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    backgroundColor: '#e3f2fd',
+                    color: '#1976d2',
+                    border: '2px solid #64b5f6',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#bbdefb';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#e3f2fd';
+                  }}
+                >
+                  + New Concert
+                </button>
+                <button
+                  onClick={() => window.location.href = '/concertstats'}
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    backgroundColor: '#f3e5f5',
+                    color: '#7b1fa2',
+                    border: '2px solid #ba68c8',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '6px'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = '#e1bee7';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = '#f3e5f5';
+                  }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4zM2 1a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm1 3h10a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
+                  </svg>
+                  View Stats
+                </button>
+              </div>
 
               <ConcertsListSection isMobileLayout={false} />
             </div>

@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from 'next/navigation';
 import { colors } from '../styles/colors';
+import ArtistProfileImage from './ArtistProfileImage';
 
 export default function SidebarArtistSquare({ artistName, description, artistId, onClick }) {
   const router = useRouter();
@@ -35,24 +36,17 @@ export default function SidebarArtistSquare({ artistName, description, artistId,
         e.target.style.backgroundColor = 'transparent';
       }}
     >
-      {/* Image placeholder square */}
-      <div
+      {/* Artist Profile Image */}
+      <ArtistProfileImage
+        artistId={artistId || artistName}
+        artistName={artistName}
+        size={150}
         style={{
-          width: '150px',
-          height: '150px',
-          backgroundColor: colors.lightGray,
           border: `2px dashed ${colors.border}`,
           borderRadius: '4px',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          color: colors.textLight,
-          fontSize: '12px',
         }}
-      >
-        IMG
-      </div>
+        showInitials={false}
+      />
       
       {/* Artist info */}
       <div style={{ flex: 1, minWidth: 0 }}>

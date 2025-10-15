@@ -1,4 +1,6 @@
-export default function ArtistSquare({ artistNumber, title, genre, onClick }) {
+import ArtistProfileImage from './ArtistProfileImage';
+
+export default function ArtistSquare({ artistNumber, title, genre, onClick, artistId }) {
   return (
     <div
       onClick={onClick}
@@ -27,6 +29,19 @@ export default function ArtistSquare({ artistNumber, title, genre, onClick }) {
         e.target.style.backgroundColor = '#ededed';
       }}
     >
+      {/* Artist Profile Image */}
+      <div style={{ marginBottom: '12px' }}>
+        <ArtistProfileImage
+          artistId={artistId || title || `artist_${artistNumber}`}
+          artistName={title || `Artist ${artistNumber}`}
+          size={80}
+          style={{
+            border: '2px dashed #ccc',
+            borderRadius: '8px',
+          }}
+        />
+      </div>
+      
       <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
         {title || `Artist ${artistNumber}`}
       </div>

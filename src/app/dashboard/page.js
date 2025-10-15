@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getUsers, getArtists } from "../../../util/users";
 import { colors } from "../styles/colors";
+import ArtistProfileImage from "../components/ArtistProfileImage";
 
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
@@ -425,63 +426,16 @@ export default function HomePage() {
               }}
             >
               {/* Artist Profile Picture */}
-              <div
+              <ArtistProfileImage
+                artistId={artist.id || artist.name}
+                artistName={artist.name}
+                size={isMobileLayout ? 60 : 80}
                 style={{
-                  width: isMobileLayout ? "60px" : "80px",
-                  height: isMobileLayout ? "60px" : "80px",
-                  background: colors.lightGray,
-                  borderRadius: isMobileLayout ? "12px" : "8px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: colors.textLight,
-                  fontSize: "10px",
-                  flexShrink: 0,
-                  overflow: "hidden",
                   border: isMobileLayout
                     ? "none"
                     : `2px dashed ${colors.border}`,
                 }}
-              >
-                <img
-                  src={
-                    artist.profilePicture ||
-                    `https://via.placeholder.com/${
-                      isMobileLayout ? "60x60" : "80x80"
-                    }/1976d2/ffffff?text=${artist.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}`
-                  }
-                  alt={artist.name}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                    e.target.nextSibling.style.display = "flex";
-                  }}
-                />
-                <div
-                  style={{
-                    display: "none",
-                    width: "100%",
-                    height: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: colors.textLight,
-                    fontSize: isMobileLayout ? "12px" : "10px",
-                    background: colors.lightGray,
-                  }}
-                >
-                  {artist.name
-                    .split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </div>
-              </div>
+              />
 
               {/* Text content */}
               <div style={{ flex: 1, minWidth: 0 }}>
