@@ -3,6 +3,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import "../styles/shared-background.css";
 import { colors } from "../styles/colors";
+import ConcertImage from "../components/ConcertImage";
 
 // Component that uses useSearchParams - needs to be wrapped in Suspense
 function ConcertDetailsContent() {
@@ -110,27 +111,23 @@ function ConcertDetailsContent() {
           gap: '32px',
           alignItems: 'flex-start'
         }}>
-          {/* Concert Image/Poster Placeholder */}
+          {/* Concert Image */}
           <div style={{
             width: isMobile ? '100%' : '400px',
             height: isMobile ? '250px' : '500px',
-            background: `linear-gradient(135deg, ${colors.primary}20, ${colors.secondary}20)`,
-            borderRadius: '12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: `2px solid ${colors.primary}30`,
             flexShrink: 0
           }}>
-            <div style={{
-              textAlign: 'center',
-              color: colors.primary,
-              fontSize: isMobile ? '16px' : '18px',
-              fontWeight: '500'
-            }}>
-              <div style={{ fontSize: isMobile ? '48px' : '64px', marginBottom: '16px' }}>🎵</div>
-              <div>Concert Poster</div>
-            </div>
+            <ConcertImage
+              concertId={concertDetails.title || concertDetails.artist}
+              concertName={concertDetails.title || concertDetails.artist}
+              venue={concertDetails.venue}
+              width={isMobile ? 400 : 400}
+              height={isMobile ? 250 : 500}
+              style={{
+                borderRadius: '12px',
+                border: `2px solid ${colors.primary}30`,
+              }}
+            />
           </div>
 
           {/* Concert Information */}

@@ -5,7 +5,10 @@ import {
   getProfilePhotosByCategory,
   getDatasetStats,
   searchProfilePhotos,
-  getRandomProfilePhoto
+  getRandomProfilePhoto,
+  getAllLandscapeImages,
+  getRandomLandscapeImage,
+  getRandomLandscapeImages
 } from '../../../utils/datasetUtils';
 
 /**
@@ -60,9 +63,22 @@ export async function GET(request) {
         result = getAllProfilePhotos();
         break;
         
+      case 'landscapes':
+        if (count === 1) {
+          const image = getRandomLandscapeImage();
+          result = image ? [image] : [];
+        } else {
+          result = getRandomLandscapeImages(count);
+        }
+        break;
+        
+      case 'all_landscapes':
+        result = getAllLandscapeImages();
+        break;
+        
       default:
         return NextResponse.json(
-          { error: 'Invalid action. Use: stats, random, category, search, or all' },
+          { error: 'Invalid action. Use: stats, random, category, search, all, landscapes, or all_landscapes' },
           { status: 400 }
         );
     }

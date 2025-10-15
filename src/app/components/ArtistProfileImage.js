@@ -44,7 +44,7 @@ export default function ArtistProfileImage({
 
   return (
     <div style={containerStyle} className={className} {...props}>
-      {!imageError ? (
+      {!imageError && (
         <img
           src={photoData.primary}
           alt={`${artistName} profile picture`}
@@ -52,15 +52,16 @@ export default function ArtistProfileImage({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            borderRadius: size <= 60 ? '12px' : '8px',
             display: imageLoaded ? 'block' : 'none'
           }}
           onError={handleImageError}
           onLoad={handleImageLoad}
         />
-      ) : null}
+      )}
       
       {/* Fallback display with initials */}
-      {(imageError || !imageLoaded) && (
+      {imageError && (
         <div
           style={{
             width: '100%',

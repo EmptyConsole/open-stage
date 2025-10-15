@@ -7,6 +7,8 @@ import fs from 'fs';
 import path from 'path';
 
 const DATASET_PATH = path.join(process.cwd(), 'public', 'dataset');
+const PROFILES_PATH = path.join(process.cwd(), 'Profiles');
+const LANDSCAPES_PATH = path.join(process.cwd(), 'Landscapes');
 
 /**
  * Get a random profile photo from the dataset
@@ -31,8 +33,8 @@ export function getRandomProfilePhoto() {
  */
 export function getAllProfilePhotos() {
   try {
-    if (!fs.existsSync(DATASET_PATH)) {
-      console.warn('Dataset directory not found:', DATASET_PATH);
+    if (!fs.existsSync(PROFILES_PATH)) {
+      console.warn('Profiles dataset directory not found:', PROFILES_PATH);
       return [];
     }
 
@@ -55,10 +57,10 @@ export function getAllProfilePhotos() {
       }
     }
     
-    scanDirectory(DATASET_PATH);
+    scanDirectory(PROFILES_PATH);
     return photos;
   } catch (error) {
-    console.error('Error scanning dataset:', error);
+    console.error('Error scanning profiles dataset:', error);
     return [];
   }
 }
@@ -174,6 +176,79 @@ export function searchProfilePhotos(pattern) {
     });
   } catch (error) {
     console.error('Error searching profile photos:', error);
+    return [];
+  }
+}
+
+/**
+ * Get all landscape images from the dataset
+ * @returns {string[]} Array of landscape image paths
+ */
+export function getAllLandscapeImages() {
+  try {
+    if (!fs.existsSync(LANDSCAPES_PATH)) {
+      console.warn('Landscapes dataset directory not found:', LANDSCAPES_PATH);
+      return [];
+    }
+
+    const images = [];
+    
+    function scanDirectory(dir) {
+      const items = fs.readdirSync(dir);
+      
+      for (const item of items) {
+        const fullPath = path.join(dir, item);
+        const stat = fs.statSync(fullPath);
+        
+        if (stat.isDirectory()) {
+          scanDirectory(fullPath);
+        } else if (stat.isFile() && isImageFile(item)) {
+          // Convert to web-accessible path
+          const webPath = fullPath.replace(path.join(process.cwd(), 'public'), '');
+          images.push(webPath);
+        }
+      }
+    }
+    
+    scanDirectory(LANDSCAPES_PATH);
+    return images;
+  } catch (error) {
+    console.error('Error scanning landscapes dataset:', error);
+    return [];
+  }
+}
+
+/**
+ * Get a random landscape image from the dataset
+ * @returns {string|null} Path to a random landscape image or null if none found
+ */
+export function getRandomLandscapeImage() {
+  try {
+    const images = getAllLandscapeImages();
+    if (images.length === 0) return null;
+    
+    const randomIndex = Math.floor(Math.random() * images.length);
+    return images[randomIndex];
+  } catch (error) {
+    console.error('Error getting random landscape image:', error);
+    return null;
+  }
+}
+
+/**
+ * Get multiple random landscape images
+ * @param {number} count - Number of images to return
+ * @returns {string[]} Array of random landscape image paths
+ */
+export function getRandomLandscapeImages(count = 5) {
+  try {
+    const allImages = getAllLandscapeImages();
+    if (allImages.length === 0) return [];
+    
+    const shuffled = [...allImages].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, Math.min(count, allImages.length));
+  } catch (error) {
+    console.error('Error getting random landscape images:', error);
     return [];
   }
 }

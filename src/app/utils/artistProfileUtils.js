@@ -24,14 +24,11 @@ export function getArtistProfilePhoto(artistId, category = null) {
   // Make hash positive
   hash = Math.abs(hash);
   
-  // If category is specified, use it; otherwise determine based on hash
-  const photoCategory = category || (hash % 2 === 0 ? 'male' : 'female');
-  
   // Generate a consistent photo index based on the hash
   // This ensures the same artist always gets the same photo
-  const photoIndex = (hash % 100) + 1; // Use modulo to keep index reasonable
+  const photoIndex = (hash % 749) + 1; // Use modulo to keep index reasonable (749 profiles available)
   
-  return `/dataset/${photoCategory}/profile_${photoIndex}.jpg`;
+  return `/Profiles/img-${photoIndex}.jpg`;
 }
 
 /**

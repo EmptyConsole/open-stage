@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { navigateToConcertDetails } from '../utils/concertNavigation';
+import ConcertImage from './ConcertImage';
 
 export default function ConcertSquare({ 
   concertNumber, 
@@ -8,7 +9,8 @@ export default function ConcertSquare({
   venue, 
   onClick, 
   concertData,
-  price = "7" 
+  price = "7",
+  concertId = null
 }) {
   const router = useRouter();
 
@@ -37,21 +39,18 @@ export default function ConcertSquare({
       onClick={handleClick}
       style={{
         minWidth: '200px',
-        height: '150px',
+        height: '200px',
         background: '#ededed',
         borderRadius: '8px',
         border: '2px dashed #ccc',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: '#999',
-        fontSize: '14px',
         flexShrink: 0,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease',
-        padding: '16px',
-        boxSizing: 'border-box'
+        padding: '8px',
+        boxSizing: 'border-box',
+        overflow: 'hidden'
       }}
       onMouseEnter={(e) => {
         e.target.style.backgroundColor = '#dce6f1';
@@ -60,19 +59,42 @@ export default function ConcertSquare({
         e.target.style.backgroundColor = '#ededed';
       }}
     >
-      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        {title || `Concert ${concertNumber}`}
+      {/* Concert Image */}
+      <div style={{ marginBottom: '8px', flex: '1' }}>
+        <ConcertImage
+          concertId={concertId || title || `concert_${concertNumber}`}
+          concertName={title || `Concert ${concertNumber}`}
+          venue={venue}
+          width={184}
+          height={120}
+          style={{
+            border: 'none',
+            borderRadius: '4px'
+          }}
+        />
       </div>
-      {date && (
-        <div style={{ fontSize: '12px', marginBottom: '4px' }}>
-          {date}
+      
+      {/* Concert Info */}
+      <div style={{ 
+        color: '#999', 
+        fontSize: '12px',
+        textAlign: 'center',
+        padding: '0 4px'
+      }}>
+        <div style={{ fontWeight: 'bold', marginBottom: '4px', fontSize: '14px' }}>
+          {title || `Concert ${concertNumber}`}
         </div>
-      )}
-      {venue && (
-        <div style={{ fontSize: '12px', textAlign: 'center' }}>
-          {venue}
-        </div>
-      )}
+        {date && (
+          <div style={{ marginBottom: '2px' }}>
+            {date}
+          </div>
+        )}
+        {venue && (
+          <div style={{ fontSize: '11px' }}>
+            {venue}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -33,51 +33,75 @@ def setup_kaggle_auth():
     return True
 
 def download_dataset():
-    """Download the human profile photos dataset"""
-    try:
-        # Set the dataset path
-        dataset_path = "osmankagankurnaz/human-profile-photos-dataset"
-        
-        print(f"📥 Downloading dataset: {dataset_path}")
-        
-        # Download the dataset
-        kaggle.api.dataset_download_files(
-            dataset_path,
-            path="./data",
-            unzip=True,
-            quiet=False
-        )
-        
-        print("✅ Dataset downloaded successfully!")
+    """Download both the human profile photos and landscape pictures datasets"""
+    datasets = [
+        "osmankagankurnaz/human-profile-photos-dataset",
+        "arnaud58/landscape-pictures"
+    ]
+    
+    success_count = 0
+    
+    for dataset_path in datasets:
+        try:
+            print(f"📥 Downloading dataset: {dataset_path}")
+            
+            # Download the dataset
+            kaggle.api.dataset_download_files(
+                dataset_path,
+                path="./data",
+                unzip=True,
+                quiet=False
+            )
+            
+            print(f"✅ Dataset {dataset_path} downloaded successfully!")
+            success_count += 1
+            
+        except Exception as e:
+            print(f"❌ Error downloading dataset {dataset_path}: {e}")
+    
+    if success_count == len(datasets):
+        print("🎉 All datasets downloaded successfully!")
         return True
-        
-    except Exception as e:
-        print(f"❌ Error downloading dataset: {e}")
+    elif success_count > 0:
+        print(f"⚠️  {success_count}/{len(datasets)} datasets downloaded successfully")
+        return True
+    else:
+        print("❌ No datasets were downloaded successfully")
         return False
 
 def organize_dataset():
-    """Organize the downloaded dataset into a proper structure"""
+    """Organize the downloaded datasets into a proper structure"""
     data_dir = Path("./data")
     
     if not data_dir.exists():
-        print("❌ Data directory not found. Please download the dataset first.")
+        print("❌ Data directory not found. Please download the datasets first.")
         return False
     
     # Create organized structure
     organized_dir = Path("./public/dataset")
     organized_dir.mkdir(parents=True, exist_ok=True)
     
-    # Move images to organized structure
-    for img_file in data_dir.rglob("*.jpg"):
-        # Create subdirectory based on original structure
-        rel_path = img_file.relative_to(data_dir)
-        target_path = organized_dir / rel_path
-        target_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        # Copy file
-        shutil.copy2(img_file, target_path)
+    # Organize human profile photos
+    profile_photos_dir = data_dir / "human-profile-photos-dataset"
+    if profile_photos_dir.exists():
+        print("📁 Organizing human profile photos...")
+        for img_file in profile_photos_dir.rglob("*.jpg"):
+            rel_path = img_file.relative_to(profile_photos_dir)
+            target_path = organized_dir / "profiles" / rel_path
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(img_file, target_path)
     
-    print(f"✅ Dataset organized in: {organized_dir}")
+    # Organize landscape pictures
+    landscape_dir = data_dir / "landscape-pictures"
+    if landscape_dir.exists():
+        print("📁 Organizing landscape pictures...")
+        for img_file in landscape_dir.rglob("*.jpg"):
+            rel_path = img_file.relative_to(landscape_dir)
+            target_path = organized_dir / "landscapes" / rel_path
+            target_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(img_file, target_path)
+    
+    print(f"✅ Datasets organized in: {organized_dir}")
     return True
 
 def main():
