@@ -4,8 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start"
+    "build": "npm run generate-file-list && next build --turbopack",
+    "start": "next start",
+    "generate-file-list": "node scripts/generate-file-list.js"
   },
   "dependencies": {
     "chart.js": "^4.5.0",

@@ -9,7 +9,7 @@ import {
   getAllLandscapeImages,
   getRandomLandscapeImage,
   getRandomLandscapeImages
-} from '../../utils/datasetUtils';
+} from '../../utils/datasetUtilsOptimized';
 
 /**
  * API endpoint for accessing the human profile photos dataset
