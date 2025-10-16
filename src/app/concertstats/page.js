@@ -6,8 +6,11 @@ import DynamicHeader from "../components/DynamicHeader";
 import MainContentHeader from "../components/MainContentHeader";
 import React, { useState, useEffect } from "react";
 import { colors } from "../styles/colors";
+import { useRouter } from "next/navigation";
+import { navigateToConcertDetails } from "../utils/concertNavigation";
 
 export default function ConcertStatsPage() {
+  const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [selectedConcert, setSelectedConcert] = useState(null);
@@ -369,8 +372,18 @@ export default function ConcertStatsPage() {
           <div
             key={concert.id}
             onClick={() => {
-              setSelectedConcert(concert);
-              setShowConcertDetails(true);
+              // Navigate to concert details page
+              const concertData = {
+                artist: concert.name,
+                title: concert.name,
+                date: concert.date,
+                time: concert.time,
+                venue: concert.location,
+                address: "123 Music Street, City, State 12345",
+                price: concert.price,
+                description: `Join us for an unforgettable evening of live music featuring ${concert.name}. This ${concert.genre} concert promises to deliver an incredible experience with top-notch sound quality and an intimate atmosphere.`
+              };
+              navigateToConcertDetails(router, concertData);
             }}
             style={{
               background: isMobileLayout ? colors.white : colors.lightGray,

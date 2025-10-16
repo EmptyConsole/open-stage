@@ -10,6 +10,7 @@ import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
 import MainContentHeader from "../components/MainContentHeader";
 import MainButton from "../components/MainButton";
+import ArtistProfileImage from "../components/ArtistProfileImage";
 import { getArtists } from "../../../util/users";
 
 function ArtistProfileContent() {
@@ -96,38 +97,80 @@ function ArtistProfileContent() {
                 width: "100%",
               }}
             >
-              {/* ...existing code for image and follow button... */}
+              {/* Artist Profile Image - Distinct and Prominent */}
               <div
                 style={{
                   width: "100%",
-                  height: "220px",
-                  background: "var(--background-secondary)",
-                  border: "2px dashed var(--border-dark)",
-                  borderRadius: "0",
-                  position: "relative",
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: "15px",
+                  marginBottom: "20px",
                 }}
               >
                 <div
                   style={{
-                    position: "absolute",
-                    bottom: "8px",
-                    left: "8px",
-                    color: "#000",
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    textShadow: "1px 1px 2px rgba(255, 255, 255, 0.8)",
+                    position: "relative",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  {loading ? 'Loading...' : (currentArtist?.name || 'Unknown Artist')}
+                  <ArtistProfileImage
+                    artistId={currentArtist?.id || artistId}
+                    artistName={currentArtist?.name || 'Unknown Artist'}
+                    size={280}
+                    style={{
+                      border: "4px solid #1976d2",
+                      borderRadius: "12px",
+                      boxShadow: "0 8px 24px rgba(25, 118, 210, 0.3)",
+                    }}
+                    showInitials={true}
+                  />
+                  
+                  {/* Artist Name - Bottom Left of Image */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: "8px",
+                      left: "8px",
+                      color: "#1976d2",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      padding: "6px 12px",
+                      borderRadius: "6px",
+                      border: "2px solid #e3f2fd",
+                    }}
+                  >
+                    {loading ? 'Loading...' : (currentArtist?.name || 'Unknown Artist')}
+                  </div>
                 </div>
-                <FollowButton
-                  isFollowing={isFollowing}
-                  toggleFollow={toggleFollow}
-                />
+                
+                {/* Follow Button - Below Image */}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginTop: "16px",
+                  }}
+                >
+                  <button 
+                    onClick={toggleFollow}
+                    style={{
+                      backgroundColor: isFollowing ? '#6c757d' : '#007bff',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      padding: '4px 8px',
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.2s',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {isFollowing ? 'Unfollow' : 'Follow'}
+                  </button>
+                </div>
               </div>
               <p
                 style={{
@@ -342,7 +385,17 @@ function ArtistProfileContent() {
                   title={concert.title}
                   date={concert.date}
                   venue={concert.venue}
-                  onClick={() => console.log(`Clicked on ${concert.title}`)}
+                  price={concert.price}
+                  concertData={{
+                    artist: currentArtist?.name || 'Unknown Artist',
+                    title: concert.title,
+                    date: concert.date,
+                    time: concert.time,
+                    venue: concert.venue,
+                    address: "123 Music Street, City, State 12345",
+                    price: concert.price,
+                    description: `Join ${currentArtist?.name || 'this artist'} for an unforgettable ${concert.title.toLowerCase()} experience. This special event promises to deliver an amazing night of music and entertainment.`
+                  }}
                 />
               </div>
             ))}

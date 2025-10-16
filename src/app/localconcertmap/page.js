@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./localconcertmap.module.css";
 import Sidebar from "../components/sidebar";
 import DynamicHeader from "../components/DynamicHeader";
+import { useRouter } from "next/navigation";
+import { navigateToConcertDetails } from "../utils/concertNavigation";
+import ConcertSquare from "../components/ConcertSquare";
 // import Footer from "../components/footer";
 // import styles from "./src/app/globals.css"
 
@@ -23,7 +26,7 @@ let isGoogleMapsLoading = false;
 let googleMapsLoadPromise = null;
 
 export default function LocalConcertMapPage() {
-
+  const router = useRouter();
   const [selectedConcert, setSelectedConcert] = useState(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
@@ -255,34 +258,40 @@ export default function LocalConcertMapPage() {
             }}>
               Concerts Nearby
             </h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+            <div style={{ 
+              display: "flex", 
+              flexDirection: "row", 
+              gap: "12px", 
+              overflowX: "auto",
+              paddingBottom: "8px"
+            }}>
               {filteredConcerts.map((concert) => (
                 <div
                   key={concert.id}
-                  onClick={() => handleConcertSelect(concert.id)}
                   style={{
-                    padding: "16px",
-                    borderRadius: "8px",
-                    background: selectedConcert === concert.id ? "#e3f2fd" : "#f8f9fa",
-                    border: selectedConcert === concert.id ? "2px solid #1976d2" : "1px solid #e0e0e0",
-                    cursor: "pointer",
-                    transition: "all 0.2s ease",
+                    opacity: selectedConcert === concert.id ? 1 : 0.7,
+                    transform: selectedConcert === concert.id ? 'scale(1.02)' : 'scale(1)',
+                    transition: 'all 0.2s ease',
+                    flexShrink: 0
                   }}
                 >
-                  <div style={{ 
-                    fontWeight: "bold", 
-                    color: "#1976d2", 
-                    fontSize: "16px",
-                    marginBottom: "4px"
-                  }}>
-                    {concert.name}
-                  </div>
-                  <div style={{ 
-                    color: "#666", 
-                    fontSize: "12px" 
-                  }}>
-                    Lat: {concert.lat}, Lng: {concert.lng}
-                  </div>
+                  <ConcertSquare
+                    concertNumber={concert.id}
+                    title={concert.name}
+                    date="TBD"
+                    venue="TBD Venue"
+                    price="25"
+                    concertData={{
+                      artist: concert.name,
+                      title: concert.name,
+                      date: "TBD",
+                      time: "8:00 PM",
+                      venue: "TBD Venue",
+                      address: "123 Music Street, City, State 12345",
+                      price: "25",
+                      description: `Join us for an unforgettable evening of live music featuring ${concert.name}. This concert promises to deliver an incredible experience with top-notch sound quality and an intimate atmosphere.`
+                    }}
+                  />
                 </div>
               ))}
             </div>
@@ -354,25 +363,36 @@ export default function LocalConcertMapPage() {
                   }}
                 />
               </div>
-              <ul className={styles.concertList}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                 {filteredConcerts.map((concert) => (
-                  <li
+                  <div
                     key={concert.id}
-                    className={
-                      selectedConcert === concert.id
-                        ? styles.concertItemSelected
-                        : styles.concertItem
-                    }
-                    onClick={() => handleConcertSelect(concert.id)}
+                    style={{
+                      opacity: selectedConcert === concert.id ? 1 : 0.7,
+                      transform: selectedConcert === concert.id ? 'scale(1.02)' : 'scale(1)',
+                      transition: 'all 0.2s ease',
+                    }}
                   >
-                    <span className={styles.concertName}>{concert.name}</span>
-                    <br />
-                    <span className={styles.concertCoords}>
-                      Lat: {concert.lat}, Lng: {concert.lng}
-                    </span>
-                  </li>
+                    <ConcertSquare
+                      concertNumber={concert.id}
+                      title={concert.name}
+                      date="TBD"
+                      venue="TBD Venue"
+                      price="25"
+                      concertData={{
+                        artist: concert.name,
+                        title: concert.name,
+                        date: "TBD",
+                        time: "8:00 PM",
+                        venue: "TBD Venue",
+                        address: "123 Music Street, City, State 12345",
+                        price: "25",
+                        description: `Join us for an unforgettable evening of live music featuring ${concert.name}. This concert promises to deliver an incredible experience with top-notch sound quality and an intimate atmosphere.`
+                      }}
+                    />
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </Sidebar>
           <main
