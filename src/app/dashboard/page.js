@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { getUsers, getArtists } from "../../../util/users";
 import { colors } from "../styles/colors";
 import ArtistProfileImage from "../components/ArtistProfileImage";
+import ConcertSquare from "../components/ConcertSquare";
 
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
@@ -16,26 +17,78 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [hoveredArtist, setHoveredArtist] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedTicket, setSelectedTicket] = useState(null);
+  // const [showPopup, setShowPopup] = useState(false);
+  // const [selectedTicket, setSelectedTicket] = useState(null);
   const router = useRouter();
 
   // Sample ticket data - will be populated from Firebase artists
-  const [tickets, setTickets] = useState([]);
+  // const [tickets, setTickets] = useState([]);
+  
+  // Sample concerts data
+  const [concerts, setConcerts] = useState([
+    {
+      id: 1,
+      title: "Summer Music Festival",
+      date: "2024-07-15",
+      venue: "Central Park",
+      price: "25",
+      artist: "Various Artists"
+    },
+    {
+      id: 2,
+      title: "Jazz Night",
+      date: "2024-08-22",
+      venue: "Blue Note Club",
+      price: "35",
+      artist: "Miles Davis Tribute"
+    },
+    {
+      id: 3,
+      title: "Rock Revolution",
+      date: "2024-09-10",
+      venue: "Madison Square Garden",
+      price: "75",
+      artist: "The Rolling Stones"
+    },
+    {
+      id: 4,
+      title: "Acoustic Sessions",
+      date: "2024-10-05",
+      venue: "Intimate Theater",
+      price: "20",
+      artist: "Ed Sheeran"
+    },
+    {
+      id: 5,
+      title: "Electronic Dreams",
+      date: "2024-11-18",
+      venue: "Warehouse District",
+      price: "45",
+      artist: "Deadmau5"
+    },
+    {
+      id: 6,
+      title: "Classical Symphony",
+      date: "2024-12-08",
+      venue: "Carnegie Hall",
+      price: "60",
+      artist: "New York Philharmonic"
+    }
+  ]);
 
   // Helper function to get status color
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "purchased":
-        return colors.lightBlue;
-      case "upcoming":
-        return "#a8e6cf"; // Lighter green
-      case "late":
-        return "#ffcdd2"; // Light red
-      default:
-        return colors.lightGray;
-    }
-  };
+  // const getStatusColor = (status) => {
+  //   switch (status) {
+  //     case "purchased":
+  //       return colors.lightBlue;
+  //     case "upcoming":
+  //       return "#a8e6cf"; // Lighter green
+  //     case "late":
+  //       return "#ffcdd2"; // Light red
+  //     default:
+  //       return colors.lightGray;
+  //   }
+  // };
 
   // Helper function to format date
   const formatDate = (dateString) => {
@@ -64,55 +117,55 @@ export default function HomePage() {
         setLoading(true);
 
         // Hardcoded ticket
-        const hardcodedTicket = {
-          id: "hardcoded-1",
-          artist: {
-            id: "taylor-swift",
-            name: "Taylor Swift",
-            profilePicture:
-              "https://via.placeholder.com/80x80/1976d2/ffffff?text=TS",
-            description: "Pop sensation and Grammy winner",
-          },
-          concert: "The Eras Tour",
-          date: "2024-03-15",
-          status: "purchased",
-        };
+        // const hardcodedTicket = {
+        //   id: "hardcoded-1",
+        //   artist: {
+        //     id: "taylor-swift",
+        //     name: "Taylor Swift",
+        //     profilePicture:
+        //       "https://via.placeholder.com/80x80/1976d2/ffffff?text=TS",
+        //     description: "Pop sensation and Grammy winner",
+        //   },
+        //   concert: "The Eras Tour",
+        //   date: "2024-03-15",
+        //   status: "purchased",
+        // };
 
-        setTickets([hardcodedTicket]);
+        // setTickets([hardcodedTicket]);
 
         await getUsers();
         const artists = await getArtists();
         console.log("Fetched artists:", artists);
         setFollowedArtists(artists);
 
-        const firebaseTickets =
-          artists && artists.length > 0
-            ? artists.slice(0, 2).map((artist, index) => ({
-                id: artist.id || index + 1,
-                artist: {
-                  id: artist.id,
-                  name: artist.name,
-                  profilePicture:
-                    artist.profilePicture ||
-                    `https://via.placeholder.com/80x80/1976d2/ffffff?text=${artist.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .join("")}`,
-                  description: artist.description || "Artist description",
-                },
-                concert: `${artist.name} Tour ${new Date().getFullYear()}`,
-                date: new Date(
-                  Date.now() + (index + 1) * 30 * 24 * 60 * 60 * 1000
-                )
-                  .toISOString()
-                  .split("T")[0],
-                status: index === 0 ? "purchased" : "upcoming",
-              }))
-            : [];
+        // const firebaseTickets =
+        //   artists && artists.length > 0
+        //     ? artists.slice(0, 2).map((artist, index) => ({
+        //         id: artist.id || index + 1,
+        //         artist: {
+        //           id: artist.id,
+        //           name: artist.name,
+        //           profilePicture:
+        //             artist.profilePicture ||
+        //             `https://via.placeholder.com/80x80/1976d2/ffffff?text=${artist.name
+        //               .split(" ")
+        //               .map((n) => n[0])
+        //               .join("")}`,
+        //           description: artist.description || "Artist description",
+        //         },
+        //         concert: `${artist.name} Tour ${new Date().getFullYear()}`,
+        //         date: new Date(
+        //           Date.now() + (index + 1) * 30 * 24 * 60 * 60 * 1000
+        //         )
+        //           .toISOString()
+        //           .split("T")[0],
+        //         status: index === 0 ? "purchased" : "upcoming",
+        //       }))
+        //     : [];
 
-        const generatedTickets = [hardcodedTicket, ...firebaseTickets];
-        console.log("Generated tickets:", generatedTickets);
-        setTickets(generatedTickets);
+        // const generatedTickets = [hardcodedTicket, ...firebaseTickets];
+        // console.log("Generated tickets:", generatedTickets);
+        // setTickets(generatedTickets);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -129,246 +182,246 @@ export default function HomePage() {
   );
 
   // Ticket Popup Component
-  const TicketPopup = () => {
-    if (!showPopup || !selectedTicket) return null;
+  // const TicketPopup = () => {
+  //   if (!showPopup || !selectedTicket) return null;
 
-    return (
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: '20px',
-        }}
-        onClick={() => setShowPopup(false)}
-      >
-        <div
-          style={{
-            backgroundColor: 'white',
-            borderRadius: '12px',
-            padding: '32px',
-            maxWidth: '600px',
-            width: '100%',
-            maxHeight: '80vh',
-            overflow: 'auto',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-            position: 'relative',
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* Close button */}
-          <button
-            onClick={() => setShowPopup(false)}
-            style={{
-              position: 'absolute',
-              top: '16px',
-              right: '16px',
-              background: 'none',
-              border: 'none',
-              fontSize: '24px',
-              cursor: 'pointer',
-              color: '#666',
-              width: '32px',
-              height: '32px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '50%',
-              transition: 'background-color 0.2s',
-            }}
-            onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
-          >
-            ×
-          </button>
+  //   return (
+  //     <div
+  //       style={{
+  //         position: 'fixed',
+  //         top: 0,
+  //         left: 0,
+  //         right: 0,
+  //         bottom: 0,
+  //         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  //         display: 'flex',
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //         zIndex: 1000,
+  //         padding: '20px',
+  //       }}
+  //       onClick={() => setShowPopup(false)}
+  //     >
+  //       <div
+  //         style={{
+  //           backgroundColor: 'white',
+  //           borderRadius: '12px',
+  //           padding: '32px',
+  //           maxWidth: '600px',
+  //           width: '100%',
+  //           maxHeight: '80vh',
+  //           overflow: 'auto',
+  //           boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+  //           position: 'relative',
+  //         }}
+  //         onClick={(e) => e.stopPropagation()}
+  //       >
+  //         {/* Close button */}
+  //         <button
+  //           onClick={() => setShowPopup(false)}
+  //           style={{
+  //             position: 'absolute',
+  //             top: '16px',
+  //             right: '16px',
+  //             background: 'none',
+  //             border: 'none',
+  //             fontSize: '24px',
+  //             cursor: 'pointer',
+  //             color: '#666',
+  //             width: '32px',
+  //             height: '32px',
+  //             display: 'flex',
+  //             alignItems: 'center',
+  //             justifyContent: 'center',
+  //             borderRadius: '50%',
+  //             transition: 'background-color 0.2s',
+  //           }}
+  //           onMouseEnter={(e) => e.target.style.backgroundColor = '#f0f0f0'}
+  //           onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
+  //         >
+  //           ×
+  //         </button>
 
-          {/* Header */}
-          <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ 
-              margin: '0 0 8px 0', 
-              color: colors.primary, 
-              fontSize: '28px',
-              fontWeight: 'bold'
-            }}>
-              {selectedTicket.artist.name}'s Concert
-            </h2>
-            <p style={{ 
-              margin: 0, 
-              color: '#666', 
-              fontSize: '16px'
-            }}>
-              {selectedTicket.concert}
-            </p>
-          </div>
+  //         {/* Header */}
+  //         <div style={{ marginBottom: '24px' }}>
+  //           <h2 style={{ 
+  //             margin: '0 0 8px 0', 
+  //             color: colors.primary, 
+  //             fontSize: '28px',
+  //             fontWeight: 'bold'
+  //           }}>
+  //             {selectedTicket.artist.name}'s Concert
+  //           </h2>
+  //           <p style={{ 
+  //             margin: 0, 
+  //             color: '#666', 
+  //             fontSize: '16px'
+  //           }}>
+  //             {selectedTicket.concert}
+  //           </p>
+  //         </div>
 
-          {/* Concert Image */}
-          <div
-            style={{
-              width: '100%',
-              height: '200px',
-              background: 'linear-gradient(135deg, #1976d2, #42a5f5)',
-              borderRadius: '8px',
-              marginBottom: '24px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'white',
-              fontSize: '18px',
-              fontWeight: 'bold',
-            }}
-          >
-            Concert Image
-          </div>
+  //         {/* Concert Image */}
+  //         <div
+  //           style={{
+  //             width: '100%',
+  //             height: '200px',
+  //             background: 'linear-gradient(135deg, #1976d2, #42a5f5)',
+  //             borderRadius: '8px',
+  //             marginBottom: '24px',
+  //             display: 'flex',
+  //             alignItems: 'center',
+  //             justifyContent: 'center',
+  //             color: 'white',
+  //             fontSize: '18px',
+  //             fontWeight: 'bold',
+  //           }}
+  //         >
+  //           Concert Image
+  //         </div>
 
-          {/* Concert Details Grid */}
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: '16px',
-            marginBottom: '24px'
-          }}>
-            <div style={{ 
-              background: '#f8f9fa', 
-              padding: '16px', 
-              borderRadius: '8px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
-                DATE
-              </h4>
-              <p style={{ margin: 0, color: '#333', fontSize: '16px' }}>
-                {formatDate(selectedTicket.date)}
-              </p>
-            </div>
-            <div style={{ 
-              background: '#f8f9fa', 
-              padding: '16px', 
-              borderRadius: '8px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
-                STATUS
-              </h4>
-              <p style={{ margin: 0, color: '#333', fontSize: '16px', fontWeight: 'bold', textTransform: 'capitalize' }}>
-                {selectedTicket.status}
-              </p>
-            </div>
-            <div style={{ 
-              background: '#f8f9fa', 
-              padding: '16px', 
-              borderRadius: '8px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
-                VENUE
-              </h4>
-              <p style={{ margin: 0, color: '#333', fontSize: '16px' }}>
-                TBD
-              </p>
-            </div>
-            <div style={{ 
-              background: '#f8f9fa', 
-              padding: '16px', 
-              borderRadius: '8px',
-              border: '1px solid #e9ecef'
-            }}>
-              <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
-                PRICE
-              </h4>
-              <p style={{ margin: 0, color: '#333', fontSize: '16px', fontWeight: 'bold' }}>
-                $50
-              </p>
-            </div>
-          </div>
+  //         {/* Concert Details Grid */}
+  //         <div style={{ 
+  //           display: 'grid', 
+  //           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+  //           gap: '16px',
+  //           marginBottom: '24px'
+  //         }}>
+  //           <div style={{ 
+  //             background: '#f8f9fa', 
+  //             padding: '16px', 
+  //             borderRadius: '8px',
+  //             border: '1px solid #e9ecef'
+  //           }}>
+  //             <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+  //               DATE
+  //             </h4>
+  //             <p style={{ margin: 0, color: '#333', fontSize: '16px' }}>
+  //               {formatDate(selectedTicket.date)}
+  //             </p>
+  //           </div>
+  //           <div style={{ 
+  //             background: '#f8f9fa', 
+  //             padding: '16px', 
+  //             borderRadius: '8px',
+  //             border: '1px solid #e9ecef'
+  //           }}>
+  //             <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+  //               STATUS
+  //             </h4>
+  //             <p style={{ margin: 0, color: '#333', fontSize: '16px', fontWeight: 'bold', textTransform: 'capitalize' }}>
+  //               {selectedTicket.status}
+  //             </p>
+  //           </div>
+  //           <div style={{ 
+  //             background: '#f8f9fa', 
+  //             padding: '16px', 
+  //             borderRadius: '8px',
+  //             border: '1px solid #e9ecef'
+  //           }}>
+  //             <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+  //               VENUE
+  //             </h4>
+  //             <p style={{ margin: 0, color: '#333', fontSize: '16px' }}>
+  //               TBD
+  //             </p>
+  //           </div>
+  //           <div style={{ 
+  //             background: '#f8f9fa', 
+  //             padding: '16px', 
+  //             borderRadius: '8px',
+  //             border: '1px solid #e9ecef'
+  //           }}>
+  //             <h4 style={{ margin: '0 0 8px 0', color: colors.primary, fontSize: '14px', fontWeight: 'bold' }}>
+  //               PRICE
+  //             </h4>
+  //             <p style={{ margin: 0, color: '#333', fontSize: '16px', fontWeight: 'bold' }}>
+  //               $50
+  //             </p>
+  //           </div>
+  //         </div>
 
-          {/* Artist Description */}
-          <div style={{ marginBottom: '24px' }}>
-            <h3 style={{ 
-              margin: '0 0 12px 0', 
-              color: colors.primary, 
-              fontSize: '20px',
-              fontWeight: 'bold'
-            }}>
-              About {selectedTicket.artist.name}
-            </h3>
-            <p style={{ 
-              margin: 0, 
-              color: '#333', 
-              fontSize: '16px', 
-              lineHeight: '1.6'
-            }}>
-              {selectedTicket.artist.description}
-            </p>
-          </div>
+  //         {/* Artist Description */}
+  //         <div style={{ marginBottom: '24px' }}>
+  //           <h3 style={{ 
+  //             margin: '0 0 12px 0', 
+  //             color: colors.primary, 
+  //             fontSize: '20px',
+  //             fontWeight: 'bold'
+  //           }}>
+  //             About {selectedTicket.artist.name}
+  //           </h3>
+  //           <p style={{ 
+  //             margin: 0, 
+  //             color: '#333', 
+  //             fontSize: '16px', 
+  //             lineHeight: '1.6'
+  //           }}>
+  //             {selectedTicket.artist.description}
+  //           </p>
+  //         </div>
 
-          {/* Action Buttons */}
-          <div style={{ 
-            display: 'flex', 
-            gap: '12px', 
-            justifyContent: 'flex-end',
-            marginTop: '24px'
-          }}>
-            <button
-              onClick={() => setShowPopup(false)}
-              style={{
-                padding: '12px 24px',
-                border: '1px solid #ddd',
-                borderRadius: '6px',
-                background: 'white',
-                color: '#333',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: '500',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#f8f9fa';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'white';
-              }}
-            >
-              Close
-            </button>
-            <button
-              onClick={() => {
-                if (selectedTicket.artist.id) {
-                  router.push(`/artistsprofiles?id=${selectedTicket.artist.id}`);
-                }
-                setShowPopup(false);
-              }}
-              style={{
-                padding: '12px 24px',
-                border: 'none',
-                borderRadius: '6px',
-                background: colors.primary,
-                color: 'white',
-                cursor: 'pointer',
-                fontSize: '14px',
-                fontWeight: '500',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = '#1565c0';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = colors.primary;
-              }}
-            >
-              View Artist Profile
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
+  //         {/* Action Buttons */}
+  //         <div style={{ 
+  //           display: 'flex', 
+  //           gap: '12px', 
+  //           justifyContent: 'flex-end',
+  //           marginTop: '24px'
+  //         }}>
+  //           <button
+  //             onClick={() => setShowPopup(false)}
+  //             style={{
+  //               padding: '12px 24px',
+  //               border: '1px solid #ddd',
+  //               borderRadius: '6px',
+  //               background: 'white',
+  //               color: '#333',
+  //               cursor: 'pointer',
+  //               fontSize: '14px',
+  //               fontWeight: '500',
+  //               transition: 'all 0.2s',
+  //             }}
+  //             onMouseEnter={(e) => {
+  //               e.target.style.backgroundColor = '#f8f9fa';
+  //             }}
+  //             onMouseLeave={(e) => {
+  //               e.target.style.backgroundColor = 'white';
+  //             }}
+  //           >
+  //             Close
+  //           </button>
+  //           <button
+  //             onClick={() => {
+  //               if (selectedTicket.artist.id) {
+  //                 router.push(`/artistsprofiles?id=${selectedTicket.artist.id}`);
+  //               }
+  //               setShowPopup(false);
+  //             }}
+  //             style={{
+  //               padding: '12px 24px',
+  //               border: 'none',
+  //               borderRadius: '6px',
+  //               background: colors.primary,
+  //               color: 'white',
+  //               cursor: 'pointer',
+  //               fontSize: '14px',
+  //               fontWeight: '500',
+  //               transition: 'all 0.2s',
+  //             }}
+  //             onMouseEnter={(e) => {
+  //               e.target.style.backgroundColor = '#1565c0';
+  //             }}
+  //             onMouseLeave={(e) => {
+  //               e.target.style.backgroundColor = colors.primary;
+  //             }}
+  //           >
+  //             View Artist Profile
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   // Followed Artists Component
   const FollowedArtistsSection = ({ isMobileLayout = false }) => (
@@ -490,7 +543,7 @@ export default function HomePage() {
       }}
     >
       <DynamicHeader />
-      <TicketPopup />
+      {/* <TicketPopup /> */}
       {isMobile ? (
         // 📱 Mobile Layout
         <main
@@ -534,8 +587,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Your Tickets Section */}
-          <div>
+          {/* Your Tickets Section - COMMENTED OUT */}
+          {/* <div>
             <MainContentHeader>Your Tickets</MainContentHeader>
             <div
               style={{
@@ -581,7 +634,6 @@ export default function HomePage() {
                       e.currentTarget.style.transform = "scale(1)";
                     }}
                   >
-                    {/* Artist Picture */}
                     <div
                       style={{
                         width: "60px",
@@ -604,8 +656,6 @@ export default function HomePage() {
                         }}
                       />
                     </div>
-
-                    {/* Info */}
                     <div style={{ flex: 1 }}>
                       <h3
                         style={{
@@ -649,6 +699,31 @@ export default function HomePage() {
                 </div>
               )}
             </div>
+          </div> */}
+
+          {/* Upcoming Concerts Section */}
+          <div style={{ marginTop: "32px" }}>
+            <MainContentHeader>Upcoming Concerts</MainContentHeader>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
+                gap: "16px",
+                marginTop: "16px",
+              }}
+            >
+              {concerts.map((concert) => (
+                <ConcertSquare
+                  key={concert.id}
+                  concertNumber={concert.id}
+                  title={concert.title}
+                  date={formatDate(concert.date)}
+                  venue={concert.venue}
+                  price={concert.price}
+                  concertId={concert.id}
+                />
+              ))}
+            </div>
           </div>
         </main>
       ) : (
@@ -691,7 +766,8 @@ export default function HomePage() {
               overflow: "auto",
             }}
           >
-            <MainContentHeader>Your Tickets</MainContentHeader>
+            {/* Your Tickets Section - COMMENTED OUT */}
+            {/* <MainContentHeader>Your Tickets</MainContentHeader>
             <div
               style={{
                 display: "flex",
@@ -809,6 +885,29 @@ export default function HomePage() {
                   No tickets found
                 </div>
               )}
+            </div> */}
+
+            {/* Upcoming Concerts Section */}
+            <MainContentHeader>Upcoming Concerts</MainContentHeader>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: "20px",
+                marginTop: "16px",
+              }}
+            >
+              {concerts.map((concert) => (
+                <ConcertSquare
+                  key={concert.id}
+                  concertNumber={concert.id}
+                  title={concert.title}
+                  date={formatDate(concert.date)}
+                  venue={concert.venue}
+                  price={concert.price}
+                  concertId={concert.id}
+                />
+              ))}
             </div>
           </main>
         </div>

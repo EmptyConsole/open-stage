@@ -26,7 +26,7 @@ export function getConcertImage(concertId, venue = null) {
   
   // Generate a consistent image index based on the hash
   // This ensures the same concert always gets the same image
-  const imageIndex = (hash % 4319) + 1; // Use modulo to keep index reasonable (4319 landscapes available)
+  const imageIndex = (hash % 899) + 1; // Use modulo to keep index reasonable (899 landscapes available)
   
   // Convert to the landscape naming pattern (00000000.jpg format)
   const paddedIndex = String(imageIndex - 1).padStart(8, '0');
@@ -135,7 +135,7 @@ export function getThemedConcertImage(concertId, genre, venue = null) {
   }
   
   hash = Math.abs(hash);
-  const imageIndex = (hash % 4319) + 1;
+  const imageIndex = (hash % 899) + 1;
   
   // Convert to the landscape naming pattern (00000000.jpg format)
   const paddedIndex = String(imageIndex - 1).padStart(8, '0');
@@ -150,7 +150,7 @@ export function getThemedConcertImage(concertId, genre, venue = null) {
 export function getRandomConcertImages(count = 5) {
   const images = [];
   for (let i = 0; i < count; i++) {
-    const randomIndex = Math.floor(Math.random() * 4319) + 1;
+    const randomIndex = Math.floor(Math.random() * 899) + 1;
     const paddedIndex = String(randomIndex - 1).padStart(8, '0');
     images.push(`/Landscapes/${paddedIndex}.jpg`);
   }

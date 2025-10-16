@@ -24,8 +24,8 @@ export default function ConcertImage({
   const imageData = getConcertImageWithFallback(concertId, concertName, venue, width, height);
   
   const containerStyle = {
-    width: `${width}px`,
-    height: `${height}px`,
+    width: style.width || `${width}px`,
+    height: style.height || `${height}px`,
     borderRadius: '8px',
     display: 'flex',
     alignItems: 'center',
@@ -33,6 +33,7 @@ export default function ConcertImage({
     overflow: 'hidden',
     flexShrink: 0,
     backgroundColor: '#f5f5f5',
+    position: 'relative',
     ...style
   };
 
@@ -54,8 +55,12 @@ export default function ConcertImage({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: 'center',
             borderRadius: '8px',
-            display: imageLoaded ? 'block' : 'none'
+            display: imageLoaded ? 'block' : 'none',
+            position: 'absolute',
+            top: 0,
+            left: 0
           }}
           onError={handleImageError}
           onLoad={handleImageLoad}
@@ -76,7 +81,10 @@ export default function ConcertImage({
             fontSize: width <= 200 ? '14px' : '18px',
             fontWeight: 'bold',
             border: '2px dashed #ccc',
-            borderRadius: '8px'
+            borderRadius: '8px',
+            position: 'absolute',
+            top: 0,
+            left: 0
           }}
         >
           {showInitials ? imageData.initials : 'CONCERT'}

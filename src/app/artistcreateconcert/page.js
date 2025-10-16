@@ -20,10 +20,12 @@ export default function MusicianPage() {
     place: "",
     genre: "",
     time: "",
-    admissionFee: ""
+    admissionFee: "",
+    image: null
   });
   const [editingConcert, setEditingConcert] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null);
 
   // Handle window resize and mobile detection
   useEffect(() => {
@@ -51,7 +53,8 @@ export default function MusicianPage() {
         place: "Central Park Amphitheater",
         genre: "Pop",
         time: "19:00",
-        admissionFee: "$6"
+        admissionFee: "$6",
+        imageUrl: "/Landscapes/00000000.jpg"
       },
       {
         id: 2,
@@ -60,7 +63,8 @@ export default function MusicianPage() {
         place: "Blue Note Club",
         genre: "Jazz",
         time: "20:30",
-        admissionFee: "$7"
+        admissionFee: "$7",
+        imageUrl: "/Landscapes/00000005.jpg"
       }
     ];
     setConcerts(sampleConcerts);
@@ -76,18 +80,25 @@ export default function MusicianPage() {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Create concert data with image URL
+    const concertData = {
+      ...formData,
+      imageUrl: imagePreview || null
+    };
+    
     if (editingConcert) {
       // Update existing concert
       setConcerts(concerts.map(concert => 
         concert.id === editingConcert.id 
-          ? { ...formData, id: editingConcert.id }
+          ? { ...concertData, id: editingConcert.id }
           : concert
       ));
       setEditingConcert(null);
     } else {
       // Add new concert
       const newConcert = {
-        ...formData,
+        ...concertData,
         id: Date.now() // Simple ID generation
       };
       setConcerts([...concerts, newConcert]);
@@ -100,8 +111,10 @@ export default function MusicianPage() {
       place: "",
       genre: "",
       time: "",
-      admissionFee: ""
+      admissionFee: "",
+      image: null
     });
+    setImagePreview(null);
     setShowForm(false);
   };
 
@@ -114,10 +127,51 @@ export default function MusicianPage() {
     }));
   };
 
+  // Handle image upload
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB');
+        return;
+      }
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target.result);
+      };
+      reader.readAsDataURL(file);
+
+      // Store the file
+      setFormData(prev => ({
+        ...prev,
+        image: file
+      }));
+    }
+  };
+
+  // Remove image
+  const handleRemoveImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      image: null
+    }));
+    setImagePreview(null);
+  };
+
   // Edit concert
   const handleEdit = (concert) => {
     setFormData(concert);
     setEditingConcert(concert);
+    setImagePreview(concert.imageUrl || null);
     setShowForm(true);
   };
 
@@ -181,41 +235,56 @@ export default function MusicianPage() {
               }
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <h4 style={{ 
-                margin: '0 0 4px 0', 
-                color: colors.primary, 
-                fontWeight: 'bold', 
-                fontSize: isMobileLayout ? '16px' : '14px',
-                textAlign: 'left' 
-              }}>
-                {concert.name}
-              </h4>
-              <p style={{ 
-                margin: '0 0 2px 0', 
-                color: colors.textPrimary, 
-                fontSize: isMobileLayout ? '14px' : '12px', 
-                textAlign: 'left' 
-              }}>
-                {formatDate(concert.date)} at {concert.time}
-              </p>
-              <p style={{ 
-                margin: '0 0 2px 0', 
-                color: colors.textSecondary, 
-                fontSize: isMobileLayout ? '12px' : '11px', 
-                textAlign: 'left' 
-              }}>
-                {concert.place} • {concert.genre}
-              </p>
-              <p style={{ 
-                margin: '0', 
-                color: colors.textSecondary, 
-                fontSize: isMobileLayout ? '12px' : '11px', 
-                textAlign: 'left',
-                fontWeight: '500'
-              }}>
-                {concert.admissionFee}
-              </p>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+              {concert.imageUrl && (
+                <img
+                  src={concert.imageUrl}
+                  alt={concert.name}
+                  style={{
+                    width: isMobileLayout ? '60px' : '50px',
+                    height: isMobileLayout ? '60px' : '50px',
+                    borderRadius: '6px',
+                    objectFit: 'cover',
+                    flexShrink: 0
+                  }}
+                />
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1 }}>
+                <h4 style={{ 
+                  margin: '0 0 4px 0', 
+                  color: colors.primary, 
+                  fontWeight: 'bold', 
+                  fontSize: isMobileLayout ? '16px' : '14px',
+                  textAlign: 'left' 
+                }}>
+                  {concert.name}
+                </h4>
+                <p style={{ 
+                  margin: '0 0 2px 0', 
+                  color: colors.textPrimary, 
+                  fontSize: isMobileLayout ? '14px' : '12px', 
+                  textAlign: 'left' 
+                }}>
+                  {formatDate(concert.date)} at {concert.time}
+                </p>
+                <p style={{ 
+                  margin: '0 0 2px 0', 
+                  color: colors.textSecondary, 
+                  fontSize: isMobileLayout ? '12px' : '11px', 
+                  textAlign: 'left' 
+                }}>
+                  {concert.place} • {concert.genre}
+                </p>
+                <p style={{ 
+                  margin: '0', 
+                  color: colors.textSecondary, 
+                  fontSize: isMobileLayout ? '12px' : '11px', 
+                  textAlign: 'left',
+                  fontWeight: '500'
+                }}>
+                  {concert.admissionFee}
+                </p>
+              </div>
             </div>
             
             {/* Action buttons */}
@@ -315,8 +384,10 @@ export default function MusicianPage() {
                   place: "",
                   genre: "",
                   time: "",
-                  admissionFee: ""
+                  admissionFee: "",
+                  image: null
                 });
+                setImagePreview(null);
               }}
               style={{
                 width: '100%',
@@ -571,6 +642,69 @@ export default function MusicianPage() {
                       }}
                     />
                   </div>
+
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '8px', 
+                      color: colors.textPrimary,
+                      fontWeight: '500'
+                    }}>
+                      Concert Image
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      style={{
+                        width: '100%',
+                        padding: '12px',
+                        border: '1px solid #ccc',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
+                      }}
+                    />
+                    {imagePreview && (
+                      <div style={{ marginTop: '12px', position: 'relative' }}>
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          style={{
+                            width: '100%',
+                            maxWidth: '200px',
+                            height: 'auto',
+                            borderRadius: '6px',
+                            border: '1px solid #ccc'
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={handleRemoveImage}
+                          style={{
+                            position: 'absolute',
+                            top: '8px',
+                            right: '8px',
+                            background: 'rgba(255, 0, 0, 0.8)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '24px',
+                            height: '24px',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
@@ -585,8 +719,10 @@ export default function MusicianPage() {
                         place: "",
                         genre: "",
                         time: "",
-                        admissionFee: ""
+                        admissionFee: "",
+                        image: null
                       });
+                      setImagePreview(null);
                     }}
                     style={{
                       padding: '12px 24px',
@@ -734,8 +870,10 @@ export default function MusicianPage() {
                       place: "",
                       genre: "",
                       time: "",
-                      admissionFee: ""
+                      admissionFee: "",
+                      image: null
                     });
+                    setImagePreview(null);
                   }}
                   style={{
                     width: '100%',
@@ -1010,6 +1148,68 @@ export default function MusicianPage() {
                     </div>
                   </div>
 
+                  <div>
+                    <label style={{ 
+                      display: 'block', 
+                      marginBottom: '8px', 
+                      color: colors.textPrimary,
+                      fontWeight: '500'
+                    }}>
+                      Concert Image
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      style={{
+                        width: '100%',
+                        padding: '12px',
+                        border: '1px solid #ccc',
+                        borderRadius: '6px',
+                        fontSize: '14px',
+                        outline: 'none',
+                        boxSizing: 'border-box',
+                        backgroundColor: 'white'
+                      }}
+                    />
+                    {imagePreview && (
+                      <div style={{ marginTop: '12px', position: 'relative', display: 'inline-block' }}>
+                        <img
+                          src={imagePreview}
+                          alt="Preview"
+                          style={{
+                            maxWidth: '300px',
+                            height: 'auto',
+                            borderRadius: '6px',
+                            border: '1px solid #ccc'
+                          }}
+                        />
+                        <button
+                          type="button"
+                          onClick={handleRemoveImage}
+                          style={{
+                            position: 'absolute',
+                            top: '8px',
+                            right: '8px',
+                            background: 'rgba(255, 0, 0, 0.8)',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '24px',
+                            height: '24px',
+                            cursor: 'pointer',
+                            fontSize: '12px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
                   <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', marginTop: '20px' }}>
                     <button
                       type="button"
@@ -1022,8 +1222,10 @@ export default function MusicianPage() {
                           place: "",
                           genre: "",
                           time: "",
-                          admissionFee: ""
+                          admissionFee: "",
+                          image: null
                         });
+                        setImagePreview(null);
                       }}
                       style={{
                         padding: '12px 24px',

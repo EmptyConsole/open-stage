@@ -61,7 +61,15 @@ export default function ConcertSquare({
       }}
     >
       {/* Concert Image - fills entire square */}
-      <div style={{ flex: '1', position: 'relative' }}>
+      <div style={{ 
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100%',
+        height: '100%'
+      }}>
         <ConcertImage
           concertId={concertId || title || `concert_${concertNumber}`}
           concertName={title || `Concert ${concertNumber}`}
@@ -70,7 +78,9 @@ export default function ConcertSquare({
           height={200}
           style={{
             border: 'none',
-            borderRadius: '6px'
+            borderRadius: '6px',
+            width: '100%',
+            height: '100%'
           }}
         />
       </div>
