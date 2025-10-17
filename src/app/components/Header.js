@@ -298,6 +298,32 @@ export default function Header() {
                 Nearby Concerts
               </Link>
               <Link
+                href="/donations"
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  transition: "background-color 0.2s ease",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                }}
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                  <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                </svg>
+                Donations
+              </Link>
+              <Link
                 href="/aboutus"
                 style={{
                   color: "white",
@@ -479,6 +505,24 @@ export default function Header() {
             }}
           >
             Nearby Concerts
+          </Link>
+          <Link
+            href="/donations"
+            onClick={() => setIsMobileMenuOpen(false)}
+            style={{
+              color: "white",
+              textDecoration: "none",
+              fontSize: "20px",
+              fontWeight: "bold",
+              padding: "16px",
+              borderRadius: "8px",
+              transition: "background-color 0.2s ease",
+              display: "flex",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            Donations
           </Link>
           <Link
             href="/aboutus"
