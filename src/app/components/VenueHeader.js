@@ -1,11 +1,12 @@
 "use client";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { colors } from '../styles/colors';
 
 export default function VenueHeader() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -206,6 +207,65 @@ export default function VenueHeader() {
   const clearPasswordMessage = () => {
     setPasswordMessage({ text: "", type: "" });
   };
+
+  // Helper function to check if a page is active
+  const isActivePage = (path) => {
+    return pathname === path;
+  };
+
+  // Helper function to get link styles based on active state
+  const getLinkStyles = (path) => {
+    const isActive = isActivePage(path);
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "18px",
+      fontWeight: "bold",
+      padding: "8px 16px",
+      borderRadius: "4px",
+      transition: "all 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
+  // Helper function to get logo styles based on active state
+  const getLogoStyles = () => {
+    const isActive = isActivePage("/venuedashboard");
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "30px",
+      fontWeight: "bold",
+      display: "flex",
+      alignItems: "center",
+      gap: "2px",
+      padding: "8px 12px",
+      borderRadius: "6px",
+      transition: "all 0.2s ease",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
+  // Helper function to get mobile menu link styles based on active state
+  const getMobileLinkStyles = (path) => {
+    const isActive = isActivePage(path);
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "20px",
+      fontWeight: "bold",
+      padding: "16px",
+      borderRadius: "8px",
+      transition: "background-color 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
   
   return (
     <>
@@ -233,20 +293,11 @@ export default function VenueHeader() {
       >
       <Link 
         href="/venuedashboard" 
-        style={{ 
-          color: "white", 
-          textDecoration: "none", 
-          fontSize: "30px", 
-          fontWeight: "bold",
-          display: "flex",
-          alignItems: "center",
-          gap: "2px",
-          padding: "8px 12px",
-          borderRadius: "6px",
-          transition: "transform 0.2s ease"
-        }}
+        style={getLogoStyles()}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "scale(1.08)";
+          if (!isActivePage("/venuedashboard")) {
+            e.currentTarget.style.transform = "scale(1.08)";
+          }
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = "scale(1)";
@@ -258,7 +309,7 @@ export default function VenueHeader() {
           style={{ 
             width: "36px", 
             height: "36px",
-            filter: "brightness(0) invert(1)" // Makes the icon white
+            filter: isActivePage("/venuedashboard") ? "brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(2000%) hue-rotate(200deg) brightness(0.8) contrast(1.2)" : "brightness(0) invert(1)"
           }} 
         />
         OpenStage
@@ -275,23 +326,16 @@ export default function VenueHeader() {
           }}>
             <Link 
               href="/donations" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/donations")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/donations")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/donations")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -301,23 +345,16 @@ export default function VenueHeader() {
             </Link>
             <Link 
               href="/aboutus" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/aboutus")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/aboutus")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/aboutus")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -457,25 +494,7 @@ export default function VenueHeader() {
           <Link 
             href="/donations" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/donations")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
@@ -485,25 +504,7 @@ export default function VenueHeader() {
           <Link 
             href="/aboutus" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/aboutus")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.93 5.428l-1 4.105c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>

@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { colors } from "../styles/colors";
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -207,6 +208,65 @@ export default function Header() {
     setPasswordMessage({ text: "", type: "" });
   };
 
+  // Helper function to check if a page is active
+  const isActivePage = (path) => {
+    return pathname === path;
+  };
+
+  // Helper function to get link styles based on active state
+  const getLinkStyles = (path) => {
+    const isActive = isActivePage(path);
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "18px",
+      fontWeight: "bold",
+      padding: "8px 16px",
+      borderRadius: "4px",
+      transition: "all 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
+  // Helper function to get logo styles based on active state
+  const getLogoStyles = () => {
+    const isActive = isActivePage("/dashboard");
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "32px",
+      fontWeight: "bold",
+      display: "flex",
+      alignItems: "center",
+      gap: "2px",
+      padding: "8px 12px",
+      borderRadius: "6px",
+      transition: "all 0.2s ease",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
+  // Helper function to get mobile menu link styles based on active state
+  const getMobileLinkStyles = (path) => {
+    const isActive = isActivePage(path);
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "20px",
+      fontWeight: "bold",
+      padding: "16px",
+      borderRadius: "8px",
+      transition: "background-color 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
   return (
     <div>
       {/* Header Bar */}
@@ -235,20 +295,11 @@ export default function Header() {
         {/* Logo */}
         <Link
           href="/dashboard"
-          style={{
-            color: "white",
-            textDecoration: "none",
-            fontSize: "32px",
-            fontWeight: "bold",
-            display: "flex",
-            alignItems: "center",
-            gap: "2px",
-            padding: "8px 12px",
-            borderRadius: "6px",
-            transition: "transform 0.2s ease",
-          }}
+          style={getLogoStyles()}
           onMouseEnter={(e) => {
-            e.currentTarget.style.transform = "scale(1.08)";
+            if (!isActivePage("/dashboard")) {
+              e.currentTarget.style.transform = "scale(1.08)";
+            }
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = "scale(1)";
@@ -260,7 +311,7 @@ export default function Header() {
             style={{
               width: "36px",
               height: "36px",
-              filter: "brightness(0) invert(1)",
+              filter: isActivePage("/dashboard") ? "brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(2000%) hue-rotate(200deg) brightness(0.8) contrast(1.2)" : "brightness(0) invert(1)",
             }}
           />
           OpenStage
@@ -273,23 +324,16 @@ export default function Header() {
             <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
               <Link
                 href="/localconcertmap"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  transition: "background-color 0.2s ease",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
+                style={getLinkStyles("/localconcertmap")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  if (!isActivePage("/localconcertmap")) {
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "transparent";
+                  if (!isActivePage("/localconcertmap")) {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -299,23 +343,16 @@ export default function Header() {
               </Link>
               <Link
                 href="/donations"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  transition: "background-color 0.2s ease",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
+                style={getLinkStyles("/donations")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  if (!isActivePage("/donations")) {
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "transparent";
+                  if (!isActivePage("/donations")) {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -325,23 +362,16 @@ export default function Header() {
               </Link>
               <Link
                 href="/aboutus"
-                style={{
-                  color: "white",
-                  textDecoration: "none",
-                  fontSize: "18px",
-                  fontWeight: "bold",
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  transition: "background-color 0.2s ease",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "8px",
-                }}
+                style={getLinkStyles("/aboutus")}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  if (!isActivePage("/aboutus")) {
+                    e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = "transparent";
+                  if (!isActivePage("/aboutus")) {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                  }
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -491,54 +521,21 @@ export default function Header() {
           <Link
             href="/localconcertmap"
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{
-              color: "white",
-              textDecoration: "none",
-              fontSize: "20px",
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
+            style={getMobileLinkStyles("/localconcertmap")}
           >
             Nearby Concerts
           </Link>
           <Link
             href="/donations"
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{
-              color: "white",
-              textDecoration: "none",
-              fontSize: "20px",
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
+            style={getMobileLinkStyles("/donations")}
           >
             Donations
           </Link>
           <Link
             href="/aboutus"
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{
-              color: "white",
-              textDecoration: "none",
-              fontSize: "20px",
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-            }}
+            style={getMobileLinkStyles("/aboutus")}
           >
             About Us
           </Link>

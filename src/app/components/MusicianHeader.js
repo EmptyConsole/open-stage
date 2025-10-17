@@ -1,11 +1,12 @@
 "use client";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { colors } from '../styles/colors';
 
 export default function MusicianHeader() {
   const router = useRouter();
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -206,6 +207,65 @@ export default function MusicianHeader() {
   const clearPasswordMessage = () => {
     setPasswordMessage({ text: "", type: "" });
   };
+
+  // Helper function to check if a page is active
+  const isActivePage = (path) => {
+    return pathname === path;
+  };
+
+  // Helper function to get link styles based on active state
+  const getLinkStyles = (path) => {
+    const isActive = isActivePage(path);
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "18px",
+      fontWeight: "bold",
+      padding: "8px 16px",
+      borderRadius: "4px",
+      transition: "all 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
+  // Helper function to get logo styles based on active state
+  const getLogoStyles = () => {
+    const isActive = isActivePage("/artistcreateconcert");
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "32px",
+      fontWeight: "bold",
+      display: "flex",
+      alignItems: "center",
+      gap: "2px",
+      padding: "8px 12px",
+      borderRadius: "6px",
+      transition: "all 0.2s ease",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
+
+  // Helper function to get mobile menu link styles based on active state
+  const getMobileLinkStyles = (path) => {
+    const isActive = isActivePage(path);
+    return {
+      color: isActive ? "#1976d2" : "white",
+      textDecoration: "none",
+      fontSize: "20px",
+      fontWeight: "bold",
+      padding: "16px",
+      borderRadius: "8px",
+      transition: "background-color 0.2s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      backgroundColor: isActive ? "white" : "transparent",
+    };
+  };
   return (
     <>
       {/* The header is fixed at the top. Add paddingTop: 72px (header height) to your main layout or page content to prevent overlap. */}
@@ -234,23 +294,14 @@ export default function MusicianHeader() {
       >
             <Link 
               href="/artistcreateconcert" 
-              style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "32px", 
-              fontWeight: "bold",
-              display: "flex",
-              alignItems: "center",
-              gap: "2px",
-              padding: "8px 12px",
-              borderRadius: "6px",
-              transition: "transform 0.2s ease"
-              }}
+              style={getLogoStyles()}
               onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.08)";
+                if (!isActivePage("/artistcreateconcert")) {
+                  e.currentTarget.style.transform = "scale(1.08)";
+                }
               }}
               onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
+                e.currentTarget.style.transform = "scale(1)";
               }}
             >
               <img 
@@ -259,7 +310,7 @@ export default function MusicianHeader() {
               style={{ 
                 width: "36px", 
                 height: "36px",
-                filter: "brightness(0) invert(1)" // Makes the icon white
+                filter: isActivePage("/artistcreateconcert") ? "brightness(0) saturate(100%) invert(20%) sepia(100%) saturate(2000%) hue-rotate(200deg) brightness(0.8) contrast(1.2)" : "brightness(0) invert(1)"
               }} 
               />
               OpenStage
@@ -276,23 +327,16 @@ export default function MusicianHeader() {
           }}>
             <Link 
               href="/concertstats" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/concertstats")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/concertstats")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/concertstats")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -302,23 +346,16 @@ export default function MusicianHeader() {
             </Link>
             <Link 
               href="/localconcertmap" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/localconcertmap")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/localconcertmap")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/localconcertmap")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -328,23 +365,16 @@ export default function MusicianHeader() {
             </Link>
             <Link 
               href="/dashboard" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/dashboard")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/dashboard")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/dashboard")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -354,23 +384,16 @@ export default function MusicianHeader() {
             </Link>
             <Link 
               href="/donations" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/donations")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/donations")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/donations")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -380,23 +403,16 @@ export default function MusicianHeader() {
             </Link>
             <Link 
               href="/aboutus" 
-              style={{ 
-                color: "white", 
-                textDecoration: "none", 
-                fontSize: "18px", 
-                fontWeight: "bold",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                transition: "background-color 0.2s ease",
-                display: "flex",
-                alignItems: "center",
-                gap: "8px"
-              }}
+              style={getLinkStyles("/aboutus")}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                if (!isActivePage("/aboutus")) {
+                  e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "transparent";
+                if (!isActivePage("/aboutus")) {
+                  e.target.style.backgroundColor = "transparent";
+                }
               }}
             >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -536,25 +552,7 @@ export default function MusicianHeader() {
           <Link 
             href="/concertstats" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/concertstats")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4zM2 1a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm1 3h10a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/>
@@ -564,25 +562,7 @@ export default function MusicianHeader() {
           <Link 
             href="/localconcertmap" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/localconcertmap")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM5.5 8a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0z"/>
@@ -592,25 +572,7 @@ export default function MusicianHeader() {
           <Link 
             href="/dashboard" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/dashboard")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
@@ -620,25 +582,7 @@ export default function MusicianHeader() {
           <Link 
             href="/donations" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/donations")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
@@ -648,25 +592,7 @@ export default function MusicianHeader() {
           <Link 
             href="/aboutus" 
             onClick={() => setIsMobileMenuOpen(false)}
-            style={{ 
-              color: "white", 
-              textDecoration: "none", 
-              fontSize: "20px", 
-              fontWeight: "bold",
-              padding: "16px",
-              borderRadius: "8px",
-              transition: "background-color 0.2s ease",
-              display: "flex",
-              alignItems: "center",
-              gap: "12px",
-              border: "1px solid rgba(255, 255, 255, 0.2)"
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = "rgba(255, 255, 255, 0.1)";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "transparent";
-            }}
+            style={getMobileLinkStyles("/aboutus")}
           >
             <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.93 5.428l-1 4.105c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
