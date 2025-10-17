@@ -15,8 +15,6 @@ import { getArtists } from "../../../util/users";
 
 function ArtistProfileContent() {
   const [isFollowing, setIsFollowing] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState(null);
-  const [hoveredType, setHoveredType] = useState(null);
   const [currentArtist, setCurrentArtist] = useState(null);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
@@ -51,15 +49,6 @@ function ArtistProfileContent() {
     }
   }, [artistId]);
 
-  const handleItemHover = (item, type) => {
-    setHoveredItem(item);
-    setHoveredType(type);
-  };
-
-  const handleItemLeave = () => {
-    setHoveredItem(null);
-    setHoveredType(null);
-  };
 
   return (
     <div
@@ -378,7 +367,6 @@ function ArtistProfileContent() {
             ].map((concert) => (
               <div
                 key={concert.number}
-                onMouseEnter={() => handleItemHover(concert, "concert")} // ✅ keep only this
               >
                 <ConcertSquare
                   concertNumber={concert.number}
@@ -449,7 +437,6 @@ function ArtistProfileContent() {
                   genre={artist.genre}
                   onClick={() => {
                     console.log(`Clicked on ${artist.title}`);
-                    setHoveredItem(null); // ✅ close popup when artist clicked
                     if (artist.id) {
                       router.push(`/artistsprofiles?id=${artist.id}`);
                     }
@@ -463,104 +450,6 @@ function ArtistProfileContent() {
         </main>
       </div>
 
-      {/* Detailed View */}
-      {hoveredItem && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: "330px", // sidebar width
-            right: 0,
-            background: "#fff",
-            borderTop: "3px solid #1976d2",
-            padding: "24px",
-            boxShadow: "0 -4px 12px rgba(0,0,0,0.1)",
-            zIndex: 1000,
-            maxHeight: "40vh",
-            overflowY: "auto",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-            <div
-              style={{
-                width: "120px",
-                height: "120px",
-                background: "#ededed",
-                borderRadius: "8px",
-                border: "2px dashed #ccc",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "#999",
-                fontSize: "12px",
-              }}
-            >
-              Concert Image
-            </div>
-            <div style={{ flex: 1 }}>
-              <h3
-                style={{
-                  color: "#1976d2",
-                  fontSize: "28px",
-                  margin: "0 0 8px 0",
-                  fontWeight: "bold",
-                }}
-              >
-                {hoveredItem.title}
-              </h3>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "16px",
-                  marginBottom: "16px",
-                  fontSize: "16px",
-                  color: "#333", // darker, stronger text
-                }}
-              >
-                <div>
-                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
-                    Date:
-                  </span>{" "}
-                  {hoveredItem.date}
-                </div>
-                <div>
-                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
-                    Time:
-                  </span>{" "}
-                  {hoveredItem.time}
-                </div>
-                <div>
-                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
-                    Venue:
-                  </span>{" "}
-                  {hoveredItem.venue}
-                </div>
-                <div>
-                  <span style={{ fontWeight: 600, color: "var(--text-accent)" }}>
-                    Price:
-                  </span>{" "}
-                  {hoveredItem.price}
-                </div>
-              </div>
-              <p
-                style={{
-                  margin: "0 0 16px 0",
-                  color: "#333",
-                  lineHeight: "1.5",
-                }}
-              >
-                Join {currentArtist?.name || 'this artist'} for an unforgettable{" "}
-                {hoveredItem.title.toLowerCase()} experience. This special event
-                promises to deliver an amazing night of music and entertainment.
-              </p>
-              <MainButton>
-                Buy Tickets
-              </MainButton>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
