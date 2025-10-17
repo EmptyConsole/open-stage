@@ -6,6 +6,307 @@ import { colors } from '../styles/colors';
 import Header from '../components/Header';
 import ArtistProfileImage from '../components/ArtistProfileImage';
 
+// DonationModal component moved outside to prevent re-rendering issues
+const DonationModal = ({ 
+  showDonationModal, 
+  selectedArtist, 
+  donationSuccess, 
+  donationAmount, 
+  customAmount, 
+  donationMessage, 
+  donationAmounts,
+  onClose,
+  onDonationSubmit,
+  onAmountChange,
+  onCustomAmountChange,
+  onMessageChange
+}) => {
+  if (!showDonationModal || !selectedArtist) return null;
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        background: "rgba(0,0,0,0.5)",
+        zIndex: 2000,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
+        overflow: "auto",
+      }}
+      onClick={() => {
+        if (!donationSuccess) {
+          onClose();
+        }
+      }}
+    >
+      <div
+        style={{
+          background: "white",
+          borderRadius: "12px",
+          padding: "32px",
+          maxWidth: "500px",
+          width: "100%",
+          maxHeight: "90vh",
+          overflow: "auto",
+          boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+          position: "relative",
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {donationSuccess ? (
+          // Success state
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                width: "80px",
+                height: "80px",
+                borderRadius: "50%",
+                background: colors.success,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 24px",
+                fontSize: "40px",
+                color: "white",
+              }}
+            >
+              ✓
+            </div>
+            <h2 style={{
+              margin: "0 0 16px 0",
+              color: colors.primary,
+              fontSize: "24px",
+              fontWeight: "bold"
+            }}>
+              Thank You!
+            </h2>
+            <p style={{
+              margin: "0 0 8px 0",
+              color: colors.textPrimary,
+              fontSize: "16px"
+            }}>
+              Your donation of ${donationAmount || customAmount} to {selectedArtist.name} has been processed successfully.
+            </p>
+            <p style={{
+              margin: 0,
+              color: colors.textSecondary,
+              fontSize: "14px"
+            }}>
+              The artist will receive your support and message.
+            </p>
+          </div>
+        ) : (
+          // Donation form
+          <>
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              style={{
+                position: "absolute",
+                top: "16px",
+                right: "16px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "#666",
+                width: "32px",
+                height: "32px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "50%",
+                transition: "background-color 0.2s",
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = "#f0f0f0"}
+              onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
+            >
+              ×
+            </button>
+
+            {/* Header */}
+            <div style={{ marginBottom: "24px", textAlign: "center" }}>
+              <ArtistProfileImage
+                artistId={selectedArtist.id}
+                artistName={selectedArtist.name}
+                size={80}
+                style={{
+                  margin: "0 auto 16px",
+                  border: `3px solid ${colors.primary}`,
+                }}
+              />
+              <h2 style={{
+                margin: "0 0 8px 0",
+                color: colors.primary,
+                fontSize: "24px",
+                fontWeight: "bold"
+              }}>
+                Support {selectedArtist.name}
+              </h2>
+              <p style={{
+                margin: 0,
+                color: colors.textSecondary,
+                fontSize: "14px"
+              }}>
+                {selectedArtist.description}
+              </p>
+            </div>
+
+            {/* Donation Amount Selection */}
+            <div style={{ marginBottom: "24px" }}>
+              <h3 style={{
+                margin: "0 0 16px 0",
+                color: colors.textPrimary,
+                fontSize: "18px",
+                fontWeight: "bold"
+              }}>
+                Select Amount
+              </h3>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "12px",
+                marginBottom: "16px"
+              }}>
+                {donationAmounts.map((amount) => (
+                  <button
+                    key={amount}
+                    onClick={() => onAmountChange(amount.toString())}
+                    style={{
+                      padding: "12px",
+                      border: donationAmount === amount.toString() ? `2px solid ${colors.primary}` : "2px solid #e0e0e0",
+                      borderRadius: "8px",
+                      background: donationAmount === amount.toString() ? colors.lightBlue : "white",
+                      color: donationAmount === amount.toString() ? colors.primary : colors.textPrimary,
+                      cursor: "pointer",
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      transition: "all 0.2s"
+                    }}
+                    onMouseEnter={(e) => {
+                      if (donationAmount !== amount.toString()) {
+                        e.target.style.borderColor = colors.primary;
+                        e.target.style.backgroundColor = colors.lightBlue;
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (donationAmount !== amount.toString()) {
+                        e.target.style.borderColor = "#e0e0e0";
+                        e.target.style.backgroundColor = "white";
+                      }
+                    }}
+                  >
+                    ${amount}
+                  </button>
+                ))}
+              </div>
+              
+              {/* Custom Amount */}
+              <div>
+                <label style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  color: colors.textPrimary,
+                  fontSize: "14px",
+                  fontWeight: "500"
+                }}>
+                  Or enter custom amount:
+                </label>
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  value={customAmount}
+                  onChange={(e) => onCustomAmountChange(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "12px",
+                    border: "2px solid #e0e0e0",
+                    borderRadius: "8px",
+                    fontSize: "16px",
+                    boxSizing: "border-box",
+                    outline: "none",
+                    transition: "border-color 0.2s"
+                  }}
+                  onFocus={(e) => e.target.style.borderColor = colors.primary}
+                  onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+                />
+              </div>
+            </div>
+
+            {/* Donation Message */}
+            <div style={{ marginBottom: "24px" }}>
+              <label style={{
+                display: "block",
+                marginBottom: "8px",
+                color: colors.textPrimary,
+                fontSize: "14px",
+                fontWeight: "500"
+              }}>
+                Message (optional):
+              </label>
+              <textarea
+                placeholder="Leave a message for the artist..."
+                value={donationMessage}
+                onChange={(e) => onMessageChange(e.target.value)}
+                rows={3}
+                style={{
+                  width: "100%",
+                  padding: "12px",
+                  border: "2px solid #e0e0e0",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  boxSizing: "border-box",
+                  outline: "none",
+                  resize: "vertical",
+                  transition: "border-color 0.2s"
+                }}
+                onFocus={(e) => e.target.style.borderColor = colors.primary}
+                onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              onClick={onDonationSubmit}
+              disabled={!donationAmount && !customAmount}
+              style={{
+                width: "100%",
+                padding: "16px",
+                background: (!donationAmount && !customAmount) ? colors.gray : colors.primary,
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                fontSize: "16px",
+                fontWeight: "600",
+                cursor: (!donationAmount && !customAmount) ? "not-allowed" : "pointer",
+                transition: "background-color 0.2s"
+              }}
+              onMouseEnter={(e) => {
+                if (donationAmount || customAmount) {
+                  e.target.style.backgroundColor = colors.primaryHover;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (donationAmount || customAmount) {
+                  e.target.style.backgroundColor = colors.primary;
+                }
+              }}
+            >
+              Donate ${donationAmount || customAmount || "0"}
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default function DonationsPage() {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -81,307 +382,26 @@ export default function DonationsPage() {
     }, 3000);
   };
 
-  const DonationModal = () => {
-    if (!showDonationModal || !selectedArtist) return null;
+  const handleCloseModal = () => {
+    setShowDonationModal(false);
+    setSelectedArtist(null);
+    setDonationAmount("");
+    setCustomAmount("");
+    setDonationMessage("");
+  };
 
-    return (
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          background: "rgba(0,0,0,0.5)",
-          zIndex: 2000,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "20px",
-          overflow: "auto",
-        }}
-        onClick={() => {
-          if (!donationSuccess) {
-            setShowDonationModal(false);
-            setSelectedArtist(null);
-            setDonationAmount("");
-            setCustomAmount("");
-            setDonationMessage("");
-          }
-        }}
-      >
-        <div
-          style={{
-            background: "white",
-            borderRadius: "12px",
-            padding: "32px",
-            maxWidth: "500px",
-            width: "100%",
-            maxHeight: "90vh",
-            overflow: "auto",
-            boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
-            position: "relative",
-          }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {donationSuccess ? (
-            // Success state
-            <div style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  width: "80px",
-                  height: "80px",
-                  borderRadius: "50%",
-                  background: colors.success,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "0 auto 24px",
-                  fontSize: "40px",
-                  color: "white",
-                }}
-              >
-                ✓
-              </div>
-              <h2 style={{
-                margin: "0 0 16px 0",
-                color: colors.primary,
-                fontSize: "24px",
-                fontWeight: "bold"
-              }}>
-                Thank You!
-              </h2>
-              <p style={{
-                margin: "0 0 8px 0",
-                color: colors.textPrimary,
-                fontSize: "16px"
-              }}>
-                Your donation of ${donationAmount || customAmount} to {selectedArtist.name} has been processed successfully.
-              </p>
-              <p style={{
-                margin: 0,
-                color: colors.textSecondary,
-                fontSize: "14px"
-              }}>
-                The artist will receive your support and message.
-              </p>
-            </div>
-          ) : (
-            // Donation form
-            <>
-              {/* Close button */}
-              <button
-                onClick={() => {
-                  setShowDonationModal(false);
-                  setSelectedArtist(null);
-                  setDonationAmount("");
-                  setCustomAmount("");
-                  setDonationMessage("");
-                }}
-                style={{
-                  position: "absolute",
-                  top: "16px",
-                  right: "16px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "24px",
-                  cursor: "pointer",
-                  color: "#666",
-                  width: "32px",
-                  height: "32px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: "50%",
-                  transition: "background-color 0.2s",
-                }}
-                onMouseEnter={(e) => e.target.style.backgroundColor = "#f0f0f0"}
-                onMouseLeave={(e) => e.target.style.backgroundColor = "transparent"}
-              >
-                ×
-              </button>
+  const handleAmountChange = (amount) => {
+    setDonationAmount(amount);
+    setCustomAmount("");
+  };
 
-              {/* Header */}
-              <div style={{ marginBottom: "24px", textAlign: "center" }}>
-                <ArtistProfileImage
-                  artistId={selectedArtist.id}
-                  artistName={selectedArtist.name}
-                  size={80}
-                  style={{
-                    margin: "0 auto 16px",
-                    border: `3px solid ${colors.primary}`,
-                  }}
-                />
-                <h2 style={{
-                  margin: "0 0 8px 0",
-                  color: colors.primary,
-                  fontSize: "24px",
-                  fontWeight: "bold"
-                }}>
-                  Support {selectedArtist.name}
-                </h2>
-                <p style={{
-                  margin: 0,
-                  color: colors.textSecondary,
-                  fontSize: "14px"
-                }}>
-                  {selectedArtist.description}
-                </p>
-              </div>
+  const handleCustomAmountChange = (value) => {
+    setCustomAmount(value);
+    setDonationAmount("");
+  };
 
-              {/* Donation Amount Selection */}
-              <div style={{ marginBottom: "24px" }}>
-                <h3 style={{
-                  margin: "0 0 16px 0",
-                  color: colors.textPrimary,
-                  fontSize: "18px",
-                  fontWeight: "bold"
-                }}>
-                  Select Amount
-                </h3>
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, 1fr)",
-                  gap: "12px",
-                  marginBottom: "16px"
-                }}>
-                  {donationAmounts.map((amount) => (
-                    <button
-                      key={amount}
-                      onClick={() => {
-                        setDonationAmount(amount.toString());
-                        setCustomAmount("");
-                      }}
-                      style={{
-                        padding: "12px",
-                        border: donationAmount === amount.toString() ? `2px solid ${colors.primary}` : "2px solid #e0e0e0",
-                        borderRadius: "8px",
-                        background: donationAmount === amount.toString() ? colors.lightBlue : "white",
-                        color: donationAmount === amount.toString() ? colors.primary : colors.textPrimary,
-                        cursor: "pointer",
-                        fontSize: "16px",
-                        fontWeight: "500",
-                        transition: "all 0.2s"
-                      }}
-                      onMouseEnter={(e) => {
-                        if (donationAmount !== amount.toString()) {
-                          e.target.style.borderColor = colors.primary;
-                          e.target.style.backgroundColor = colors.lightBlue;
-                        }
-                      }}
-                      onMouseLeave={(e) => {
-                        if (donationAmount !== amount.toString()) {
-                          e.target.style.borderColor = "#e0e0e0";
-                          e.target.style.backgroundColor = "white";
-                        }
-                      }}
-                    >
-                      ${amount}
-                    </button>
-                  ))}
-                </div>
-                
-                {/* Custom Amount */}
-                <div>
-                  <label style={{
-                    display: "block",
-                    marginBottom: "8px",
-                    color: colors.textPrimary,
-                    fontSize: "14px",
-                    fontWeight: "500"
-                  }}>
-                    Or enter custom amount:
-                  </label>
-                  <input
-                    type="number"
-                    placeholder="Enter amount"
-                    value={customAmount}
-                    onChange={(e) => {
-                      setCustomAmount(e.target.value);
-                      setDonationAmount("");
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: "12px",
-                      border: "2px solid #e0e0e0",
-                      borderRadius: "8px",
-                      fontSize: "16px",
-                      boxSizing: "border-box",
-                      outline: "none",
-                      transition: "border-color 0.2s"
-                    }}
-                    onFocus={(e) => e.target.style.borderColor = colors.primary}
-                    onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
-                  />
-                </div>
-              </div>
-
-              {/* Donation Message */}
-              <div style={{ marginBottom: "24px" }}>
-                <label style={{
-                  display: "block",
-                  marginBottom: "8px",
-                  color: colors.textPrimary,
-                  fontSize: "14px",
-                  fontWeight: "500"
-                }}>
-                  Message (optional):
-                </label>
-                <textarea
-                  placeholder="Leave a message for the artist..."
-                  value={donationMessage}
-                  onChange={(e) => setDonationMessage(e.target.value)}
-                  rows={3}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    border: "2px solid #e0e0e0",
-                    borderRadius: "8px",
-                    fontSize: "16px",
-                    boxSizing: "border-box",
-                    outline: "none",
-                    resize: "vertical",
-                    transition: "border-color 0.2s"
-                  }}
-                  onFocus={(e) => e.target.style.borderColor = colors.primary}
-                  onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
-                />
-              </div>
-
-              {/* Submit Button */}
-              <button
-                onClick={handleDonationSubmit}
-                disabled={!donationAmount && !customAmount}
-                style={{
-                  width: "100%",
-                  padding: "16px",
-                  background: (!donationAmount && !customAmount) ? colors.gray : colors.primary,
-                  color: "white",
-                  border: "none",
-                  borderRadius: "8px",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  cursor: (!donationAmount && !customAmount) ? "not-allowed" : "pointer",
-                  transition: "background-color 0.2s"
-                }}
-                onMouseEnter={(e) => {
-                  if (donationAmount || customAmount) {
-                    e.target.style.backgroundColor = colors.primaryHover;
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (donationAmount || customAmount) {
-                    e.target.style.backgroundColor = colors.primary;
-                  }
-                }}
-              >
-                Donate ${donationAmount || customAmount || "0"}
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-    );
+  const handleMessageChange = (value) => {
+    setDonationMessage(value);
   };
 
   return (
@@ -395,7 +415,20 @@ export default function DonationsPage() {
       }}
     >
       <Header />
-      <DonationModal />
+      <DonationModal 
+        showDonationModal={showDonationModal}
+        selectedArtist={selectedArtist}
+        donationSuccess={donationSuccess}
+        donationAmount={donationAmount}
+        customAmount={customAmount}
+        donationMessage={donationMessage}
+        donationAmounts={donationAmounts}
+        onClose={handleCloseModal}
+        onDonationSubmit={handleDonationSubmit}
+        onAmountChange={handleAmountChange}
+        onCustomAmountChange={handleCustomAmountChange}
+        onMessageChange={handleMessageChange}
+      />
       
       <main
         className="main-content-background"
