@@ -3,6 +3,13 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { colors } from "../styles/colors";
+import { firestore, auth } from "../../../util/firebase";
+import {
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  updatePassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 export default function Header() {
   const router = useRouter();
@@ -160,44 +167,75 @@ export default function Header() {
   const handleChangePassword = () => {
     // Clear any existing messages
     setPasswordMessage({ text: "", type: "" });
-    
-    // Validate password change
-    if (!changePasswordData.currentPassword || !changePasswordData.newPassword || !changePasswordData.confirmPassword) {
-      setPasswordMessage({ 
-        text: "Please fill in all password fields", 
-        type: "error" 
-      });
+
+    // Validate password change inputs
+    if (
+      !changePasswordData.currentPassword ||
+      !changePasswordData.newPassword ||
+      !changePasswordData.confirmPassword
+    ) {
+      setPasswordMessage({ text: "Please fill in all password fields", type: "error" });
       return;
     }
-    
+
     if (changePasswordData.newPassword.length < 6) {
-      setPasswordMessage({ 
-        text: "New password must be at least 6 characters long", 
-        type: "error" 
-      });
+      setPasswordMessage({ text: "New password must be at least 6 characters long", type: "error" });
       return;
     }
-    
+
     if (changePasswordData.newPassword !== changePasswordData.confirmPassword) {
-      setPasswordMessage({ 
-        text: "New passwords do not match", 
-        type: "error" 
-      });
+      setPasswordMessage({ text: "New passwords do not match", type: "error" });
       return;
     }
-    
-    // In a real app, you would send this to your backend
-    setPasswordMessage({ 
-      text: "Password changed successfully!", 
-      type: "success" 
-    });
-    
-    // Clear form and close after a delay
-    setTimeout(() => {
-      setChangePasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
-      setIsChangePasswordOpen(false);
-      setPasswordMessage({ text: "", type: "" });
-    }, 2000);
+
+    // Proceed to reauthenticate and update password in Firebase Auth
+    (async () => {
+      try {
+        setPasswordMessage({ text: "Verifying current password...", type: "warning" });
+
+        // If there's no current user in auth, try signing in with provided credentials
+        let currentUser = auth.currentUser;
+        if (!currentUser) {
+          // Attempt to sign in to verify credentials
+          await signInWithEmailAndPassword(auth, user.email, changePasswordData.currentPassword);
+          currentUser = auth.currentUser;
+        } else {
+          // Reauthenticate existing user with credential
+          const credential = EmailAuthProvider.credential(user.email, changePasswordData.currentPassword);
+          await reauthenticateWithCredential(currentUser, credential);
+          currentUser = auth.currentUser;
+        }
+
+        if (!currentUser) {
+          throw new Error("Unable to verify user session. Please sign in again.");
+        }
+
+        // Update the password
+        await updatePassword(currentUser, changePasswordData.newPassword);
+
+        setPasswordMessage({ text: "Password changed successfully!", type: "success" });
+
+        // Clear form and close after a delay
+        setTimeout(() => {
+          setChangePasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+          setIsChangePasswordOpen(false);
+          setPasswordMessage({ text: "", type: "" });
+        }, 2000);
+      } catch (err) {
+        console.error("Password change error:", err);
+        let message = "Failed to change password. Please check your current password.";
+        if (err && err.code) {
+          if (err.code === "auth/wrong-password" || err.code === "auth/user-not-found") {
+            message = "Current password is incorrect.";
+          } else if (err.code === "auth/weak-password") {
+            message = "New password is too weak.";
+          } else if (err.code === "auth/requires-recent-login") {
+            message = "Please sign out and sign in again, then try changing your password.";
+          }
+        }
+        setPasswordMessage({ text: message, type: "error" });
+      }
+    })();
   };
 
   const toggleMobileMenu = () => {

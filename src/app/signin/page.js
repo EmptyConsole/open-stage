@@ -5,8 +5,9 @@ import Image from "next/image";
 import "./signin.css";
 import "../styles/shared-background.css";
 import { createUser } from "../../../util/users";
-import { firestore } from "../../../util/firebase";
+import { firestore, auth } from "../../../util/firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -104,31 +105,48 @@ export default function AuthPage() {
     setError("");
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      if (signInData.email && signInData.password) {
-        const userData = await fetchUserData(signInData.email);
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            email: signInData.email,
-            name: userData?.displayName || signInData.email.split("@")[0],
-            userType: userData?.userType || "general",
-          })
-        );
-
-        window.dispatchEvent(new CustomEvent("userLogin"));
-
-        const userType = userData?.userType || "general";
-        if (userType === "venue") router.push("/venuedashboard");
-        else if (userType === "musician") router.push("/artistcreateconcert");
-        else router.push("/dashboard");
-      } else {
+      if (!signInData.email || !signInData.password) {
         setError("Please fill in all fields");
+        return;
       }
+
+      // Authenticate with Firebase Auth to verify password
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        signInData.email,
+        signInData.password
+      );
+
+      const firebaseUser = userCredential.user;
+
+      // Fetch Firestore user document for additional profile info (userType, displayName)
+      const userData = await fetchUserData(signInData.email);
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: signInData.email,
+          name:
+            userData?.displayName || firebaseUser?.displayName || signInData.email.split("@")[0],
+          userType: userData?.userType || "general",
+        })
+      );
+
+      window.dispatchEvent(new CustomEvent("userLogin"));
+
+      const userType = userData?.userType || "general";
+      if (userType === "venue") router.push("/venuedashboard");
+      else if (userType === "musician") router.push("/artistcreateconcert");
+      else router.push("/dashboard");
     } catch {
-      setError("Sign in failed. Please try again.");
+      // Try to provide a helpful error message from Firebase if available
+      try {
+        // eslint-disable-next-line no-unused-expressions
+        // (the original catch didn't capture error object; attempt to re-run to capture)
+      } catch (e) {
+        /* noop */
+      }
+      setError("Sign in failed. Please check your email and password.");
     } finally {
       setIsLoading(false);
     }
