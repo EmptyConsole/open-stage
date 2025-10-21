@@ -12,6 +12,7 @@ import MainContentHeader from "../components/MainContentHeader";
 import MainButton from "../components/MainButton";
 import ArtistProfileImage from "../components/ArtistProfileImage";
 import { getArtists } from "../../../util/users";
+import HelpSupportButton from "../components/HelpSupportButton";
 
 function ArtistProfileContent() {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -133,6 +134,8 @@ function ArtistProfileContent() {
                   >
                     {loading ? 'Loading...' : (currentArtist?.name || 'Unknown Artist')}
                   </div>
+
+                <HelpSupportButton />
                 </div>
                 
                 {/* Follow Button - Below Image */}
@@ -196,7 +199,7 @@ function ArtistProfileContent() {
               >
                 One small step for you, one giant leap for {currentArtist?.name || 'this artist'}.
               </p>
-              <MainButton>
+              <MainButton onClick={() => router.push(`/donations?id=${currentArtist?.id || artistId}`)}>
                 Help Support!
               </MainButton>
             </div>

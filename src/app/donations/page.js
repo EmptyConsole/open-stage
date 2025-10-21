@@ -319,6 +319,9 @@ export default function DonationsPage() {
   const [showDonationModal, setShowDonationModal] = useState(false);
   const [donationSuccess, setDonationSuccess] = useState(false);
   const router = useRouter();
+  // don't call useSearchParams at top-level to avoid SSR/prerender issues
+  // we'll read the query param on the client inside useEffect via window.location
+  // const searchParams = useSearchParams();
 
   // Handle window resize and mobile detection
   useEffect(() => {
@@ -337,6 +340,22 @@ export default function DonationsPage() {
         setLoading(true);
         const artistsData = await getArtists();
         setArtists(artistsData);
+        // Auto-open modal if id query param is present (client-only)
+        if (typeof window !== 'undefined') {
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+              const found = artistsData.find(a => a.id === id);
+              if (found) {
+                setSelectedArtist(found);
+                setShowDonationModal(true);
+              }
+            }
+          } catch (e) {
+            // ignore
+          }
+        }
       } catch (error) {
         console.error("Error fetching artists:", error);
       } finally {
