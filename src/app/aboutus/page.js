@@ -25,15 +25,15 @@ export default function AboutUs() {
     const teamMembers = [
         {
             name: "Everett Yeh",
-            description: "Full-stack developer with a passion for creating seamless user experiences. Specializes in React and Node.js development."
+            description: "Everett began coding in 6th grade and made so much progress within his first year. The progress from then on was exponential. He also learned how to produce music in 7th grade and has become adept at it as well. Due to his love of games and music, he incorporated coding and game design into many of his school assignments. Eventually, meeting Empty Console. He began working on projects with the group, coding, making art, and creating expressive soundtracks to share with the world."
         },
         {
             name: "Hanson Fang",
-            description: "UI/UX designer focused on creating intuitive and beautiful interfaces. Expert in design systems and user research."
+            description: "Hanson, also known as HF_ang, began coding as soon as he saw his sister doing it. From then on, he began overachieving in any coding assignment, taking extracurriculars, and participating in short game jams to hone his skills. Over time, he met the other members of Empty Console and co-founded the group. Through many late-night calls with Shaayer, game development videos, and projects, Hanson became the main coder in Empty Console."
         },
         {
             name: "Shaayer Alam",
-            description: "Backend engineer with expertise in scalable architecture and database design. Loves solving complex technical challenges."
+            description: "Shaayer, also known as Shyguy, fell in love with video games at a young age and soon, also started making his own. While honing his programming skills, Shaayer also learned more about robotics, AI, team management, and the business side of the products he created. In 7th grade, he started working with Hanson and Everett to co-found Empty Console. As Empty Console got better, Shaayer’s role got more distinct, now leading in decisions on the business side while coding only certain parts of the products. When not meeting with users or coding late into the night, Shaayer can be found sailing, playing tennis or golf, or playing keyboard in a school rock band."
         },
         {
             name: "Lucas",
