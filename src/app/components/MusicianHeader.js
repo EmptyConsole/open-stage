@@ -40,14 +40,21 @@ export default function MusicianHeader() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const wasMobile = isMobile;
+      const nowMobile = window.innerWidth < 768;
+      setIsMobile(nowMobile);
+      
+      // Close mobile menu if switching from mobile to desktop
+      if (wasMobile && !nowMobile && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
     };
     
     checkMobile();
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [isMobile, isMobileMenuOpen]);
 
   // Load user data from localStorage
   useEffect(() => {
@@ -300,25 +307,23 @@ export default function MusicianHeader() {
       {/* The header is fixed at the top. Add paddingTop: 72px (header height) to your main layout or page content to prevent overlap. */}
       <div
         style={{
-          padding: "16px 32px",
+          padding: isMobile ? "12px 16px" : "16px 32px",
           color: "white",
           backgroundColor: colors.header,
-          fontSize: "30px",
+          fontSize: isMobile ? "24px" : "30px",
           fontWeight: "bold",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           width: "100%",
           boxSizing: "border-box",
-          // position: "fixed",
+          position: "fixed",
           top: 0,
           left: 0,
           zIndex: 1000,
-          height: "72px",
-          minHeight: "72px",
-          maxHeight: "72px",
-          paddingLeft: "8px", // shifted left
-          paddingRight: "32px", // keep right padding
+          height: isMobile ? "60px" : "72px",
+          minHeight: isMobile ? "60px" : "72px",
+          maxHeight: isMobile ? "60px" : "72px",
         }}
       >
             <Link 
@@ -456,14 +461,14 @@ export default function MusicianHeader() {
                 color: "white",
                 background: "none",
                 border: "none",
-                fontSize: "18px",
+                fontSize: isMobile ? "14px" : "18px",
                 fontWeight: "bold",
-                padding: "8px 16px",
+                padding: isMobile ? "6px 8px" : "8px 16px",
                 borderRadius: "4px",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: isMobile ? "4px" : "8px",
                 transition: "background-color 0.2s ease",
               }}
               onMouseEnter={(e) => {
@@ -487,14 +492,14 @@ export default function MusicianHeader() {
                 color: "white",
                 background: "none",
                 border: "none",
-                fontSize: "18px",
+                fontSize: isMobile ? "14px" : "18px",
                 fontWeight: "bold",
-                padding: "8px 16px",
+                padding: isMobile ? "6px 8px" : "8px 16px",
                 borderRadius: "4px",
                 cursor: "pointer",
                 display: "flex",
                 alignItems: "center",
-                gap: "8px",
+                gap: isMobile ? "4px" : "8px",
                 transition: "background-color 0.2s ease",
               }}
               onMouseEnter={(e) => {
@@ -509,8 +514,8 @@ export default function MusicianHeader() {
                 src={user.avatar}
                 alt="Profile"
                 style={{
-                  width: "20px",
-                  height: "20px",
+                  width: isMobile ? "16px" : "20px",
+                  height: isMobile ? "16px" : "20px",
                   borderRadius: "50%",
                   border: "1px solid white",
                   objectFit: "cover",
@@ -567,7 +572,7 @@ export default function MusicianHeader() {
       {isMobile && isMobileMenuOpen && (
         <div style={{
           position: "fixed",
-          top: "72px",
+          top: "60px",
           left: 0,
           right: 0,
           bottom: 0,
@@ -575,8 +580,9 @@ export default function MusicianHeader() {
           zIndex: 999,
           display: "flex",
           flexDirection: "column",
-          padding: "20px",
-          gap: "16px"
+          padding: "16px",
+          gap: "12px",
+          overflow: "auto"
         }}>
           <Link 
             href="/concertstats" 

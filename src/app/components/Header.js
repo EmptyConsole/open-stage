@@ -40,12 +40,19 @@ export default function Header() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+      const wasMobile = isMobile;
+      const nowMobile = window.innerWidth < 768;
+      setIsMobile(nowMobile);
+      
+      // Close mobile menu if switching from mobile to desktop
+      if (wasMobile && !nowMobile && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [isMobile, isMobileMenuOpen]);
 
   // Load user data from localStorage
   useEffect(() => {
@@ -310,24 +317,23 @@ export default function Header() {
       {/* Header Bar */}
       <div
         style={{
-          padding: "16px 32px",
+          padding: isMobile ? "12px 16px" : "16px 32px",
           color: "white",
           backgroundColor: colors.header,
-          fontSize: "30px",
+          fontSize: isMobile ? "24px" : "30px",
           fontWeight: "bold",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           width: "100%",
           boxSizing: "border-box",
+          position: "fixed",
           top: 0,
           left: 0,
           zIndex: 1000,
-          height: "72px",
-          minHeight: "72px",
-          maxHeight: "72px",
-          paddingLeft: "8px",
-          paddingRight: "32px",
+          height: isMobile ? "60px" : "72px",
+          minHeight: isMobile ? "60px" : "72px",
+          maxHeight: isMobile ? "60px" : "72px",
         }}
       >
         {/* Logo */}
@@ -427,14 +433,14 @@ export default function Header() {
               color: "white",
               background: "none",
               border: "none",
-              fontSize: !isMobile ? "18px" : "20px",
+              fontSize: isMobile ? "14px" : "18px",
               fontWeight: "bold",
-              padding: !isMobile ? "8px 16px" : "16px",
+              padding: isMobile ? "6px 8px" : "8px 16px",
               borderRadius: "4px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: isMobile ? "4px" : "8px",
               transition: "background-color 0.2s ease",
             }}
             onMouseEnter={(e) => {
@@ -458,14 +464,14 @@ export default function Header() {
               color: "white",
               background: "none",
               border: "none",
-              fontSize: !isMobile ? "18px" : "20px",
+              fontSize: isMobile ? "14px" : "18px",
               fontWeight: "bold",
-              padding: !isMobile ? "8px 16px" : "16px",
+              padding: isMobile ? "6px 8px" : "8px 16px",
               borderRadius: "4px",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
-              gap: "8px",
+              gap: isMobile ? "4px" : "8px",
               transition: "background-color 0.2s ease",
             }}
             onMouseEnter={(e) => {
@@ -480,8 +486,8 @@ export default function Header() {
               src={user.avatar}
               alt="Profile"
               style={{
-                width: "20px",
-                height: "20px",
+                width: isMobile ? "16px" : "20px",
+                height: isMobile ? "16px" : "20px",
                 borderRadius: "50%",
                 border: "1px solid white",
                 objectFit: "cover",
@@ -544,7 +550,7 @@ export default function Header() {
         <div
           style={{
             position: "fixed",
-            top: "72px",
+            top: "60px",
             left: 0,
             right: 0,
             bottom: 0,
@@ -552,8 +558,9 @@ export default function Header() {
             zIndex: 999,
             display: "flex",
             flexDirection: "column",
-            padding: "20px",
-            gap: "16px",
+            padding: "16px",
+            gap: "12px",
+            overflow: "auto",
           }}
         >
           <Link
@@ -561,6 +568,9 @@ export default function Header() {
             onClick={() => setIsMobileMenuOpen(false)}
             style={getMobileLinkStyles("/localconcertmap")}
           >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zM5.5 8a2.5 2.5 0 1 1 5 0 2.5 2.5 0 0 1-5 0z" />
+            </svg>
             Nearby Concerts
           </Link>
           <Link
@@ -568,6 +578,9 @@ export default function Header() {
             onClick={() => setIsMobileMenuOpen(false)}
             style={getMobileLinkStyles("/donations")}
           >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+            </svg>
             Donations
           </Link>
           <Link
@@ -575,6 +588,9 @@ export default function Header() {
             onClick={() => setIsMobileMenuOpen(false)}
             style={getMobileLinkStyles("/aboutus")}
           >
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.93 5.428l-1 4.105c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z" />
+            </svg>
             About Us
           </Link>
           <button
