@@ -12,7 +12,6 @@ import MainContentHeader from "../components/MainContentHeader";
 import MainButton from "../components/MainButton";
 import ArtistProfileImage from "../components/ArtistProfileImage";
 import { getArtists } from "../../../util/users";
-import HelpSupportButton from "../components/HelpSupportButton";
 
 function ArtistProfileContent() {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -147,7 +146,6 @@ function ArtistProfileContent() {
                     {loading ? 'Loading...' : (currentArtist?.name || 'Unknown Artist')}
                   </div>
 
-                <HelpSupportButton />
                 </div>
                 
                 {/* Follow Button - Below Image */}

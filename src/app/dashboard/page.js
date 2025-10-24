@@ -10,7 +10,6 @@ import { getUsers, getArtists } from "../../../util/users";
 import { colors } from "../styles/colors";
 import ArtistProfileImage from "../components/ArtistProfileImage";
 import ConcertSquare from "../components/ConcertSquare";
-import HelpSupportButton from "../components/HelpSupportButton";
 
 export default function HomePage() {
   const [searchValue, setSearchValue] = useState("");
@@ -914,7 +913,6 @@ export default function HomePage() {
           </main>
         </div>
       )}
-    <HelpSupportButton />
     </div>
   );
 }

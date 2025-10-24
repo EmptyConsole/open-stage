@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { getUsers, getArtists } from "../../../util/users";
 import { colors } from "../styles/colors";
 import ArtistProfileImage from "../components/ArtistProfileImage";
-import HelpSupportButton from "../components/HelpSupportButton";
 
 export default function VenueDashboard() {
   const [searchValue, setSearchValue] = useState("");
@@ -630,7 +629,6 @@ export default function VenueDashboard() {
           </main>
         </div>
       )}
-    <HelpSupportButton />
     </div>
   );
 }
