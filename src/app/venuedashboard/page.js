@@ -315,6 +315,7 @@ export default function VenueDashboard() {
         minHeight: "100vh",
         background: "#f5f5f5",
         overflow: "auto",
+        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
       }}
     >
       <DynamicHeader />

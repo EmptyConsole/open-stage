@@ -18,6 +18,7 @@ function ArtistProfileContent() {
   const [isFollowing, setIsFollowing] = useState(false);
   const [currentArtist, setCurrentArtist] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const artistId = searchParams.get('id');
@@ -25,6 +26,16 @@ function ArtistProfileContent() {
   const toggleFollow = () => {
     setIsFollowing(!isFollowing);
   };
+
+  // Handle window resize and mobile detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Fetch artist data based on ID
   useEffect(() => {
@@ -59,6 +70,7 @@ function ArtistProfileContent() {
         minHeight: "100vh",
         background: "var(--background-gradient)",
         overflow: "auto",
+        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
       }}
     >
       <Header />

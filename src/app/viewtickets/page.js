@@ -176,7 +176,7 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     );
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'hidden'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'hidden', paddingTop: isMobile ? '60px' : '72px'}}>
             <DynamicHeader />
             {isMobile ? (
                 <main className="main-content-background" style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>

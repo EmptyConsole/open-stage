@@ -431,6 +431,7 @@ export default function DonationsPage() {
         minHeight: "100vh",
         background: colors.background,
         overflow: "auto",
+        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
       }}
     >
       <Header />

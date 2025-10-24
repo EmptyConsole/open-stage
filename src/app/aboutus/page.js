@@ -46,7 +46,7 @@ export default function AboutUs() {
     ];
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f5f5f5', overflow: 'auto', paddingTop: isMobile ? '60px' : '72px'}}>
             <DynamicHeader />
             <div style={{ display: 'flex', flex: 1 }}>
                 <main className="main-content-background" style={{ 
