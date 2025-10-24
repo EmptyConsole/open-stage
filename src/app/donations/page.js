@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { getArtists } from '../../../util/users';
 import { colors } from '../styles/colors';
-import Header from '../components/Header';
+import DynamicHeader from '../components/DynamicHeader';
 import ArtistProfileImage from '../components/ArtistProfileImage';
 
 // DonationModal component moved outside to prevent re-rendering issues
@@ -434,7 +434,7 @@ export default function DonationsPage() {
         paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
       }}
     >
-      <Header />
+      <DynamicHeader />
       <DonationModal 
         showDonationModal={showDonationModal}
         selectedArtist={selectedArtist}
