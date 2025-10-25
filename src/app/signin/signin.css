@@ -3,11 +3,12 @@
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .auth-container.mobile {
-    padding: 16px 24px;
+    padding: 16px 20px;
     width: 100vw;
     max-width: 100vw;
     overflow-x: hidden;
     box-sizing: border-box;
+    margin: 0;
   }
   
   .auth-wrapper.mobile {
@@ -34,12 +35,13 @@
     height: auto;
     min-height: 100vh;
     border-radius: 12px;
-    padding: 20px;
+    padding: 24px 20px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    margin: 0 8px;
   }
   
   /* Hide inactive cards on mobile */

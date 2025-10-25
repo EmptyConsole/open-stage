@@ -448,6 +448,7 @@ function ArtistProfileContent() {
                   artistNumber={artist.number}
                   title={artist.title}
                   genre={artist.genre}
+                  artistId={artist.id}
                   onClick={() => {
                     console.log(`Clicked on ${artist.title}`);
                     if (artist.id) {

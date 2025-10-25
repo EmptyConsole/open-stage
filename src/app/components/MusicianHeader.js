@@ -307,7 +307,7 @@ export default function MusicianHeader() {
       {/* The header is fixed at the top. Add paddingTop: 72px (header height) to your main layout or page content to prevent overlap. */}
       <div
         style={{
-          padding: isMobile ? "12px 16px" : "16px 32px",
+          padding: isMobile ? "12px 24px" : "16px 32px",
           color: "white",
           backgroundColor: colors.header,
           fontSize: isMobile ? "24px" : "30px",

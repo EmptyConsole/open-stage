@@ -67,6 +67,17 @@ export default function ImageTestPage() {
         <p>Testing direct access to image files:</p>
         
         <div style={{ marginBottom: '10px' }}>
+          <p>Musician Image: /Musician Images/images.jpeg</p>
+          <img 
+            src="/Musician Images/images.jpeg" 
+            alt="Direct musician test" 
+            style={{ width: '100px', height: '100px', objectFit: 'cover', border: '1px solid #ccc' }}
+            onLoad={() => console.log('Direct musician image loaded')}
+            onError={(e) => console.error('Direct musician image failed:', e)}
+          />
+        </div>
+
+        <div style={{ marginBottom: '10px' }}>
           <p>Profile Image: /Profiles/img-95.jpg</p>
           <img 
             src="/Profiles/img-95.jpg" 

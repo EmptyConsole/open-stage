@@ -1,27 +1,18 @@
 /**
  * Utility functions for generating consistent artist profile photos
- * Uses the human profile photos dataset to provide distinct, consistent images for each artist
+ * Uses the Musician Images dataset to provide distinct, consistent images for each artist
  */
 
-/**
- * Custom images mapping for specific artists
- * Add new artists here with their custom image paths
- */
-const CUSTOM_ARTIST_IMAGES = {
-  'tooffu': '/Tooffu image.png',
-  'Tooffu': '/Tooffu image.png',
-  'TOOFFU': '/Tooffu image.png'
-};
-
-/**
- * Check if an artist has a custom image
- * @param {string|number} artistId - Artist ID or name
- * @returns {string|null} Custom image path or null if not found
- */
-export function getCustomArtistImage(artistId) {
-  const artistIdString = String(artistId).toLowerCase();
-  return CUSTOM_ARTIST_IMAGES[artistIdString] || null;
-}
+// List of available musician images (excluding files with Unicode character issues)
+const MUSICIAN_IMAGES = [
+  'images.jpeg',
+  'download.webp',
+  'shopping.webp',
+  'download (7).jpeg',
+  'download (7) copy.jpeg',
+  'download (7) copy 2.jpeg',
+  'download (7) copy 3.jpeg'
+];
 
 /**
  * Generate a consistent profile photo path for an artist based on their ID or name
@@ -30,12 +21,6 @@ export function getCustomArtistImage(artistId) {
  * @returns {string} Path to the profile photo
  */
 export function getArtistProfilePhoto(artistId, category = null) {
-  // Check if this artist has a custom image
-  const customImage = getCustomArtistImage(artistId);
-  if (customImage) {
-    return customImage;
-  }
-  
   // Convert artistId to string and create a hash-like number for consistency
   const idString = String(artistId);
   let hash = 0;
@@ -52,9 +37,10 @@ export function getArtistProfilePhoto(artistId, category = null) {
   
   // Generate a consistent photo index based on the hash
   // This ensures the same artist always gets the same photo
-  const photoIndex = (hash % 749) + 1; // Use modulo to keep index reasonable (749 profiles available)
+  const photoIndex = hash % MUSICIAN_IMAGES.length;
   
-  return `/Profiles/img-${photoIndex}.jpg`;
+  const imagePath = `/Musician Images/${MUSICIAN_IMAGES[photoIndex]}`;
+  return encodeURIComponent(imagePath).replace(/%2F/g, '/');
 }
 
 /**

@@ -317,7 +317,7 @@ export default function Header() {
       {/* Header Bar */}
       <div
         style={{
-          padding: isMobile ? "12px 16px" : "16px 32px",
+          padding: isMobile ? "12px 24px" : "16px 32px",
           color: "white",
           backgroundColor: colors.header,
           fontSize: isMobile ? "24px" : "30px",
