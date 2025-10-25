@@ -342,8 +342,10 @@ export default function LocalConcertMapPage() {
             {/* Concert markers */}
             {filteredConcerts.map((concert, index) => {
               // Convert lat/lng to approximate pixel positions on the map
-              const latOffset = (concert.lat - MAP_CENTER.lat) * 1000; // Scale factor
-              const lngOffset = (concert.lng - MAP_CENTER.lng) * 1000;
+              // Use larger scale factor for mobile to spread out pins more
+              const scaleFactor = isMobile ? 2000 : 1000;
+              const latOffset = (concert.lat - MAP_CENTER.lat) * scaleFactor;
+              const lngOffset = (concert.lng - MAP_CENTER.lng) * scaleFactor;
               const markerX = 50 + lngOffset; // 50% is center
               const markerY = 50 - latOffset; // 50% is center
               
@@ -592,8 +594,10 @@ export default function LocalConcertMapPage() {
               {/* Concert markers */}
               {filteredConcerts.map((concert, index) => {
                 // Convert lat/lng to approximate pixel positions on the map
-                const latOffset = (concert.lat - MAP_CENTER.lat) * 1000; // Scale factor
-                const lngOffset = (concert.lng - MAP_CENTER.lng) * 1000;
+                // Use larger scale factor for mobile to spread out pins more
+                const scaleFactor = isMobile ? 2000 : 1000;
+                const latOffset = (concert.lat - MAP_CENTER.lat) * scaleFactor;
+                const lngOffset = (concert.lng - MAP_CENTER.lng) * scaleFactor;
                 const markerX = 50 + lngOffset; // 50% is center
                 const markerY = 50 - latOffset; // 50% is center
                 

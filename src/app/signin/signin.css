@@ -3,7 +3,7 @@
 /* Mobile responsive styles */
 @media (max-width: 768px) {
   .auth-container.mobile {
-    padding: 16px;
+    padding: 16px 24px;
     width: 100vw;
     max-width: 100vw;
     overflow-x: hidden;
