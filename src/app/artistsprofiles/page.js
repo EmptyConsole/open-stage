@@ -250,10 +250,10 @@ function ArtistProfileContent() {
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               gap: "16px",
               marginBottom: "24px",
-              overflowX: "auto",
-              paddingBottom: "8px",
+              paddingBottom: "8px"
             }}
           >
             {[
@@ -408,10 +408,10 @@ function ArtistProfileContent() {
             <div
               style={{
                 display: "flex",
+                flexDirection: "column",
                 gap: "16px",
                 marginBottom: "24px",
-                overflowX: "auto",
-                paddingBottom: "8px",
+                paddingBottom: "8px"
               }}
             >
               {[

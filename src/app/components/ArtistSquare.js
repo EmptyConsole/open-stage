@@ -5,22 +5,25 @@ export default function ArtistSquare({ artistNumber, title, genre, onClick, arti
     <div
       onClick={onClick}
       style={{
-        minWidth: '200px',
-        height: '150px',
+        width: '100%',
+        maxWidth: '100%',
+        height: '120px',
         background: '#ededed',
         borderRadius: '8px',
         border: '2px dashed #ccc',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
-        color: '#999',
+        justifyContent: 'flex-start',
+        color: '#333',
         fontSize: '14px',
         flexShrink: 0,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease',
-        padding: '16px',
-        boxSizing: 'border-box'
+        padding: '0',
+        boxSizing: 'border-box',
+        gap: '20px',
+        position: 'relative'
       }}
       onMouseEnter={(e) => {
         e.target.style.backgroundColor = '#dce6f1';
@@ -30,26 +33,44 @@ export default function ArtistSquare({ artistNumber, title, genre, onClick, arti
       }}
     >
       {/* Artist Profile Image */}
-      <div style={{ marginBottom: '12px' }}>
+      <div style={{ 
+        width: '120px',
+        height: '100%',
+        flexShrink: 0,
+        zIndex: 1
+      }}>
         <ArtistProfileImage
           artistId={artistId || title || `artist_${artistNumber}`}
           artistName={title || `Artist ${artistNumber}`}
-          size={80}
+          size={120}
           style={{
-            border: '2px dashed #ccc',
-            borderRadius: '8px',
+            border: 'none',
+            borderRadius: '6px',
+            width: '100%',
+            height: '100%'
           }}
         />
       </div>
       
-      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>
-        {title || `Artist ${artistNumber}`}
-      </div>
-      {genre && (
-        <div style={{ fontSize: '12px', textAlign: 'center' }}>
-          {genre}
+      {/* Artist Info */}
+      <div style={{ 
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '16px',
+        color: '#333',
+        fontSize: '14px'
+      }}>
+        <div style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '16px' }}>
+          {title || `Artist ${artistNumber}`}
         </div>
-      )}
+        {genre && (
+          <div style={{ fontSize: '14px', color: '#666' }}>
+            {genre}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

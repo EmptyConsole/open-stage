@@ -434,3 +434,50 @@ body {
     transform: translate(0, 0) rotate(360deg) scale(1);
   }
 }
+
+/* Hide scrollbars for cleaner mobile experience */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Hide scrollbars on all elements */
+* {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Mobile horizontal scroll improvements */
+@media (max-width: 768px) {
+  /* Improve horizontal scrolling for concert and artist sections */
+  [style*="overflowX: auto"] {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+  }
+  
+  [style*="overflowX: auto"]::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  [style*="overflowX: auto"]::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  [style*="overflowX: auto"]::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 2px;
+  }
+  
+  [style*="overflowX: auto"]::-webkit-scrollbar-thumb:hover {
+    background: #999;
+  }
+}

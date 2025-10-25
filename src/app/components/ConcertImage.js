@@ -37,7 +37,7 @@ export default function ConcertImage({
     ...style
   };
 
-  const handleImageError = () => {
+  const handleImageError = (e) => {
     setImageError(true);
   };
 
@@ -47,6 +47,33 @@ export default function ConcertImage({
 
   return (
     <div style={containerStyle} className={className} {...props}>
+      {/* Loading state */}
+      {!imageLoaded && !imageError && (
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#f5f5f5',
+            color: '#999',
+            fontSize: width <= 200 ? '12px' : '14px',
+            fontWeight: 'bold',
+            border: '2px dashed #ddd',
+            borderRadius: '8px',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            minWidth: '100%',
+            minHeight: '100%'
+          }}
+        >
+          Loading...
+        </div>
+      )}
+      
+      {/* Main image */}
       {!imageError && (
         <img
           src={imageData.primary}
@@ -60,7 +87,9 @@ export default function ConcertImage({
             display: imageLoaded ? 'block' : 'none',
             position: 'absolute',
             top: 0,
-            left: 0
+            left: 0,
+            minWidth: '100%',
+            minHeight: '100%'
           }}
           onError={handleImageError}
           onLoad={handleImageLoad}
@@ -84,7 +113,9 @@ export default function ConcertImage({
             borderRadius: '8px',
             position: 'absolute',
             top: 0,
-            left: 0
+            left: 0,
+            minWidth: '100%',
+            minHeight: '100%'
           }}
         >
           {showInitials ? imageData.initials : 'CONCERT'}

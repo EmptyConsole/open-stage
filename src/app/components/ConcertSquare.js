@@ -38,16 +38,16 @@ export default function ConcertSquare({
     <div
       onClick={handleClick}
       style={{
-        minWidth: '160px',
-        maxWidth: '100%',
         width: '100%',
-        height: '200px',
+        maxWidth: '100%',
+        height: '120px',
         background: '#ededed',
         borderRadius: '8px',
         border: '2px dashed #ccc',
         display: 'flex',
-        flexDirection: 'column',
-        flexShrink: 1,
+        flexDirection: 'row',
+        gap: '20px',
+        flexShrink: 0,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease',
         padding: '0',
@@ -62,55 +62,55 @@ export default function ConcertSquare({
         e.target.style.backgroundColor = '#ededed';
       }}
     >
-      {/* Concert Image - fills entire square */}
+      {/* Concert Image - left side */}
       <div style={{ 
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100%',
-        height: '100%'
+        width: '120px',
+        height: '100%',
+        flexShrink: 0,
+        zIndex: 1
       }}>
         <ConcertImage
           concertId={concertId || title || `concert_${concertNumber}`}
           concertName={title || `Concert ${concertNumber}`}
           venue={venue}
-          width={200}
-          height={200}
+          width={120}
+          height={120}
           style={{
             border: 'none',
             borderRadius: '6px',
             width: '100%',
-            height: '100%'
+            height: '100%',
+            objectFit: 'cover'
           }}
         />
       </div>
       
-      {/* Concert Info - overlaid on bottom of image */}
+      {/* Concert Info - right side */}
       <div style={{ 
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        right: '0',
-        background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
-        color: 'white', 
-        fontSize: '12px',
-        textAlign: 'center',
-        padding: '8px 4px 4px 4px',
-        borderRadius: '0 0 6px 6px'
+        flex: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '16px',
+        color: '#333',
+        fontSize: '14px'
       }}>
-        <div style={{ fontWeight: 'bold', marginBottom: '2px', fontSize: '14px' }}>
+        <div style={{ fontWeight: 'bold', marginBottom: '8px', fontSize: '16px' }}>
           {title || `Concert ${concertNumber}`}
         </div>
         {date && (
-          <div style={{ marginBottom: '1px', fontSize: '11px' }}>
-            {date}
+          <div style={{ marginBottom: '4px', fontSize: '14px', color: '#666' }}>
+            📅 {date}
           </div>
         )}
         {venue && (
-          <div style={{ fontSize: '10px', opacity: '0.9' }}>
-            {venue}
+          <div style={{ marginBottom: '4px', fontSize: '14px', color: '#666' }}>
+            📍 {venue}
+          </div>
+        )}
+        {price && (
+          <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#1976d2' }}>
+            {price}
           </div>
         )}
       </div>
