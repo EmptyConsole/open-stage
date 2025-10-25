@@ -11,7 +11,10 @@ export default function Sidebar({ children }) {
         position: "relative",
         overflowY: "auto",
         overflowX: "hidden",
+        maxWidth: "100vw",
+        boxSizing: "border-box",
       }}
+      className="sidebar"
     >
       <div style={{ padding: "65px 16px" }}>
         <div
@@ -20,6 +23,8 @@ export default function Sidebar({ children }) {
             fontSize: "20px",
             textJustify: "center",
             color: colors.black,
+            maxWidth: "100%",
+            overflowX: "hidden",
           }}
         >
           {children}

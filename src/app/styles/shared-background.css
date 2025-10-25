@@ -13,6 +13,9 @@
   padding: 20px;
   position: relative;
   overflow: hidden;
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
 }
 
 /* Animated background circles - more separated */
@@ -72,22 +75,50 @@
 /* Auth card styles are now handled in individual CSS files */
 
 /* Responsive design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .auth-container {
     padding: 16px;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   
   .auth-card {
     padding: 24px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-container {
+    padding: 16px;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .auth-card {
+    padding: 24px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
 @media (max-width: 480px) {
   .auth-container {
     padding: 16px;
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
   
   .auth-card {
     padding: 24px;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
   }
 }

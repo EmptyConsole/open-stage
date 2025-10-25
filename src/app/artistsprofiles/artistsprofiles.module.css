@@ -124,3 +124,57 @@
 .elementsButBetter {
   flex: 2;
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .mysidebar {
+    display: none; /* Hide sidebar on mobile */
+  }
+  
+  .elements {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  
+  .elementsButBetter {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+  
+  .imageContainer {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .imagePlaceholder {
+    width: 100%;
+    max-width: 100%;
+    height: 200px;
+    box-sizing: border-box;
+  }
+  
+  .nameText {
+    font-size: 20px;
+  }
+  
+  .descriptionText {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+  
+  .quoteText {
+    font-size: 12px;
+    padding: 0 10px;
+  }
+  
+  .supportButton {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}

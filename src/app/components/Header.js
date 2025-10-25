@@ -326,6 +326,7 @@ export default function Header() {
           justifyContent: "space-between",
           alignItems: "center",
           width: "100%",
+          maxWidth: "100vw",
           boxSizing: "border-box",
           position: "fixed",
           top: 0,
@@ -334,6 +335,7 @@ export default function Header() {
           height: isMobile ? "60px" : "72px",
           minHeight: isMobile ? "60px" : "72px",
           maxHeight: isMobile ? "60px" : "72px",
+          overflowX: "hidden",
         }}
       >
         {/* Logo */}
@@ -565,6 +567,9 @@ export default function Header() {
             padding: "16px",
             gap: "12px",
             overflow: "auto",
+            width: "100vw",
+            maxWidth: "100vw",
+            boxSizing: "border-box",
           }}
         >
           <Link
@@ -678,7 +683,9 @@ export default function Header() {
             position: "fixed",
             top: 0,
             left: 0,
+            right: 0,
             width: "100vw",
+            maxWidth: "100vw",
             height: "100vh",
             background: "rgba(0,0,0,0.5)",
             zIndex: 2000,
@@ -687,6 +694,7 @@ export default function Header() {
             justifyContent: "center",
             padding: "20px",
             overflow: "auto",
+            boxSizing: "border-box",
           }}
           onClick={() => {
             setIsProfileOpen(false);
@@ -707,15 +715,16 @@ export default function Header() {
               background: "white",
               color: "#333",
               borderRadius: "12px",
-              padding: "32px",
-              minWidth: "400px",
-              maxWidth: "500px",
+              padding: isMobile ? "20px" : "32px",
+              minWidth: isMobile ? "280px" : "400px",
+              maxWidth: isMobile ? "90vw" : "500px",
               width: "100%",
               maxHeight: "90vh",
               overflow: "auto",
               boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
               position: "relative",
               margin: "auto",
+              boxSizing: "border-box",
             }}
             onClick={e => e.stopPropagation()}
           >

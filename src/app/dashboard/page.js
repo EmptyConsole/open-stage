@@ -541,6 +541,9 @@ export default function HomePage() {
         background: "#f5f5f5",
         overflow: "auto",
         paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
+        width: "100vw",
+        maxWidth: "100vw",
+        boxSizing: "border-box",
       }}
     >
       <DynamicHeader />
@@ -555,7 +558,9 @@ export default function HomePage() {
             display: "flex",
             flexDirection: "column",
             overflow: "auto",
-            maxWidth: "100%",
+            maxWidth: "100vw",
+            width: "100vw",
+            boxSizing: "border-box",
           }}
           >
           {/* Search Bar */}
@@ -573,6 +578,7 @@ export default function HomePage() {
                 fontSize: "16px",
                 outline: "none",
                 width: "100%",
+                maxWidth: "100%",
                 boxSizing: "border-box",
                 background: colors.white,
                 boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
@@ -711,6 +717,9 @@ export default function HomePage() {
                 gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
                 gap: "16px",
                 marginTop: "16px",
+                width: "100%",
+                maxWidth: "100%",
+                boxSizing: "border-box",
               }}
             >
               {concerts.map((concert) => (
@@ -729,7 +738,7 @@ export default function HomePage() {
         </main>
       ) : (
         // 🖥️ Desktop Layout
-        <div style={{ display: "flex", flex: 1 }}>
+        <div style={{ display: "flex", flex: 1, width: "100vw", maxWidth: "100vw", boxSizing: "border-box" }}>
           <Sidebar>
             <div style={{ marginTop: "-40px" }}>
               <div style={{ marginLeft: "-100px" }}>
@@ -749,6 +758,7 @@ export default function HomePage() {
                   fontSize: "14px",
                   outline: "none",
                   width: "100%",
+                  maxWidth: "100%",
                   boxSizing: "border-box",
                 }}
               />
@@ -765,6 +775,9 @@ export default function HomePage() {
               display: "flex",
               flexDirection: "column",
               overflow: "auto",
+              maxWidth: "calc(100vw - 330px)",
+              width: "100%",
+              boxSizing: "border-box",
             }}
           >
             {/* Your Tickets Section - COMMENTED OUT */}
@@ -896,6 +909,9 @@ export default function HomePage() {
                 gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
                 gap: "20px",
                 marginTop: "16px",
+                width: "100%",
+                maxWidth: "100%",
+                boxSizing: "border-box",
               }}
             >
               {concerts.map((concert) => (
