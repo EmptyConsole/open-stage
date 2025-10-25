@@ -38,14 +38,16 @@ export default function ConcertSquare({
     <div
       onClick={handleClick}
       style={{
-        minWidth: '200px',
+        minWidth: '160px',
+        maxWidth: '100%',
+        width: '100%',
         height: '200px',
         background: '#ededed',
         borderRadius: '8px',
         border: '2px dashed #ccc',
         display: 'flex',
         flexDirection: 'column',
-        flexShrink: 0,
+        flexShrink: 1,
         cursor: 'pointer',
         transition: 'background-color 0.2s ease',
         padding: '0',

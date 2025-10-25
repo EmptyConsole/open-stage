@@ -202,29 +202,21 @@ export default function LocalConcertMapPage() {
           className="main-content-background"
           style={{
             flex: 1,
-            padding: "16px",
+            padding: "20px",
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
-            position: "relative"
+            position: "relative",
+            gap: "20px"
           }}
         >
-          {/* Search bar hovering over the map */}
+          {/* Search bar - properly positioned above content */}
           <div
             style={{
-              position: "absolute",
-              top: "30px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              zIndex: 2,
-              background: "rgba(255,255,255,0.95)",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
-              borderRadius: "8px",
-              padding: "8px 16px",
-              display: "flex",
-              alignItems: "center",
-              minWidth: "220px",
-              maxWidth: "90%"
+              background: "white",
+              borderRadius: "12px",
+              padding: "20px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
             }}
           >
             <input
@@ -234,11 +226,12 @@ export default function LocalConcertMapPage() {
               placeholder="Search concerts..."
               style={{
                 width: "100%",
-                border: "1px solid #ccc",
-                borderRadius: "6px",
-                padding: "8px 12px",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                padding: "12px 16px",
                 fontSize: "16px",
-                outline: "none"
+                outline: "none",
+                boxSizing: "border-box"
               }}
             />
           </div>
@@ -247,25 +240,22 @@ export default function LocalConcertMapPage() {
             style={{
               background: "white",
               borderRadius: "12px",
-              padding: "20px",
-              marginBottom: "24px",
+              padding: "24px",
               boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
             }}
           >
             <h2 style={{ 
-              margin: "0 0 16px 0", 
+              margin: "0 0 20px 0", 
               color: "#1976d2", 
-              fontSize: "20px",
+              fontSize: "22px",
               fontWeight: "bold"
             }}>
               Concerts Nearby
             </h2>
             <div style={{ 
               display: "flex", 
-              flexDirection: "row", 
-              gap: "12px", 
-              overflowX: "auto",
-              paddingBottom: "8px"
+              flexDirection: "column", 
+              gap: "16px"
             }}>
               {filteredConcerts.map((concert) => (
                 <div
@@ -274,7 +264,7 @@ export default function LocalConcertMapPage() {
                     opacity: selectedConcert === concert.id ? 1 : 0.7,
                     transform: selectedConcert === concert.id ? 'scale(1.02)' : 'scale(1)',
                     transition: 'all 0.2s ease',
-                    flexShrink: 0
+                    width: "100%"
                   }}
                 >
                   <ConcertSquare
@@ -304,7 +294,7 @@ export default function LocalConcertMapPage() {
             style={{
               position: "relative",
               width: "100%",
-              height: "400px",
+              height: "250px",
               borderRadius: "12px",
               boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
               overflow: "hidden"
@@ -380,25 +370,26 @@ export default function LocalConcertMapPage() {
                     position: "absolute",
                     left: `${Math.max(10, Math.min(90, markerX))}%`,
                     top: `${Math.max(10, Math.min(90, markerY))}%`,
-                    width: "28px",
-                    height: "40px",
+                    width: "36px",
+                    height: "48px",
                     cursor: "pointer",
                     transform: "translate(-50%, -100%)",
                     transition: "all 0.2s ease",
-                    zIndex: 2
+                    zIndex: 2,
+                    touchAction: "manipulation"
                   }}
                   title={concert.name}
                 >
                   {/* Google Maps style pin */}
                   <div
                     style={{
-                      width: "28px",
-                      height: "28px",
+                      width: "36px",
+                      height: "36px",
                       background: selectedConcert === concert.id ? "#ff6b6b" : "#4ecdc4",
                       borderRadius: "50% 50% 50% 0",
                       transform: "rotate(-45deg)",
-                      border: "3px solid white",
-                      boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                      border: "4px solid white",
+                      boxShadow: "0 3px 12px rgba(0,0,0,0.3)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -408,7 +399,7 @@ export default function LocalConcertMapPage() {
                     <span
                       style={{
                         color: "white",
-                        fontSize: "12px",
+                        fontSize: "14px",
                         fontWeight: "bold",
                         transform: "rotate(45deg)",
                         lineHeight: 1
@@ -420,8 +411,8 @@ export default function LocalConcertMapPage() {
                   {/* Pin shadow/dot */}
                   <div
                     style={{
-                      width: "8px",
-                      height: "8px",
+                      width: "10px",
+                      height: "10px",
                       background: "rgba(0,0,0,0.2)",
                       borderRadius: "50%",
                       position: "absolute",
@@ -439,13 +430,14 @@ export default function LocalConcertMapPage() {
                       transform: "translateX(-50%)",
                       background: "rgba(0, 0, 0, 0.9)",
                       color: "white",
-                      padding: "4px 8px",
-                      borderRadius: "4px",
-                      fontSize: "11px",
+                      padding: "6px 10px",
+                      borderRadius: "6px",
+                      fontSize: "12px",
                       whiteSpace: "nowrap",
                       zIndex: 10,
-                      marginBottom: "6px",
-                      border: "1px solid rgba(255, 255, 255, 0.2)"
+                      marginBottom: "8px",
+                      border: "1px solid rgba(255, 255, 255, 0.2)",
+                      fontWeight: "500"
                     }}
                   >
                     {concert.name}

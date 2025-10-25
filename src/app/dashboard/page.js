@@ -544,6 +544,8 @@ export default function HomePage() {
         width: "100vw",
         maxWidth: "100vw",
         boxSizing: "border-box",
+        overflowX: "hidden",
+        position: "relative",
       }}
     >
       <DynamicHeader />
@@ -738,7 +740,15 @@ export default function HomePage() {
         </main>
       ) : (
         // 🖥️ Desktop Layout
-        <div style={{ display: "flex", flex: 1, width: "100vw", maxWidth: "100vw", boxSizing: "border-box" }}>
+        <div style={{ 
+          display: "flex", 
+          flex: 1, 
+          width: "100vw", 
+          maxWidth: "100vw", 
+          boxSizing: "border-box",
+          overflowX: "hidden",
+          position: "relative"
+        }}>
           <Sidebar>
             <div style={{ marginTop: "-40px" }}>
               <div style={{ marginLeft: "-100px" }}>
@@ -776,8 +786,10 @@ export default function HomePage() {
               flexDirection: "column",
               overflow: "auto",
               maxWidth: "calc(100vw - 330px)",
-              width: "100%",
+              width: "calc(100vw - 330px)",
               boxSizing: "border-box",
+              overflowX: "hidden",
+              position: "relative",
             }}
           >
             {/* Your Tickets Section - COMMENTED OUT */}

@@ -2,7 +2,14 @@ import React from 'react';
 
 export default function DonorSidebar({ donors, onClose }) {
     return (
-        <aside className="w-64 bg-white shadow-lg p-6 fixed right-0 top-0 h-full z-50 flex flex-col">
+        <aside 
+            className="bg-white shadow-lg p-6 fixed right-0 top-0 h-full z-50 flex flex-col"
+            style={{
+                width: "min(256px, 100vw)",
+                maxWidth: "100vw",
+                boxSizing: "border-box"
+            }}
+        >
             <button
                 className="self-end mb-4 text-gray-500 hover:text-gray-800"
                 onClick={onClose}
