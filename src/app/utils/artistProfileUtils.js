@@ -4,12 +4,38 @@
  */
 
 /**
+ * Custom images mapping for specific artists
+ * Add new artists here with their custom image paths
+ */
+const CUSTOM_ARTIST_IMAGES = {
+  'tooffu': '/Tooffu image.png',
+  'Tooffu': '/Tooffu image.png',
+  'TOOFFU': '/Tooffu image.png'
+};
+
+/**
+ * Check if an artist has a custom image
+ * @param {string|number} artistId - Artist ID or name
+ * @returns {string|null} Custom image path or null if not found
+ */
+export function getCustomArtistImage(artistId) {
+  const artistIdString = String(artistId).toLowerCase();
+  return CUSTOM_ARTIST_IMAGES[artistIdString] || null;
+}
+
+/**
  * Generate a consistent profile photo path for an artist based on their ID or name
  * @param {string|number} artistId - Artist ID or name
  * @param {string} category - Optional category (male/female)
  * @returns {string} Path to the profile photo
  */
 export function getArtistProfilePhoto(artistId, category = null) {
+  // Check if this artist has a custom image
+  const customImage = getCustomArtistImage(artistId);
+  if (customImage) {
+    return customImage;
+  }
+  
   // Convert artistId to string and create a hash-like number for consistency
   const idString = String(artistId);
   let hash = 0;

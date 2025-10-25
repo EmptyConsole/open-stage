@@ -4,7 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
 import DynamicHeader from "../components/DynamicHeader";
-// import Footer from "../components/footer";
+// import Footer from "../components/footer";n
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
 import ArtistSquare from "../components/ArtistSquare";
