@@ -27,7 +27,6 @@ export default function VenueDashboard() {
       name: "Marcus Chen",
       genre: "Indie Folk",
       contactInfo: "marcus.chen@music.com | (415) 555-0123",
-      profilePicture: "https://via.placeholder.com/80x80/1976d2/ffffff?text=MC",
       description: "Local indie folk singer-songwriter with acoustic guitar"
     },
     {
@@ -35,7 +34,6 @@ export default function VenueDashboard() {
       name: "Sofia Rodriguez",
       genre: "Jazz Fusion",
       contactInfo: "sofia.rodriguez@jazz.com | (415) 555-0456",
-      profilePicture: "https://via.placeholder.com/80x80/4caf50/ffffff?text=SR",
       description: "Jazz vocalist and keyboardist from the local scene"
     },
     {
@@ -43,7 +41,6 @@ export default function VenueDashboard() {
       name: "Jake Thompson",
       genre: "Alternative Rock",
       contactInfo: "jake.thompson@band.com | (415) 555-0789",
-      profilePicture: "https://via.placeholder.com/80x80/ff9800/ffffff?text=JT",
       description: "Lead guitarist and vocalist for local alt-rock band"
     },
     {
@@ -51,7 +48,6 @@ export default function VenueDashboard() {
       name: "Luna Martinez",
       genre: "Electronic",
       contactInfo: "luna.martinez@electronic.com | (415) 555-0321",
-      profilePicture: "https://via.placeholder.com/80x80/9c27b0/ffffff?text=LM",
       description: "Electronic music producer and DJ"
     },
     {
@@ -59,7 +55,6 @@ export default function VenueDashboard() {
       name: "David Kim",
       genre: "Blues",
       contactInfo: "david.kim@blues.com | (415) 555-0654",
-      profilePicture: "https://via.placeholder.com/80x80/e91e63/ffffff?text=DK",
       description: "Blues guitarist and harmonica player"
     },
     {
@@ -67,7 +62,6 @@ export default function VenueDashboard() {
       name: "Emma Wilson",
       genre: "Singer-Songwriter",
       contactInfo: "emma.wilson@songs.com | (415) 555-0987",
-      profilePicture: "https://via.placeholder.com/80x80/607d8b/ffffff?text=EW",
       description: "Intimate singer-songwriter with piano and vocals"
     },
     {
@@ -75,7 +69,6 @@ export default function VenueDashboard() {
       name: "Alex Rivera",
       genre: "Funk",
       contactInfo: "alex.rivera@funk.com | (415) 555-1357",
-      profilePicture: "https://via.placeholder.com/80x80/795548/ffffff?text=AR",
       description: "Bassist and vocalist for local funk ensemble"
     },
     {
@@ -83,7 +76,6 @@ export default function VenueDashboard() {
       name: "Maya Patel",
       genre: "World Music",
       contactInfo: "maya.patel@worldmusic.com | (415) 555-2468",
-      profilePicture: "https://via.placeholder.com/80x80/ff5722/ffffff?text=MP",
       description: "Multi-instrumentalist specializing in world fusion"
     }
   ]);
@@ -95,7 +87,6 @@ export default function VenueDashboard() {
       name: "Zoe Chen",
       genre: "Indie Pop",
       contactInfo: "zoe.chen@localmusic.com | (415) 555-1001",
-      profilePicture: "https://via.placeholder.com/80x80/ff4757/ffffff?text=ZC",
       description: "Local indie pop singer-songwriter with dreamy vocals"
     },
     {
@@ -103,7 +94,6 @@ export default function VenueDashboard() {
       name: "River Stone",
       genre: "Acoustic Folk",
       contactInfo: "river.stone@localmusic.com | (415) 555-1002",
-      profilePicture: "https://via.placeholder.com/80x80/2ed573/ffffff?text=RS",
       description: "Acoustic folk musician and storyteller"
     },
     {
@@ -111,7 +101,6 @@ export default function VenueDashboard() {
       name: "Maya Johnson",
       genre: "Soul",
       contactInfo: "maya.johnson@localmusic.com | (415) 555-1003",
-      profilePicture: "https://via.placeholder.com/80x80/ffa502/ffffff?text=MJ",
       description: "Local soul singer with powerful vocals"
     },
     {
@@ -119,7 +108,6 @@ export default function VenueDashboard() {
       name: "Alex Torres",
       genre: "Jazz Fusion",
       contactInfo: "alex.torres@localmusic.com | (415) 555-1004",
-      profilePicture: "https://via.placeholder.com/80x80/3742fa/ffffff?text=AT",
       description: "Local jazz fusion guitarist and composer"
     },
     {
@@ -127,7 +115,6 @@ export default function VenueDashboard() {
       name: "Luna Park",
       genre: "Electronic",
       contactInfo: "luna.park@localmusic.com | (415) 555-1005",
-      profilePicture: "https://via.placeholder.com/80x80/ff6348/ffffff?text=LP",
       description: "Electronic music producer and DJ"
     },
     {
@@ -135,7 +122,6 @@ export default function VenueDashboard() {
       name: "Sam Rivers",
       genre: "Blues Rock",
       contactInfo: "sam.rivers@localmusic.com | (415) 555-1006",
-      profilePicture: "https://via.placeholder.com/80x80/2f3542/ffffff?text=SR",
       description: "Blues rock guitarist and vocalist"
     }
   ]);
@@ -177,7 +163,6 @@ export default function VenueDashboard() {
           name: artist.name,
           genre: localGenres[index % localGenres.length], // Assign local genres cyclically
           contactInfo: `${artist.name.toLowerCase().replace(/\s+/g, '')}@localmusic.com | (415) 555-${String(1000 + index).padStart(4, '0')}`,
-          profilePicture: artist.profilePicture || `https://via.placeholder.com/80x80/1976d2/ffffff?text=${artist.name.split(' ').map(n => n[0]).join('')}`,
           description: artist.description || "Local musical artist"
         })) : [];
 
@@ -398,47 +383,14 @@ export default function VenueDashboard() {
                     }}
                   >
                     {/* Artist Profile Picture */}
-                    <div
+                    <ArtistProfileImage
+                      artistId={artist.id || artist.name}
+                      artistName={artist.name}
+                      size={60}
                       style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '12px',
-                        background: colors.lightGray,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        overflow: 'hidden'
+                        border: 'none'
                       }}
-                    >
-                      <img
-                        src={artist.profilePicture}
-                        alt={artist.name}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover'
-                        }}
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div
-                        style={{
-                          display: 'none',
-                          width: '100%',
-                          height: '100%',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          color: colors.textLight,
-                          fontSize: '12px',
-                          background: colors.lightGray
-                        }}
-                      >
-                        {artist.name.split(' ').map(n => n[0]).join('')}
-                      </div>
-                    </div>
+                    />
                     
                     {/* Artist Info */}
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -546,47 +498,14 @@ export default function VenueDashboard() {
                   }}
                 >
                   {/* Artist Profile Picture */}
-                  <div
+                  <ArtistProfileImage
+                    artistId={artist.id || artist.name}
+                    artistName={artist.name}
+                    size={70}
                     style={{
-                      width: '70px',
-                      height: '70px',
-                      borderRadius: '8px',
-                      background: colors.lightGray,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                      overflow: 'hidden'
+                      border: '2px dashed #ccc'
                     }}
-                  >
-                    <img
-                      src={artist.profilePicture}
-                      alt={artist.name}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
-                      }}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
-                      }}
-                    />
-                    <div
-                      style={{
-                        display: 'none',
-                        width: '100%',
-                        height: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: colors.textLight,
-                        fontSize: '12px',
-                        background: colors.lightGray
-                      }}
-                    >
-                      {artist.name.split(' ').map(n => n[0]).join('')}
-                    </div>
-                  </div>
+                  />
                   
                   {/* Artist Info */}
                   <div style={{ flex: 1, minWidth: 0 }}>

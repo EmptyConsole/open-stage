@@ -3,7 +3,7 @@
  * Uses the Musician Images dataset to provide distinct, consistent images for each artist
  */
 
-// List of available musician images (excluding files with Unicode character issues)
+// List of available musician images
 const MUSICIAN_IMAGES = [
   'images.jpeg',
   'download.webp',
@@ -11,7 +11,16 @@ const MUSICIAN_IMAGES = [
   'download (7).jpeg',
   'download (7) copy.jpeg',
   'download (7) copy 2.jpeg',
-  'download (7) copy 3.jpeg'
+  'download (7) copy 3.jpeg',
+  'Screenshot 2025-10-24 at 11.11.19 PM.png',
+  'Screenshot 2025-10-24 at 11.12.03 PM.png',
+  'Screenshot 2025-10-24 at 11.12.22 PM.png',
+  'Screenshot 2025-10-24 at 11.13.57 PM.png',
+  'Screenshot 2025-10-24 at 11.19.10 PM.png',
+  'Screenshot 2025-10-24 at 11.20.29 PM.png',
+  'Screenshot 2025-10-24 at 11.21.48 PM.png',
+  'Screenshot 2025-10-24 at 11.27.18 PM.png',
+  'Screenshot 2025-10-24 at 11.31.17 PM.png'
 ];
 
 /**
@@ -39,8 +48,11 @@ export function getArtistProfilePhoto(artistId, category = null) {
   // This ensures the same artist always gets the same photo
   const photoIndex = hash % MUSICIAN_IMAGES.length;
   
-  const imagePath = `/Musician Images/${MUSICIAN_IMAGES[photoIndex]}`;
-  return encodeURIComponent(imagePath).replace(/%2F/g, '/');
+  // Properly encode the filename (not the directory path)
+  const filename = MUSICIAN_IMAGES[photoIndex];
+  const encodedFilename = encodeURIComponent(filename);
+  const imagePath = `/Musician Images/${encodedFilename}`;
+  return imagePath;
 }
 
 /**
