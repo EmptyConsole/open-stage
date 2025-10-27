@@ -77,8 +77,8 @@ function ArtistProfileContent() {
         style={{
           display: "flex",
           flex: 1,
-          height: "calc(100vh - 60px)",
-          overflow: "hidden",
+          height: isMobile ? "auto" : "calc(100vh - 60px)",
+          overflow: "auto",
         }}
       >
         <Sidebar>
