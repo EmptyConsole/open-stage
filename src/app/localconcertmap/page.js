@@ -9,11 +9,11 @@ import ConcertSquare from "../components/ConcertSquare";
 // import Footer from "../components/footer";
 // import styles from "./src/app/globals.css"
 
-// Dummy concert data
+// Dummy concert data with better geographic distribution
 const concerts = [
   { id: 1, name: "Jazz Night", lat: 37.7749, lng: -122.4194 },
-  { id: 2, name: "Rock Fest", lat: 37.7849, lng: -122.4094 },
-  { id: 3, name: "Indie Jam", lat: 37.7649, lng: -122.4294 },
+  { id: 2, name: "Rock Fest", lat: 37.8049, lng: -122.3794 },
+  { id: 3, name: "Indie Jam", lat: 37.7449, lng: -122.4594 },
 ];
 
 // Map configuration
@@ -235,6 +235,7 @@ export default function LocalConcertMapPage() {
               }}
             />
           </div>
+
           {/* Concerts List Section */}
           <div
             style={{
@@ -294,10 +295,12 @@ export default function LocalConcertMapPage() {
             style={{
               position: "relative",
               width: "100%",
-              height: "250px",
+              aspectRatio: "16 / 9",
               borderRadius: "12px",
               boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-              overflow: "hidden"
+              overflow: "hidden",
+              contain: "layout style paint",
+              isolation: "isolate"
             }}
           >
             {/* Static map background */}
@@ -307,7 +310,7 @@ export default function LocalConcertMapPage() {
               style={{
                 width: "100%",
                 height: "100%",
-                objectFit: "cover",
+                objectFit: "fill",
                 position: "absolute",
                 top: 0,
                 left: 0,
@@ -339,128 +342,6 @@ export default function LocalConcertMapPage() {
               San Francisco Area
             </div>
             
-            {/* Concert markers */}
-            {filteredConcerts.map((concert, index) => {
-              // Convert lat/lng to approximate pixel positions on the map
-              // Use larger scale factor for mobile to spread out pins more
-              const scaleFactor = isMobile ? 2000 : 1000;
-              const latOffset = (concert.lat - MAP_CENTER.lat) * scaleFactor;
-              const lngOffset = (concert.lng - MAP_CENTER.lng) * scaleFactor;
-              const markerX = 50 + lngOffset; // 50% is center
-              const markerY = 50 - latOffset; // 50% is center
-              
-              return (
-                <div
-                  key={concert.id}
-                  className="concert-marker"
-                  onClick={() => {
-                    setSelectedConcert(concert.id);
-                    // Navigate to concert details
-                    const concertData = {
-                      artist: concert.name,
-                      title: concert.name,
-                      date: "TBD",
-                      time: "8:00 PM",
-                      venue: "TBD Venue",
-                      address: "123 Music Street, City, State 12345",
-                      price: "25",
-                      description: `Join us for an unforgettable evening of live music featuring ${concert.name}. This concert promises to deliver an incredible experience with top-notch sound quality and an intimate atmosphere.`
-                    };
-                    navigateToConcertDetails(router, concertData);
-                  }}
-                  style={{
-                    position: "absolute",
-                    left: `${Math.max(10, Math.min(90, markerX))}%`,
-                    top: `${Math.max(10, Math.min(90, markerY))}%`,
-                    width: "36px",
-                    height: "48px",
-                    cursor: "pointer",
-                    transform: "translate(-50%, -100%)",
-                    transition: "all 0.2s ease",
-                    zIndex: 2,
-                    touchAction: "manipulation"
-                  }}
-                  title={concert.name}
-                >
-                  {/* Google Maps style pin */}
-                  <div
-                    style={{
-                      width: "36px",
-                      height: "36px",
-                      background: selectedConcert === concert.id ? "#ff6b6b" : "#4ecdc4",
-                      borderRadius: "50% 50% 50% 0",
-                      transform: "rotate(-45deg)",
-                      border: "4px solid white",
-                      boxShadow: "0 3px 12px rgba(0,0,0,0.3)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      position: "relative"
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: "white",
-                        fontSize: "14px",
-                        fontWeight: "bold",
-                        transform: "rotate(45deg)",
-                        lineHeight: 1
-                      }}
-                    >
-                      {concert.id}
-                    </span>
-                  </div>
-                  {/* Pin shadow/dot */}
-                  <div
-                    style={{
-                      width: "10px",
-                      height: "10px",
-                      background: "rgba(0,0,0,0.2)",
-                      borderRadius: "50%",
-                      position: "absolute",
-                      bottom: "0",
-                      left: "50%",
-                      transform: "translateX(-50%)"
-                    }}
-                  />
-                  {/* Always visible label */}
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "100%",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      background: "rgba(0, 0, 0, 0.9)",
-                      color: "white",
-                      padding: "6px 10px",
-                      borderRadius: "6px",
-                      fontSize: "12px",
-                      whiteSpace: "nowrap",
-                      zIndex: 10,
-                      marginBottom: "8px",
-                      border: "1px solid rgba(255, 255, 255, 0.2)",
-                      fontWeight: "500"
-                    }}
-                  >
-                    {concert.name}
-                    {/* Arrow pointing down */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        top: "100%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: 0,
-                        height: 0,
-                        borderLeft: "4px solid transparent",
-                        borderRight: "4px solid transparent",
-                        borderTop: "4px solid rgba(0, 0, 0, 0.9)"
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </main>
       ) : (
@@ -549,7 +430,9 @@ export default function LocalConcertMapPage() {
                 height: "500px",
                 borderRadius: "12px",
                 boxShadow: "0 2px 12px rgba(0,0,0,0.10)",
-                overflow: "hidden"
+                overflow: "hidden",
+                contain: "layout style paint",
+                isolation: "isolate"
               }}
             >
               {/* Static map background */}
@@ -559,7 +442,7 @@ export default function LocalConcertMapPage() {
                 style={{
                   width: "100%",
                   height: "100%",
-                  objectFit: "cover",
+                  objectFit: "fill",
                   position: "absolute",
                   top: 0,
                   left: 0,
@@ -591,126 +474,6 @@ export default function LocalConcertMapPage() {
                 San Francisco Area
               </div>
               
-              {/* Concert markers */}
-              {filteredConcerts.map((concert, index) => {
-                // Convert lat/lng to approximate pixel positions on the map
-                // Use larger scale factor for mobile to spread out pins more
-                const scaleFactor = isMobile ? 2000 : 1000;
-                const latOffset = (concert.lat - MAP_CENTER.lat) * scaleFactor;
-                const lngOffset = (concert.lng - MAP_CENTER.lng) * scaleFactor;
-                const markerX = 50 + lngOffset; // 50% is center
-                const markerY = 50 - latOffset; // 50% is center
-                
-                return (
-                  <div
-                    key={concert.id}
-                    className="concert-marker"
-                    onClick={() => {
-                      setSelectedConcert(concert.id);
-                      // Navigate to concert details
-                      const concertData = {
-                        artist: concert.name,
-                        title: concert.name,
-                        date: "TBD",
-                        time: "8:00 PM",
-                        venue: "TBD Venue",
-                        address: "123 Music Street, City, State 12345",
-                        price: "25",
-                        description: `Join us for an unforgettable evening of live music featuring ${concert.name}. This concert promises to deliver an incredible experience with top-notch sound quality and an intimate atmosphere.`
-                      };
-                      navigateToConcertDetails(router, concertData);
-                    }}
-                    style={{
-                      position: "absolute",
-                      left: `${Math.max(10, Math.min(90, markerX))}%`,
-                      top: `${Math.max(10, Math.min(90, markerY))}%`,
-                      width: "32px",
-                      height: "48px",
-                      cursor: "pointer",
-                      transform: "translate(-50%, -100%)",
-                      transition: "all 0.2s ease",
-                      zIndex: 2
-                    }}
-                    title={concert.name}
-                  >
-                    {/* Google Maps style pin */}
-                    <div
-                      style={{
-                        width: "32px",
-                        height: "32px",
-                        background: selectedConcert === concert.id ? "#ff6b6b" : "#4ecdc4",
-                        borderRadius: "50% 50% 50% 0",
-                        transform: "rotate(-45deg)",
-                        border: "4px solid white",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "relative"
-                      }}
-                    >
-                      <span
-                        style={{
-                          color: "white",
-                          fontSize: "14px",
-                          fontWeight: "bold",
-                          transform: "rotate(45deg)",
-                          lineHeight: 1
-                        }}
-                      >
-                        {concert.id}
-                      </span>
-                    </div>
-                    {/* Pin shadow/dot */}
-                    <div
-                      style={{
-                        width: "10px",
-                        height: "10px",
-                        background: "rgba(0,0,0,0.2)",
-                        borderRadius: "50%",
-                        position: "absolute",
-                        bottom: "0",
-                        left: "50%",
-                        transform: "translateX(-50%)"
-                      }}
-                    />
-                    {/* Always visible label */}
-                    <div
-                      style={{
-                        position: "absolute",
-                        bottom: "100%",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        background: "rgba(0, 0, 0, 0.9)",
-                        color: "white",
-                        padding: "6px 10px",
-                        borderRadius: "4px",
-                        fontSize: "13px",
-                        whiteSpace: "nowrap",
-                        zIndex: 10,
-                        marginBottom: "6px",
-                        border: "1px solid rgba(255, 255, 255, 0.2)"
-                      }}
-                    >
-                      {concert.name}
-                      {/* Arrow pointing down */}
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: "100%",
-                          left: "50%",
-                          transform: "translateX(-50%)",
-                          width: 0,
-                          height: 0,
-                          borderLeft: "5px solid transparent",
-                          borderRight: "5px solid transparent",
-                          borderTop: "5px solid rgba(0, 0, 0, 0.9)"
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
             </div>
           </main>
         </div>
