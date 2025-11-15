@@ -7,13 +7,13 @@ import DynamicHeader from '../components/DynamicHeader';
 import ArtistProfileImage from '../components/ArtistProfileImage';
 
 // DonationModal component moved outside to prevent re-rendering issues
-const DonationModal = ({ 
-  showDonationModal, 
-  selectedArtist, 
-  donationSuccess, 
-  donationAmount, 
-  customAmount, 
-  donationMessage, 
+const DonationModal = ({
+  showDonationModal,
+  selectedArtist,
+  donationSuccess,
+  donationAmount,
+  customAmount,
+  donationMessage,
   donationAmounts,
   onClose,
   onDonationSubmit,
@@ -21,6 +21,18 @@ const DonationModal = ({
   onCustomAmountChange,
   onMessageChange
 }) => {
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (showDonationModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showDonationModal]);
+
   if (!showDonationModal || !selectedArtist) return null;
 
   return (
@@ -29,15 +41,15 @@ const DonationModal = ({
         position: "fixed",
         top: 0,
         left: 0,
-        width: "100vw",
-        height: "100vh",
-        background: "rgba(0,0,0,0.5)",
+        right: 0,
+        bottom: 0,
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
         zIndex: 2000,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         padding: "20px",
-        overflow: "auto",
+        overflowY: "auto",
       }}
       onClick={() => {
         if (!donationSuccess) {
@@ -47,14 +59,14 @@ const DonationModal = ({
     >
       <div
         style={{
-          background: "white",
-          borderRadius: "12px",
+          backgroundColor: colors.white,
+          borderRadius: "16px",
           padding: "32px",
           maxWidth: "500px",
           width: "100%",
           maxHeight: "90vh",
-          overflow: "auto",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
+          overflowY: "auto",
+          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
           position: "relative",
         }}
         onClick={(e) => e.stopPropagation()}
@@ -180,25 +192,34 @@ const DonationModal = ({
                     onClick={() => onAmountChange(amount.toString())}
                     style={{
                       padding: "12px",
-                      border: donationAmount === amount.toString() ? `2px solid ${colors.primary}` : "2px solid #e0e0e0",
+                      border:
+                        donationAmount === amount.toString()
+                          ? `2px solid ${colors.primary}`
+                          : `1px solid ${colors.border}`,
                       borderRadius: "8px",
-                      background: donationAmount === amount.toString() ? colors.lightBlue : "white",
-                      color: donationAmount === amount.toString() ? colors.primary : colors.textPrimary,
+                      backgroundColor:
+                        donationAmount === amount.toString()
+                          ? colors.primaryLight
+                          : colors.white,
+                      color:
+                        donationAmount === amount.toString()
+                          ? colors.primary
+                          : colors.textPrimary,
                       cursor: "pointer",
                       fontSize: "16px",
-                      fontWeight: "500",
-                      transition: "all 0.2s"
+                      fontWeight: 600,
+                      transition: "all 0.2s",
                     }}
                     onMouseEnter={(e) => {
                       if (donationAmount !== amount.toString()) {
                         e.target.style.borderColor = colors.primary;
-                        e.target.style.backgroundColor = colors.lightBlue;
+                        e.target.style.backgroundColor = colors.primaryLight;
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (donationAmount !== amount.toString()) {
-                        e.target.style.borderColor = "#e0e0e0";
-                        e.target.style.backgroundColor = "white";
+                        e.target.style.borderColor = colors.border;
+                        e.target.style.backgroundColor = colors.white;
                       }
                     }}
                   >
@@ -225,16 +246,23 @@ const DonationModal = ({
                   onChange={(e) => onCustomAmountChange(e.target.value)}
                   style={{
                     width: "100%",
-                    padding: "12px",
-                    border: "2px solid #e0e0e0",
+                    padding: "12px 16px",
+                    border: `1px solid ${colors.border}`,
                     borderRadius: "8px",
                     fontSize: "16px",
                     boxSizing: "border-box",
                     outline: "none",
-                    transition: "border-color 0.2s"
+                    transition: "all 0.2s",
+                    color: colors.textPrimary,
                   }}
-                  onFocus={(e) => e.target.style.borderColor = colors.primary}
-                  onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = colors.primary;
+                    e.target.style.boxShadow = `0 0 0 3px ${colors.primaryLight}`;
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = colors.border;
+                    e.target.style.boxShadow = "none";
+                  }}
                 />
               </div>
             </div>
@@ -257,17 +285,25 @@ const DonationModal = ({
                 rows={3}
                 style={{
                   width: "100%",
-                  padding: "12px",
-                  border: "2px solid #e0e0e0",
+                  padding: "12px 16px",
+                  border: `1px solid ${colors.border}`,
                   borderRadius: "8px",
                   fontSize: "16px",
                   boxSizing: "border-box",
                   outline: "none",
                   resize: "vertical",
-                  transition: "border-color 0.2s"
+                  transition: "all 0.2s",
+                  color: colors.textPrimary,
+                  fontFamily: "inherit",
                 }}
-                onFocus={(e) => e.target.style.borderColor = colors.primary}
-                onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
+                onFocus={(e) => {
+                  e.target.style.borderColor = colors.primary;
+                  e.target.style.boxShadow = `0 0 0 3px ${colors.primaryLight}`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = colors.border;
+                  e.target.style.boxShadow = "none";
+                }}
               />
             </div>
 
@@ -426,16 +462,13 @@ export default function DonationsPage() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
         minHeight: "100vh",
-        background: colors.background,
-        overflow: "auto",
-        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
+        backgroundColor: colors.backgroundSecondary,
+        paddingTop: "64px", // Account for fixed header
       }}
     >
       <DynamicHeader />
-      <DonationModal 
+      <DonationModal
         showDonationModal={showDonationModal}
         selectedArtist={selectedArtist}
         donationSuccess={donationSuccess}
@@ -449,159 +482,236 @@ export default function DonationsPage() {
         onCustomAmountChange={handleCustomAmountChange}
         onMessageChange={handleMessageChange}
       />
-      
+
       <main
-        className="main-content-background"
         style={{
-          flex: 1,
-          padding: isMobile ? "16px" : "32px",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "auto",
+          maxWidth: "1280px",
+          margin: "0 auto",
+          padding: isMobile ? "24px 16px" : "48px 24px",
         }}
       >
         {/* Page Header */}
-        <div style={{ marginBottom: "32px", textAlign: "center" }}>
-          <h1 style={{
-            margin: "0 0 16px 0",
-            color: colors.primary,
-            fontSize: isMobile ? "28px" : "36px",
-            fontWeight: "bold"
-          }}>
+        <div style={{ marginBottom: "48px" }}>
+          <h1
+            style={{
+              margin: "0 0 12px 0",
+              color: colors.textPrimary,
+              fontSize: isMobile ? "32px" : "48px",
+              fontWeight: 700,
+              letterSpacing: "-0.02em",
+            }}
+          >
             Support Your Favorite Artists
           </h1>
-          <p style={{
-            margin: 0,
-            color: colors.textSecondary,
-            fontSize: isMobile ? "16px" : "18px",
-            maxWidth: "600px",
-            margin: "0 auto"
-          }}>
-            Help independent artists continue creating amazing music by making a donation. 
+          <p
+            style={{
+              margin: 0,
+              fontSize: isMobile ? "16px" : "18px",
+              color: colors.textSecondary,
+              maxWidth: "600px",
+            }}
+          >
+            Help independent artists continue creating amazing music by making a donation.
             Every contribution makes a difference in supporting their artistic journey.
           </p>
         </div>
 
         {/* Search Bar */}
-        <div style={{ marginBottom: "32px" }}>
-          <input
-            type="text"
-            placeholder="Search artists..."
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+        <div style={{ marginBottom: "48px" }}>
+          <div
             style={{
-              width: "100%",
-              maxWidth: "400px",
-              margin: "0 auto",
-              display: "block",
-              padding: "12px 16px",
-              border: "2px solid #e0e0e0",
-              borderRadius: "8px",
-              fontSize: "16px",
-              outline: "none",
-              background: colors.white,
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              transition: "border-color 0.2s"
+              position: "relative",
+              maxWidth: "600px",
             }}
-            onFocus={(e) => e.target.style.borderColor = colors.primary}
-            onBlur={(e) => e.target.style.borderColor = "#e0e0e0"}
-          />
+          >
+            <svg
+              style={{
+                position: "absolute",
+                left: "16px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                pointerEvents: "none",
+              }}
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke={colors.textTertiary}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search artists..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "14px 16px 14px 48px",
+                fontSize: "16px",
+                border: `1px solid ${colors.border}`,
+                borderRadius: "12px",
+                backgroundColor: colors.white,
+                color: colors.textPrimary,
+                outline: "none",
+                transition: "all 0.2s",
+                boxSizing: "border-box",
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = colors.primary;
+                e.target.style.boxShadow = `0 0 0 3px ${colors.primaryLight}`;
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = colors.border;
+                e.target.style.boxShadow = "none";
+              }}
+            />
+          </div>
         </div>
 
         {/* Artists Grid */}
         {loading ? (
-          <div style={{
-            textAlign: "center",
-            color: colors.textSecondary,
-            padding: "40px",
-            fontSize: "18px"
-          }}>
-            Loading artists...
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "64px 0",
+            }}
+          >
+            <div
+              style={{
+                width: "48px",
+                height: "48px",
+                border: `4px solid ${colors.primaryLight}`,
+                borderTop: `4px solid ${colors.primary}`,
+                borderRadius: "50%",
+                animation: "spin 1s linear infinite",
+              }}
+            />
           </div>
         ) : filteredArtists.length > 0 ? (
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr" : "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "24px",
-            maxWidth: "1200px",
-            margin: "0 auto"
-          }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile
+                ? "1fr"
+                : "repeat(auto-fill, minmax(300px, 1fr))",
+              gap: "24px",
+            }}
+          >
             {filteredArtists.map((artist, index) => (
               <div
                 key={artist.id || index}
                 style={{
-                  background: colors.white,
-                  borderRadius: "12px",
+                  backgroundColor: colors.white,
+                  borderRadius: "16px",
+                  border: `1px solid ${colors.border}`,
                   padding: "24px",
-                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-                  border: "1px solid #e0e0e0",
-                  transition: "transform 0.2s, box-shadow 0.2s",
-                  cursor: "pointer"
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.transform = "translateY(-4px)";
-                  e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.15)";
+                  e.currentTarget.style.boxShadow = "0 12px 24px rgba(0, 0, 0, 0.1)";
+                  e.currentTarget.style.borderColor = colors.primary;
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.transform = "translateY(0)";
-                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(0,0,0,0.1)";
+                  e.currentTarget.style.boxShadow = "0 1px 3px rgba(0, 0, 0, 0.05)";
+                  e.currentTarget.style.borderColor = colors.border;
                 }}
               >
-                <div style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textAlign: "center"
-                }}>
-                  <ArtistProfileImage
-                    artistId={artist.id}
-                    artistName={artist.name}
-                    size={80}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  <div
                     style={{
+                      width: "100px",
+                      height: "100px",
+                      borderRadius: "50%",
+                      overflow: "hidden",
                       marginBottom: "16px",
-                      border: `3px solid ${colors.primary}`
+                      backgroundColor: colors.backgroundTertiary,
                     }}
-                  />
-                  
-                  <h3 style={{
-                    margin: "0 0 8px 0",
-                    color: colors.primary,
-                    fontSize: "20px",
-                    fontWeight: "bold"
-                  }}>
+                  >
+                    <ArtistProfileImage
+                      artistId={artist.id}
+                      artistName={artist.name}
+                      size={100}
+                    />
+                  </div>
+
+                  <h3
+                    style={{
+                      margin: "0 0 8px 0",
+                      fontSize: "20px",
+                      fontWeight: 700,
+                      color: colors.textPrimary,
+                    }}
+                  >
                     {artist.name}
                   </h3>
-                  
-                  <p style={{
-                    margin: "0 0 20px 0",
-                    color: colors.textSecondary,
-                    fontSize: "14px",
-                    lineHeight: "1.5"
-                  }}>
-                    {artist.description}
+
+                  <p
+                    style={{
+                      margin: "0 0 20px 0",
+                      fontSize: "14px",
+                      color: colors.textSecondary,
+                      lineHeight: "1.5",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {artist.description || "No description available"}
                   </p>
-                  
+
                   <button
                     onClick={() => handleDonate(artist)}
                     style={{
-                      background: colors.primary,
-                      color: "white",
+                      backgroundColor: colors.primary,
+                      color: colors.white,
                       border: "none",
                       borderRadius: "8px",
-                      padding: "12px 24px",
-                      fontSize: "16px",
-                      fontWeight: "600",
+                      padding: "10px 20px",
+                      fontSize: "14px",
+                      fontWeight: 600,
                       cursor: "pointer",
                       transition: "background-color 0.2s",
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px"
+                      gap: "8px",
                     }}
-                    onMouseEnter={(e) => e.target.style.backgroundColor = colors.primaryHover}
-                    onMouseLeave={(e) => e.target.style.backgroundColor = colors.primary}
+                    onMouseEnter={(e) =>
+                      (e.target.style.backgroundColor = colors.primaryHover)
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.backgroundColor = colors.primary)
+                    }
                   >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                      <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                     </svg>
                     Support Artist
                   </button>
@@ -610,72 +720,38 @@ export default function DonationsPage() {
             ))}
           </div>
         ) : (
-          <div style={{
-            textAlign: "center",
-            color: colors.textSecondary,
-            padding: "40px",
-            fontSize: "18px"
-          }}>
-            {searchValue ? "No artists match your search" : "No artists found"}
+          <div
+            style={{
+              textAlign: "center",
+              padding: "64px 24px",
+              backgroundColor: colors.white,
+              borderRadius: "16px",
+              border: `1px solid ${colors.border}`,
+            }}
+          >
+            <p
+              style={{
+                margin: 0,
+                fontSize: "18px",
+                color: colors.textSecondary,
+              }}
+            >
+              {searchValue
+                ? `No artists found for "${searchValue}"`
+                : "No artists found"}
+            </p>
           </div>
         )}
-
-        {/* Footer Info */}
-        <div style={{
-          marginTop: "48px",
-          padding: "24px",
-          background: colors.white,
-          borderRadius: "12px",
-          border: "1px solid #e0e0e0",
-          textAlign: "center",
-          maxWidth: "800px",
-          margin: "48px auto 0"
-        }}>
-          <h3 style={{
-            margin: "0 0 12px 0",
-            color: colors.primary,
-            fontSize: "20px",
-            fontWeight: "bold"
-          }}>
-            How Donations Work
-          </h3>
-          <p style={{
-            margin: "0 0 16px 0",
-            color: colors.textSecondary,
-            fontSize: "14px",
-            lineHeight: "1.6"
-          }}>
-            Your donations go directly to the artists to help them continue creating music, 
-            fund recording sessions, purchase equipment, and support their artistic endeavors. 
-            We believe in empowering independent artists to pursue their passion.
-          </p>
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "24px",
-            flexWrap: "wrap"
-          }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill={colors.success}>
-                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 6.5L7 10l-2.5-2.5L3.5 9 7 12.5l5.5-5.5-1-1z"/>
-              </svg>
-              <span style={{ fontSize: "14px", color: colors.textSecondary }}>Secure Payments</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill={colors.success}>
-                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 6.5L7 10l-2.5-2.5L3.5 9 7 12.5l5.5-5.5-1-1z"/>
-              </svg>
-              <span style={{ fontSize: "14px", color: colors.textSecondary }}>Direct to Artists</span>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill={colors.success}>
-                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 6.5L7 10l-2.5-2.5L3.5 9 7 12.5l5.5-5.5-1-1z"/>
-              </svg>
-              <span style={{ fontSize: "14px", color: colors.textSecondary }}>No Fees</span>
-            </div>
-          </div>
-        </div>
       </main>
+
+      {/* Spinner Animation */}
+      <style jsx>{`
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 }

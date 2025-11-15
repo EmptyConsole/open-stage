@@ -1,50 +1,19 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import "./signin.css";
-import "../styles/shared-background.css";
+import { colors } from "../styles/colors";
 import { createUser } from "../../../util/users";
-import { firestore, auth } from "../../../util/firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { auth } from "../../../util/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { firestore } from "../../../util/firebase";
 
 export default function AuthPage() {
+  const router = useRouter();
   const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [forgotPasswordEmail, setForgotPasswordEmail] = useState("");
-  const [forgotPasswordMessage, setForgotPasswordMessage] = useState("");
   const [isMobile, setIsMobile] = useState(false);
-  const [imageError, setImageError] = useState(false); // track SVG load error
-  const router = useRouter();
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const fetchUserData = async (email) => {
-    try {
-      const usersRef = collection(firestore, "users");
-      const q = query(usersRef, where("email", "==", email));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0];
-        return userDoc.data();
-      }
-      return null;
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      return null;
-    }
-  };
 
   const [signInData, setSignInData] = useState({ email: "", password: "" });
   const [signUpData, setSignUpData] = useState({
@@ -55,468 +24,433 @@ export default function AuthPage() {
     userType: "",
   });
 
-  const handleSignInChange = (e) => {
-    const { name, value } = e.target;
-    setSignInData((prev) => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const fetchUserData = async (email) => {
+    try {
+      const usersRef = collection(firestore, "users");
+      const q = query(usersRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].data();
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      return null;
+    }
   };
 
-  const handleSignUpChange = (e) => {
-    const { name, value } = e.target;
-    setSignUpData((prev) => ({ ...prev, [name]: value }));
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
+
+    try {
+      await signInWithEmailAndPassword(auth, signInData.email, signInData.password);
+      const userData = await fetchUserData(signInData.email);
+
+      if (userData) {
+        localStorage.setItem("user", JSON.stringify(userData));
+        window.dispatchEvent(new CustomEvent("userLogin"));
+
+        // Route based on user type
+        if (userData.userType === "musician" || userData.userType === "artist") {
+          router.push("/artistcreateconcert");
+        } else if (userData.userType === "venue") {
+          router.push("/venuedashboard");
+        } else {
+          router.push("/dashboard");
+        }
+      }
+    } catch (error) {
+      setError("Invalid email or password");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleUserTypeChange = (userType) => {
-    setSignUpData((prev) => ({ ...prev, userType }));
-  };
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    setError("");
 
-  const validateSignUpForm = () => {
+    // Validation
     if (!signUpData.displayName.trim()) {
       setError("Please enter your name");
-      return false;
+      return;
     }
     if (!signUpData.email.trim()) {
       setError("Please enter your email");
-      return false;
-    }
-    if (!signUpData.password) {
-      setError("Please enter a password");
-      return false;
+      return;
     }
     if (signUpData.password.length < 6) {
       setError("Password must be at least 6 characters");
-      return false;
+      return;
     }
     if (signUpData.password !== signUpData.confirmPassword) {
       setError("Passwords do not match");
-      return false;
+      return;
     }
     if (!signUpData.userType) {
-      setError(
-        "Please select whether you are a musician, audience member, or venue"
-      );
-      return false;
-    }
-    return true;
-  };
-
-  const handleSignInSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
-
-    try {
-      if (!signInData.email || !signInData.password) {
-        setError("Please fill in all fields");
-        return;
-      }
-
-      // Authenticate with Firebase Auth to verify password
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        signInData.email,
-        signInData.password
-      );
-
-      const firebaseUser = userCredential.user;
-
-      // Fetch Firestore user document for additional profile info (userType, displayName)
-      const userData = await fetchUserData(signInData.email);
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: signInData.email,
-          name:
-            userData?.displayName || firebaseUser?.displayName || signInData.email.split("@")[0],
-          userType: userData?.userType || "general",
-        })
-      );
-
-      window.dispatchEvent(new CustomEvent("userLogin"));
-
-      const userType = userData?.userType || "general";
-      if (userType === "venue") router.push("/venuedashboard");
-      else if (userType === "musician") router.push("/artistcreateconcert");
-      else router.push("/dashboard");
-    } catch {
-      // Try to provide a helpful error message from Firebase if available
-      try {
-        // eslint-disable-next-line no-unused-expressions
-        // (the original catch didn't capture error object; attempt to re-run to capture)
-      } catch (e) {
-        /* noop */
-      }
-      setError("Sign in failed. Please check your email and password.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSignUpSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    if (!validateSignUpForm()) return;
-
-    setIsLoading(true);
-
-    try {
-      const result = await createUser(
-        signUpData.email,
-        signUpData.password,
-        signUpData.displayName,
-        signUpData.userType
-      );
-
-      if (result.success) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            email: signUpData.email,
-            name: signUpData.displayName,
-            userType: signUpData.userType,
-          })
-        );
-
-        window.dispatchEvent(new CustomEvent("userLogin"));
-
-        if (signUpData.userType === "venue") router.push("/venuedashboard");
-        else if (signUpData.userType === "musician")
-          router.push("/artistcreateconcert");
-        else router.push("/dashboard");
-      } else {
-        setError(result.error || "Sign up failed. Please try again.");
-      }
-    } catch {
-      setError("Sign up failed. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const switchToSignUp = () => {
-    setError("");
-    setIsSignUp(true);
-  };
-
-  const switchToSignIn = () => {
-    setError("");
-    setIsSignUp(false);
-    setShowForgotPassword(false);
-    setForgotPasswordMessage("");
-  };
-
-  const switchToForgotPassword = () => {
-    setError("");
-    setShowForgotPassword(true);
-    setForgotPasswordMessage("");
-  };
-
-  const handleForgotPassword = async (e) => {
-    e.preventDefault();
-    setForgotPasswordMessage("");
-
-    if (!forgotPasswordEmail.trim()) {
-      setForgotPasswordMessage("Please enter your email address");
+      setError("Please select an account type");
       return;
     }
 
     setIsLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      setForgotPasswordMessage(
-        "Password reset instructions have been sent to your email address."
-      );
+      await createUser({
+        name: signUpData.displayName,
+        email: signUpData.email,
+        password: signUpData.password,
+        userType: signUpData.userType,
+      });
 
-      setTimeout(() => {
-        setShowForgotPassword(false);
-        setForgotPasswordEmail("");
-        setForgotPasswordMessage("");
-      }, 3000);
-    } catch {
-      setForgotPasswordMessage(
-        "Failed to send reset instructions. Please try again."
-      );
+      // Auto sign in after signup
+      await signInWithEmailAndPassword(auth, signUpData.email, signUpData.password);
+      const userData = await fetchUserData(signUpData.email);
+
+      if (userData) {
+        localStorage.setItem("user", JSON.stringify(userData));
+        window.dispatchEvent(new CustomEvent("userLogin"));
+
+        if (userData.userType === "musician" || userData.userType === "artist") {
+          router.push("/artistcreateconcert");
+        } else if (userData.userType === "venue") {
+          router.push("/venuedashboard");
+        } else {
+          router.push("/dashboard");
+        }
+      }
+    } catch (error) {
+      setError(error.message || "An error occurred during sign up");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleBackToSignIn = () => {
-    setShowForgotPassword(false);
-    setForgotPasswordEmail("");
-    setForgotPasswordMessage("");
-  };
-
-  const renderHeaderIcon = () => {
-    return !imageError ? (
-      <Image
-        src="/music-note.svg"
-        alt="Music note"
-        width={48}
-        height={48}
-        onError={() => setImageError(true)}
-        style={{ display: "block", margin: "0 auto 16px auto" }}
-      />
-    ) : (
-      <div
-        style={{
-          width: "48px",
-          height: "48px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "32px",
-          fontWeight: "bold",
-          color: "#1976d2", // blue
-          margin: "0 auto 16px auto",
-        }}
-      >
-        🎵
-      </div>
-    );
-  };
+  const userTypes = [
+    { value: "audience", label: "Audience Member", description: "Discover and attend concerts" },
+    { value: "musician", label: "Musician/Artist", description: "Showcase your music and concerts" },
+    { value: "venue", label: "Venue", description: "Manage your concert venue" },
+  ];
 
   return (
-    <div className={`auth-container ${isMobile ? "mobile" : ""}`}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: colors.backgroundSecondary,
+        padding: "24px",
+      }}
+    >
       <div
-        className={`auth-wrapper ${
-          isSignUp
-            ? "signup-mode"
-            : showForgotPassword
-            ? "forgot-password-mode"
-            : ""
-        } ${isMobile ? "mobile" : ""}`}
+        style={{
+          width: "100%",
+          maxWidth: "440px",
+          backgroundColor: colors.white,
+          borderRadius: "16px",
+          boxShadow: "0 4px 24px rgba(0, 0, 0, 0.08)",
+          padding: isMobile ? "32px 24px" : "48px 40px",
+        }}
       >
-        {/* Sign In Card */}
-        <div
-          className={`auth-card signin-card ${
-            isSignUp ? "slide-left" : showForgotPassword ? "slide-left" : "slide-center"
-          }`}
-        >
-          <div className="signin-header">
-            {renderHeaderIcon()}
-            <h1>Welcome to Open Stage</h1>
-            <p>Sign in to discover amazing concerts and manage your tickets</p>
+        {/* Logo */}
+        <div style={{ textAlign: "center", marginBottom: "32px" }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              marginBottom: "8px",
+            }}
+          >
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke={colors.primary} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
+            <h1 style={{ margin: 0, fontSize: "28px", fontWeight: 700, color: colors.textPrimary }}>
+              OpenStage
+            </h1>
           </div>
+          <p style={{ margin: 0, fontSize: "16px", color: colors.textSecondary }}>
+            {isSignUp ? "Create your account" : "Welcome back"}
+          </p>
+        </div>
 
-          <form onSubmit={handleSignInSubmit} className="signin-form">
-            {error && !isSignUp && !showForgotPassword && (
-              <div className="error-message">{error}</div>
-            )}
+        {/* Error Message */}
+        {error && (
+          <div
+            style={{
+              padding: "12px 16px",
+              borderRadius: "8px",
+              backgroundColor: `${colors.error}15`,
+              border: `1px solid ${colors.error}`,
+              marginBottom: "24px",
+            }}
+          >
+            <p style={{ margin: 0, fontSize: "14px", color: colors.error, fontWeight: 500 }}>
+              {error}
+            </p>
+          </div>
+        )}
 
-            <div className="form-group">
-              <label htmlFor="signin-email">Email Address</label>
+        {/* Sign In Form */}
+        {!isSignUp ? (
+          <form onSubmit={handleSignIn} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <div>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Email
+              </label>
               <input
                 type="email"
-                id="signin-email"
                 name="email"
                 value={signInData.email}
-                onChange={handleSignInChange}
-                placeholder="Enter your email"
+                onChange={(e) => setSignInData({ ...signInData, email: e.target.value })}
                 required
-                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: "16px",
+                  border: `1px solid ${colors.border}`,
+                  borderRadius: "8px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                  transition: "border-color 0.2s",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = colors.primary)}
+                onBlur={(e) => (e.target.style.borderColor = colors.border)}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="signin-password">Password</label>
+            <div>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Password
+              </label>
               <input
                 type="password"
-                id="signin-password"
                 name="password"
                 value={signInData.password}
-                onChange={handleSignInChange}
-                placeholder="Enter your password"
+                onChange={(e) => setSignInData({ ...signInData, password: e.target.value })}
                 required
-                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: "16px",
+                  border: `1px solid ${colors.border}`,
+                  borderRadius: "8px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                  transition: "border-color 0.2s",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = colors.primary)}
+                onBlur={(e) => (e.target.style.borderColor = colors.border)}
               />
-            </div>
-
-            <button type="submit" className="signin-button" disabled={isLoading}>
-              {isLoading ? "Signing In..." : "Sign In"}
-            </button>
-
-            <div className="divider">
-              <span>or</span>
             </div>
 
             <button
-              type="button"
-              onClick={switchToSignUp}
-              className="create-account-button"
+              type="submit"
+              disabled={isLoading}
+              style={{
+                width: "100%",
+                padding: "14px",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: colors.white,
+                backgroundColor: colors.primary,
+                border: "none",
+                borderRadius: "8px",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                transition: "background-color 0.2s",
+                opacity: isLoading ? 0.7 : 1,
+              }}
+              onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = colors.primaryHover)}
+              onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = colors.primary)}
             >
-              Create New Account
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
-
-          <div className="signin-footer">
-            <button onClick={switchToForgotPassword} className="forgot-password">
-              Forgot your password?
-            </button>
-          </div>
-        </div>
-
-        {/* Forgot Password Card */}
-        <div
-          className={`auth-card forgot-password-card ${
-            showForgotPassword ? "slide-center" : "slide-right"
-          }`}
-        >
-          <div className="signin-header">{renderHeaderIcon()}</div>
-          <h1>Reset Password</h1>
-          <p>Enter your email address and we'll send you reset instructions</p>
-
-          <form onSubmit={handleForgotPassword} className="signin-form">
-            {forgotPasswordMessage && (
-              <div
-                className={`message ${
-                  forgotPasswordMessage.includes("sent") ? "success-message" : "error-message"
-                }`}
-              >
-                {forgotPasswordMessage}
-              </div>
-            )}
-
-            <div className="form-group">
-              <label htmlFor="forgot-email">Email Address</label>
-              <input
-                type="email"
-                id="forgot-email"
-                value={forgotPasswordEmail}
-                onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                disabled={isLoading}
-              />
-            </div>
-
-            <button type="submit" className="signin-button" disabled={isLoading}>
-              {isLoading ? "Sending..." : "Send Reset Instructions"}
-            </button>
-          </form>
-
-          <div className="signin-footer">
-            <button onClick={handleBackToSignIn} className="back-to-signin">
-              ← Back to Sign In
-            </button>
-          </div>
-        </div>
-
-        {/* Sign Up Card */}
-        <div
-          className={`auth-card signup-card ${isSignUp ? "slide-center" : "slide-right"}`}
-        >
-          <div className="signup-header">{renderHeaderIcon()}</div>
-          <h1>Join Open Stage</h1>
-          <p>Create your account to discover concerts and connect with artists</p>
-
-          <form onSubmit={handleSignUpSubmit} className="signup-form">
-            {error && isSignUp && !showForgotPassword && (
-              <div className="error-message">{error}</div>
-            )}
-
-            <div className="form-group">
-              <label htmlFor="signup-displayName">Full Name</label>
+        ) : (
+          /* Sign Up Form */
+          <form onSubmit={handleSignUp} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <div>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Full Name
+              </label>
               <input
                 type="text"
-                id="signup-displayName"
                 name="displayName"
                 value={signUpData.displayName}
-                onChange={handleSignUpChange}
-                placeholder="Enter your full name"
+                onChange={(e) => setSignUpData({ ...signUpData, displayName: e.target.value })}
                 required
-                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: "16px",
+                  border: `1px solid ${colors.border}`,
+                  borderRadius: "8px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = colors.primary)}
+                onBlur={(e) => (e.target.style.borderColor = colors.border)}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="signup-email">Email Address</label>
+            <div>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Email
+              </label>
               <input
                 type="email"
-                id="signup-email"
                 name="email"
                 value={signUpData.email}
-                onChange={handleSignUpChange}
-                placeholder="Enter your email"
+                onChange={(e) => setSignUpData({ ...signUpData, email: e.target.value })}
                 required
-                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: "16px",
+                  border: `1px solid ${colors.border}`,
+                  borderRadius: "8px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = colors.primary)}
+                onBlur={(e) => (e.target.style.borderColor = colors.border)}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="signup-password">Password</label>
+            <div>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Password
+              </label>
               <input
                 type="password"
-                id="signup-password"
                 name="password"
                 value={signUpData.password}
-                onChange={handleSignUpChange}
-                placeholder="Create a password (min. 6 characters)"
+                onChange={(e) => setSignUpData({ ...signUpData, password: e.target.value })}
                 required
-                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: "16px",
+                  border: `1px solid ${colors.border}`,
+                  borderRadius: "8px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = colors.primary)}
+                onBlur={(e) => (e.target.style.borderColor = colors.border)}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="signup-confirmPassword">Confirm Password</label>
+            <div>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Confirm Password
+              </label>
               <input
                 type="password"
-                id="signup-confirmPassword"
                 name="confirmPassword"
                 value={signUpData.confirmPassword}
-                onChange={handleSignUpChange}
-                placeholder="Confirm your password"
+                onChange={(e) => setSignUpData({ ...signUpData, confirmPassword: e.target.value })}
                 required
-                disabled={isLoading}
+                style={{
+                  width: "100%",
+                  padding: "12px 16px",
+                  fontSize: "16px",
+                  border: `1px solid ${colors.border}`,
+                  borderRadius: "8px",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+                onFocus={(e) => (e.target.style.borderColor = colors.primary)}
+                onBlur={(e) => (e.target.style.borderColor = colors.border)}
               />
             </div>
 
-            <div className="form-group">
-              <label>I am a...</label>
-              <div className="user-type-selection">
-                {["musician","audience","venue"].map((type) => (
+            <div>
+              <label style={{ display: "block", marginBottom: "12px", fontSize: "14px", fontWeight: 600, color: colors.textPrimary }}>
+                Account Type
+              </label>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {userTypes.map((type) => (
                   <div
-                    key={type}
-                    className={`user-type-option ${
-                      signUpData.userType === type ? "selected" : ""
-                    }`}
-                    onClick={() => handleUserTypeChange(type)}
+                    key={type.value}
+                    onClick={() => setSignUpData({ ...signUpData, userType: type.value })}
+                    style={{
+                      padding: "12px 16px",
+                      border: `2px solid ${signUpData.userType === type.value ? colors.primary : colors.border}`,
+                      borderRadius: "8px",
+                      cursor: "pointer",
+                      backgroundColor: signUpData.userType === type.value ? colors.primaryLight : colors.white,
+                      transition: "all 0.2s",
+                    }}
                   >
-                    <div className="user-type-icon">
-                      {type === "musician" ? "🎵" : type === "audience" ? "🎫" : "🏛️"}
+                    <div style={{ fontWeight: 600, color: colors.textPrimary, marginBottom: "2px" }}>
+                      {type.label}
                     </div>
-                    <div className="user-type-content">
-                      <h3>
-                        {type.charAt(0).toUpperCase() + type.slice(1).replace("venue","Venue")}
-                      </h3>
-                      <p>
-                        {type === "musician"
-                          ? "I create and perform music"
-                          : type === "audience"
-                          ? "I enjoy discovering and attending concerts"
-                          : "I host concerts and events"}
-                      </p>
+                    <div style={{ fontSize: "13px", color: colors.textSecondary }}>
+                      {type.description}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <button type="submit" className="signup-button" disabled={isLoading}>
-              {isLoading ? "Creating Account..." : "Create Account"}
+            <button
+              type="submit"
+              disabled={isLoading}
+              style={{
+                width: "100%",
+                padding: "14px",
+                fontSize: "16px",
+                fontWeight: 600,
+                color: colors.white,
+                backgroundColor: colors.primary,
+                border: "none",
+                borderRadius: "8px",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                transition: "background-color 0.2s",
+                opacity: isLoading ? 0.7 : 1,
+              }}
+              onMouseEnter={(e) => !isLoading && (e.target.style.backgroundColor = colors.primaryHover)}
+              onMouseLeave={(e) => !isLoading && (e.target.style.backgroundColor = colors.primary)}
+            >
+              {isLoading ? "Creating account..." : "Sign Up"}
             </button>
           </form>
+        )}
 
-          <div className="signup-footer">
-            <p>
-              Already have an account?{" "}
-              <button onClick={switchToSignIn} className="signin-link">
-                Sign in here
-              </button>
-            </p>
-          </div>
+        {/* Toggle Sign In/Up */}
+        <div style={{ marginTop: "24px", textAlign: "center" }}>
+          <p style={{ margin: 0, fontSize: "14px", color: colors.textSecondary }}>
+            {isSignUp ? "Already have an account?" : "Don't have an account?"}{" "}
+            <button
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setError("");
+              }}
+              style={{
+                background: "none",
+                border: "none",
+                color: colors.primary,
+                fontWeight: 600,
+                cursor: "pointer",
+                fontSize: "14px",
+                textDecoration: "underline",
+              }}
+            >
+              {isSignUp ? "Sign In" : "Sign Up"}
+            </button>
+          </p>
         </div>
       </div>
     </div>
