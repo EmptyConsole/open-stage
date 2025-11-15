@@ -642,35 +642,49 @@ export default function ConcertStatsPage() {
         </main>
       ) : (
         // Desktop Layout - With Sidebar
-        <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
-          <Sidebar>
-            <div>
-              <MainContentHeader>Concert Statistics</MainContentHeader>
+        <div style={{ display: "flex", height: "calc(100vh - 64px)", overflow: "hidden" }}>
+          <div style={{
+            width: "320px",
+            overflowY: "auto",
+            overflowX: "hidden",
+            height: "100%"
+          }}>
+            <Sidebar>
+              <div>
+                <MainContentHeader>Concert Statistics</MainContentHeader>
 
-              {/* Search Bar */}
-              <input
-                type="text"
-                placeholder="Search concerts..."
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                style={{
-                  color: '#1a1a1a',
-                  padding: '8px',
-                  border: '1px solid #666666',
-                  borderRadius: '6px',
-                  margin: '0 0 24px 0',
-                  fontSize: '14px',
-                  outline: 'none',
-                  width: '100%',
-                  boxSizing: 'border-box',
-                }}
-              />
+                {/* Search Bar */}
+                <input
+                  type="text"
+                  placeholder="Search concerts..."
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  style={{
+                    color: '#1a1a1a',
+                    padding: '8px',
+                    border: '1px solid #666666',
+                    borderRadius: '6px',
+                    margin: '0 0 24px 0',
+                    fontSize: '14px',
+                    outline: 'none',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                />
 
-              <ConcertStatsListSection isMobileLayout={false} />
-            </div>
-          </Sidebar>
+                <ConcertStatsListSection isMobileLayout={false} />
+              </div>
+            </Sidebar>
+          </div>
 
-          <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
+          <main style={{
+            flex: 1,
+            padding: '32px',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            height: '100%'
+          }}>
             <h1 style={{
               fontSize: '32px',
               fontWeight: 'bold',
