@@ -39,42 +39,42 @@ const getArtists = async () => {
   }
 };
 
-const createUser = async (email, password, displayName, userType) => {
+const createUser = async ({ email, password, name, userType }) => {
   try {
     console.log("Attempting to create user with email:", email);
     console.log("Auth object:", auth);
     console.log("Auth app:", auth?.app);
-    
+
     // Check if auth is properly initialized
     if (!auth) {
       throw new Error("Firebase Auth is not initialized. Please check your Firebase configuration.");
     }
-    
+
     // Create user with Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    
+
     console.log("User created successfully:", user.uid);
-    
+
     // Update user profile with display name
     await updateProfile(user, {
-      displayName: displayName
+      displayName: name
     });
-    
-    console.log("Profile updated with display name:", displayName);
-    
+
+    console.log("Profile updated with display name:", name);
+
     // Add user data to Firestore
     await addDoc(collection(firestore, "users"), {
       uid: user.uid,
       email: email,
-      displayName: displayName,
+      displayName: name,
       userType: userType, // 'musician', 'audience', or 'venue'
       createdAt: new Date(),
       profileComplete: false
     });
-    
+
     console.log("User data saved to Firestore");
-    
+
     return { success: true, user: user };
   } catch (error) {
     console.error("Error creating user:", error);
