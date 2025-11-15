@@ -525,24 +525,20 @@ export default function ConcertStatsPage() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
         minHeight: "100vh",
-        background: "#f5f5f5",
-        overflow: "auto",
-        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
+        backgroundColor: colors.backgroundSecondary,
+        paddingTop: "64px",
       }}
     >
       <DynamicHeader />
       <ConcertDetailsModal />
       {isMobile ? (
         // Mobile Layout - Single Column
-        <main className="main-content-background" style={{ 
-          flex: 1, 
-          padding: '16px', 
-          display: 'flex', 
-          flexDirection: 'column', 
-          overflow: 'auto',
+        <main style={{
+          flex: 1,
+          padding: '16px',
+          display: 'flex',
+          flexDirection: 'column',
           maxWidth: '100%'
         }}>
           {/* Search Bar */}
@@ -648,11 +644,9 @@ export default function ConcertStatsPage() {
         // Desktop Layout - With Sidebar
         <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
           <Sidebar>
-            <div style={{ marginTop: '-40px'}}>
-              <div style={{ marginLeft: '-100px'}}>
-                <MainContentHeader>Concert Statistics</MainContentHeader>
-              </div>
-              
+            <div>
+              <MainContentHeader>Concert Statistics</MainContentHeader>
+
               {/* Search Bar */}
               <input
                 type="text"
@@ -676,7 +670,7 @@ export default function ConcertStatsPage() {
             </div>
           </Sidebar>
 
-          <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
+          <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
             <h1 style={{
               fontSize: '32px',
               fontWeight: 'bold',

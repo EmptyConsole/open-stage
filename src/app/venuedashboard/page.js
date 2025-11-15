@@ -294,25 +294,20 @@ export default function VenueDashboard() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
         minHeight: "100vh",
-        background: "#f5f5f5",
-        overflow: "auto",
-        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
+        backgroundColor: colors.backgroundSecondary,
+        paddingTop: "64px",
       }}
     >
       <DynamicHeader />
       {isMobile ? (
         // Mobile Layout - Single Column
-        <main className="main-content-background" style={{ 
-          flex: 1, 
-          padding: '16px', 
-          display: 'flex', 
-          flexDirection: 'column', 
-          overflow: 'auto',
-          maxWidth: '100%'
-        }}>
+        <main
+          style={{
+            padding: "24px 16px",
+            maxWidth: "100%",
+          }}
+        >
           {/* Search Bar */}
           <div style={{ marginBottom: '24px' }}>
             <input
@@ -436,10 +431,9 @@ export default function VenueDashboard() {
         // Desktop Layout - With Sidebar
         <div style={{ display: "flex", flex: 1, minHeight: 0 }}>
           <Sidebar>
-            <div style={{ marginTop: '-40px'}}>
-              <div style={{ marginLeft: '-100px'}}>
-                <MainContentHeader>Followed Artists</MainContentHeader>
-              </div>
+            <div>
+              <MainContentHeader>Followed Artists</MainContentHeader>
+
               <input
                 type="text"
                 placeholder="Search artists or genres..."
@@ -460,7 +454,7 @@ export default function VenueDashboard() {
               <FollowedArtistsSection isMobileLayout={false} />
             </div>
           </Sidebar>
-          <main className="main-content-background" style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column', overflow: 'auto' }}>
+          <main style={{ flex: 1, padding: '32px', display: 'flex', flexDirection: 'column' }}>
             <MainContentHeader>Artists Near You</MainContentHeader>
             
             {/* Artist Cards */}

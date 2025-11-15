@@ -78,10 +78,9 @@ const clickedTicket = clickedIndex !== null ? filteredTickets[clickedIndex] : nu
     ];
 
     const TicketsListSection = ({ isMobileLayout }) => (
-        <div style={{ marginTop: isMobileLayout ? '0' : '-40px' }}>
-            <div style={{ marginLeft: isMobileLayout ? '0' : '-100px' }}>
-                <MainContentHeader>Bought Tickets</MainContentHeader>
-            </div>
+        <div>
+            <MainContentHeader>Bought Tickets</MainContentHeader>
+
             <input
                 type="text"
                 placeholder="Search tickets..."

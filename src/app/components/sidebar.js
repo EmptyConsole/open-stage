@@ -5,26 +5,22 @@ export default function Sidebar({ children }) {
     <aside
       style={{
         width: "330px",
-        height: "100vh",
-        backgroundColor: "var(--sidebar-background)",
-        boxShadow: "2px 0 8px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.05)",
-        position: "relative",
-        overflowY: "auto",
-        overflowX: "hidden",
-        maxWidth: "100vw",
+        minHeight: "calc(100vh - 64px)",
+        backgroundColor: colors.sidebarBackground,
+        borderRight: `1px solid ${colors.sidebarBorder}`,
+        position: "sticky",
+        top: "64px",
+        alignSelf: "flex-start",
         boxSizing: "border-box",
       }}
       className="sidebar"
     >
-      <div style={{ padding: "65px 16px" }}>
+      <div style={{ padding: "24px 16px" }}>
         <div
           style={{
             textAlign: "center",
-            fontSize: "20px",
-            textJustify: "center",
-            color: colors.black,
-            maxWidth: "100%",
-            overflowX: "hidden",
+            fontSize: "16px",
+            color: colors.textPrimary,
           }}
         >
           {children}

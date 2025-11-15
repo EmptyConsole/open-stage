@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import "@/app/globals.css";
 import Sidebar from "../components/sidebar.js";
 import DynamicHeader from "../components/DynamicHeader";
+import { colors } from "../styles/colors";
 // import Footer from "../components/footer";n
 import FollowButton from "../components/followbutton";
 import ConcertSquare from "../components/ConcertSquare";
@@ -64,21 +65,16 @@ function ArtistProfileContent() {
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "column",
         minHeight: "100vh",
-        background: "var(--background-gradient)",
-        overflow: "auto",
-        paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
+        backgroundColor: colors.backgroundSecondary,
+        paddingTop: "64px",
       }}
     >
       <DynamicHeader />
       <div
         style={{
           display: "flex",
-          flex: 1,
-          height: isMobile ? "auto" : "calc(100vh - 60px)",
-          overflow: "auto",
+          minHeight: "calc(100vh - 64px)",
         }}
       >
         <Sidebar>
@@ -216,14 +212,12 @@ function ArtistProfileContent() {
           </div>
         </Sidebar>
         <main
-          className="main-content-background"
           style={{
             flex: 1,
             padding: "32px",
             display: "flex",
             flexDirection: "column",
             minWidth: 0,
-            overflow: "auto",
           }}
         >
           {/* <div

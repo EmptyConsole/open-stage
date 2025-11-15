@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./localconcertmap.module.css";
 import Sidebar from "../components/sidebar";
 import DynamicHeader from "../components/DynamicHeader";
+import { colors } from "../styles/colors";
 import { useRouter } from "next/navigation";
 import { navigateToConcertDetails } from "../utils/concertNavigation";
 import ConcertSquare from "../components/ConcertSquare";
@@ -187,12 +188,9 @@ export default function LocalConcertMapPage() {
     <>
       <div
         style={{
-          display: "flex",
-          flexDirection: "column",
           minHeight: "100vh",
-          background: "#f5f5f5",
-          overflow: "auto",
-          paddingTop: isMobile ? "60px" : "72px", // Account for fixed header
+          backgroundColor: colors.backgroundSecondary,
+          paddingTop: "64px",
         }}
       >
       <DynamicHeader />
