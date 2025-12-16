@@ -161,7 +161,7 @@ export default function UnifiedHeader() {
 
   const getNavigationLinks = () => {
     const baseLinks = [
-      { href: "/aboutus", label: "About", icon: Icons.Info }
+      // { href: "/aboutus", label: "About", icon: Icons.Info }
     ];
 
     if (user.userType === "musician" || user.userType === "artist") {
@@ -462,6 +462,8 @@ export default function UnifiedHeader() {
             justifyContent: "center",
             zIndex: 2000,
             padding: "20px",
+            boxSizing: "border-box",
+            overflow: "auto",
           }}
           onClick={() => setIsProfileOpen(false)}
         >

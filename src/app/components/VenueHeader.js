@@ -379,7 +379,7 @@ export default function VenueHeader() {
               </svg>
               Donations
             </Link>
-            <Link 
+            {/* <Link 
               href="/aboutus" 
               style={getLinkStyles("/aboutus")}
               onMouseEnter={(e) => {
@@ -397,7 +397,7 @@ export default function VenueHeader() {
                 <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.93 5.428l-1 4.105c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
               </svg>
               About Us
-            </Link>
+            </Link> */}
             {/* Logout Button (desktop only) */}
             {!isMobile && (
               <button
@@ -542,7 +542,7 @@ export default function VenueHeader() {
             </svg>
             Donations
           </Link>
-          <Link 
+          {/* <Link 
             href="/aboutus" 
             onClick={() => setIsMobileMenuOpen(false)}
             style={getMobileLinkStyles("/aboutus")}
@@ -551,7 +551,7 @@ export default function VenueHeader() {
               <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm.93 5.428l-1 4.105c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
             </svg>
             About Us
-          </Link>
+          </Link> */}
           <button
             onClick={() => {
               handleAvatarClick();
@@ -633,6 +633,8 @@ export default function VenueHeader() {
             position: "fixed",
             top: 0,
             left: 0,
+            right: 0,
+            bottom: 0,
             width: "100vw",
             height: "100vh",
             background: "rgba(0,0,0,0.5)",
@@ -642,6 +644,7 @@ export default function VenueHeader() {
             justifyContent: "center",
             padding: "20px",
             overflow: "auto",
+            boxSizing: "border-box",
           }}
           onClick={() => {
             setIsProfileOpen(false);
@@ -670,7 +673,6 @@ export default function VenueHeader() {
               overflow: "auto",
               boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
               position: "relative",
-              margin: "auto",
             }}
             onClick={e => e.stopPropagation()}
           >
