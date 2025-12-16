@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { colors } from "../styles/colors";
 
 // SVG Icons for professional look
@@ -448,7 +449,7 @@ export default function UnifiedHeader() {
       )}
 
       {/* Profile Modal */}
-      {isProfileOpen && (
+      {isProfileOpen && typeof window !== 'undefined' && createPortal(
         <div
           style={{
             position: "fixed",
@@ -460,10 +461,11 @@ export default function UnifiedHeader() {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            zIndex: 2000,
+            zIndex: 9999,
             padding: "20px",
             boxSizing: "border-box",
-            overflow: "auto",
+            overflowY: "auto",
+            overflowX: "hidden",
           }}
           onClick={() => setIsProfileOpen(false)}
         >
@@ -477,6 +479,8 @@ export default function UnifiedHeader() {
               boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
               maxHeight: "90vh",
               overflowY: "auto",
+              margin: "auto",
+              alignSelf: "center",
             }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -543,7 +547,8 @@ export default function UnifiedHeader() {
               Close
             </button>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );

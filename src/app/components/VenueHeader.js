@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { colors } from '../styles/colors';
 import { firestore, auth } from '../../../util/firebase';
 import {
@@ -627,7 +628,7 @@ export default function VenueHeader() {
       )}
 
       {/* Profile Modal */}
-      {isProfileOpen && (
+      {isProfileOpen && typeof window !== 'undefined' && createPortal(
         <div
           style={{
             position: "fixed",
@@ -638,12 +639,13 @@ export default function VenueHeader() {
             width: "100vw",
             height: "100vh",
             background: "rgba(0,0,0,0.5)",
-            zIndex: 2000,
+            zIndex: 9999,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             padding: "20px",
-            overflow: "auto",
+            overflowY: "auto",
+            overflowX: "hidden",
             boxSizing: "border-box",
           }}
           onClick={() => {
@@ -673,6 +675,8 @@ export default function VenueHeader() {
               overflow: "auto",
               boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
               position: "relative",
+              margin: "auto",
+              alignSelf: "center",
             }}
             onClick={e => e.stopPropagation()}
           >
@@ -1059,7 +1063,8 @@ export default function VenueHeader() {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

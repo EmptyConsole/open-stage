@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { colors } from '../styles/colors';
 import { auth } from '../../../util/firebase';
 import {
@@ -713,7 +714,7 @@ export default function MusicianHeader() {
       )}
 
       {/* Profile Modal */}
-      {isProfileOpen && (
+      {isProfileOpen && typeof window !== 'undefined' && createPortal(
         <div
           style={{
             position: "fixed",
@@ -724,12 +725,13 @@ export default function MusicianHeader() {
             width: "100vw",
             height: "100vh",
             background: "rgba(0,0,0,0.5)",
-            zIndex: 2000,
+            zIndex: 9999,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             padding: "20px",
-            overflow: "auto",
+            overflowY: "auto",
+            overflowX: "hidden",
             boxSizing: "border-box",
           }}
           onClick={() => {
@@ -759,6 +761,8 @@ export default function MusicianHeader() {
               overflow: "auto",
               boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
               position: "relative",
+              margin: "auto",
+              alignSelf: "center",
             }}
             onClick={e => e.stopPropagation()}
           >
@@ -1145,7 +1149,8 @@ export default function MusicianHeader() {
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
